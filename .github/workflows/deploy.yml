@@ -24,7 +24,7 @@ jobs:
         run: npm run build  # 运行你的构建脚本，比如 `npm run build`
 
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@4.1.4
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages  # GitHub Pages部署到的分支
           folder: dist      # 构建产物所在的文件夹，根据你的构建脚本可能有所不同
