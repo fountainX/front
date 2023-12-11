@@ -7,7 +7,7 @@
     "build": " vite build",
     "preview": "vite preview"
   },
-  "os": ["linux"],
+  "os": ["linux", "darwin"],
   "dependencies": {
     "@element-plus/icons-vue": "^2.0.10",
     "axios": "^0.26.0",
