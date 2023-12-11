@@ -1,0 +1,30 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main  # 或者你用于部署的分支
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14'  # 指定Node.js版本
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build  # 运行你的构建脚本，比如 `npm run build`
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          branch: gh-pages  # GitHub Pages部署到的分支
+          folder: dist      # 构建产物所在的文件夹，根据你的构建脚本可能有所不同
