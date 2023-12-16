@@ -1,1 +1,0 @@
-import{H as n}from"../Http/Http.da6bdfeb.js";function o(t){return n.get(`/account/show/${t.uid}`)}function u(t){return n.post(`/account/update/${t.uid}`,t)}async function a(t){return n.post("/account/login",t)}async function r(t){return n.post("/account/register",t)}export{a,o as b,r as c,u as d};
