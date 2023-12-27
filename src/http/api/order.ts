@@ -6,6 +6,9 @@ export function orderType() {
 export async function orderCreate(data: any) {
   return http.post(`/order/create`, data)
 }
+export function orderUpdate(data: { orderId: any; data: any }) {
+  return http.post(`/order/update/${data.orderId}`, data.data)
+}
 export function orderList(data: any) {
   return http.get(`/order/list/page/${data.page}`, data)
 }
@@ -15,9 +18,7 @@ export function orderShow(data: { order_id: any }) {
 export function orderDelete(data: { order_id: any }) {
   return http.get(`/order/delete/${data.order_id}`)
 }
-export function orderUpdate(data: { order_id: any }) {
-  return http.get(`/order/update/${data.order_id}`)
-}
+
 export function orderUpdateStatus(data: { order_id: any }) {
   return http.get(`/order/update/status/${data.order_id}`)
 }
@@ -29,6 +30,9 @@ export const uploadSingleFile = (data: { order_status: any; order_id: any; formD
   return http.upload(`/order/upload/${data.order_status}/id/${data.order_id}`, data.formData)
 }
 
-export function uploadMultipleFile(data: { order_status: any; order_id: any }) {
-  return http.post(`/order/upload_multiple/${data.order_status}/id/${data.order_id}`)
+export function uploadMultipleFile(data: { order_status: any; order_id: any; formData: any }) {
+  return http.upload(`/order/upload_multiple/${data.order_status}/id/${data.order_id}`,data.formData)
+}
+export function getTemplate(data: { business_type: any; order_status: any }) {
+  return http.get(`/order/template/list/${data.business_type}/status/${data.order_status}`)
 }

@@ -2,15 +2,25 @@
   <Header />
   <div class="login">
     <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
-      <el-tab-pane label="我的订单" name="first">
+      <el-tab-pane label="我的订单" name="1">
         <div class="box">
-          订单列表
+          <el-table :data="order" stripe border style="width: 100%">
+            <el-table-column prop="order_id" label="订单ID" width="80" />
+            <el-table-column prop="business_type" label="订单类型" />
+            <el-table-column prop="order_no" label="订单编号" />
+            <el-table-column prop="order_status" label="订单状态" />
+            <el-table-column prop="updateTime" label="更新时间" width="160" />
+            <el-table-column label="操作" width="60">
+              <template #default="{ row }">
+                <el-button type="primary" @click="reviewOrder(row.order_id)" link>查看</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="用户资料" name="second">
+      <el-tab-pane label="用户资料" name="2">
         <div class="box">
-          <el-form :model="formData" ref="vForm" :rules="rules" label-position="right" label-width="100px"
-            size="small" @submit.prevent>
+          <el-form :model="formData" ref="vForm" :rules="rules" label-position="right" label-width="100px" @submit.prevent>
             <el-form-item label="用户名：" prop="userName" class="required label-right-align">
               <el-input v-model="formData.userName" type="text" clearable></el-input>
             </el-form-item>
@@ -58,15 +68,17 @@ import { orderList, orderShow } from '@/http/api/order.ts'
 const router = useRouter();
 const uid = router.currentRoute.value.query.uid
 const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+
 // tab 切换
-const activeName = ref('second')
+const activeName = ref('1')
 const handleClick = (tab: TabsPaneContext, event: Event) => {
   console.log(tab, event)
   if (tab.uid == 13) {
     getOrderList()
   }
 }
-
+// 订单列表
+let order = ref([])
 // 更新用户信息
 const formData: any = reactive({
   userName: "",
@@ -125,29 +137,34 @@ const getAccount = (id) => {
     console.log(e)
   })
 }
-getAccount(uid)
-
-const userUpdate = () => {
-  accountUpdate(formData).then((res: any) => {
+const getOrderList = () => {
+  let param = {
+    page: 1,
+    count: 20,
+    businessType: 10,
+    uid: userInfo.uid
+  }
+  orderList(param).then((res: any) => {
     if (res.code == 200) {
-      ElMessage.success('更新成功')
+      order.value = res.data
+      // ElMessage.success('更新成功')
     }
   }).catch((e) => {
     console.log(e)
   })
 }
+const reviewOrder = (id) => {
+  router.push({ path: 'order', query: { type: 'TAX', orderId: id } })
+}
 
-const getOrderList = () => {
-  let param = {
-    page: 1,
-    count: 20,
-    businessType: 'TAX',
-    uid: userInfo.uid
-  }
-  orderList(param).then((res: any) => {
+
+getAccount(uid)
+getOrderList()
+
+const userUpdate = () => {
+  accountUpdate(formData).then((res: any) => {
     if (res.code == 200) {
-
-      // ElMessage.success('更新成功')
+      ElMessage.success('更新成功')
     }
   }).catch((e) => {
     console.log(e)
@@ -181,7 +198,7 @@ const resetForm = () => {
 <style scoped>
 .login {
   margin: 40px auto;
-  width: 600px;
+  width: 800px;
   height: auto;
 }
 
@@ -191,7 +208,7 @@ const resetForm = () => {
 }
 
 .box {
-  padding: 50px 100px;
+  padding: 50px;
   background: #ecf5ff;
 }
 </style>

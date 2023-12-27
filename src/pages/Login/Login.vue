@@ -33,6 +33,9 @@
             <el-form-item label="密码：" prop="password" class="required label-right-align">
               <el-input v-model="formData.password" type="password" clearable></el-input>
             </el-form-item>
+            <el-form-item label="公司名称：" prop="userName" class="required label-right-align">
+              <el-input v-model="formData.companyName" type="text" clearable></el-input>
+            </el-form-item>
             <el-form-item label="代理：" prop="agent" class="label-right-align">
               <el-input v-model="formData.agent" type="text" clearable></el-input>
             </el-form-item>
@@ -88,6 +91,7 @@ const formData = reactive({
   fullName: "",
   password: "",
   agent: "",
+  companyName:"",
   email: "",
   mobile: "",
   wechat: "",
@@ -121,10 +125,10 @@ const rules = {
     trigger: ['blur', 'change'],
     message: '请输入正确手机号'
   }],
-  wechat: [{
-    required: true,
-    message: '微信号不可为空',
-  }],
+  // wechat: [{
+  //   required: true,
+  //   message: '微信号不可为空',
+  // }],
 }
 
 const login = () => {

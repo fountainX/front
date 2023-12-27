@@ -1,5 +1,5 @@
 <template>
-  <div class="container box">{{ active }}
+  <div class="container box">
     <el-row>
       <el-col :span="24">
         <el-steps :active="active" finish-status="success" align-center>
@@ -17,32 +17,31 @@
       <el-col :span="24">
         <div class="formArea">
           <el-card>
-            <Step1 v-if="active == 0"></Step1>
-            <Step2 v-if="active == 1"></Step2>
-            <Step3 v-if="active == 2"></Step3>
-            <Step4 v-if="active == 3"></Step4>
-            <Step5 v-if="active == 4"></Step5>
-            <Step6 v-if="active == 5"></Step6>
-            <Step7 v-if="active == 6"></Step7>
-            <Step8 v-if="active == 7"></Step8>
-            <Step9 v-if="active == 8"></Step9>
+            <Step1 ref="step" v-if="active == 0" :order="param.order" :invoice="param.invoice" @update="updateOrder"></Step1>
+            <Step2 ref="step" v-if="active == 1" :order="param.order" @update="updatePrice"></Step2>
+            <Step3 ref="step" v-if="active == 2" :invoice="param.invoice" @update="updateInvoice"></Step3>
+            <Step4 ref="step" v-if="active == 3" :pay="param.pay" @update="updatePayInfo" :orderId="orderId"></Step4>
+            <Step5 ref="step" v-if="active == 4" :upload="param.upload" @update="updateUploadList" :orderId="orderId"></Step5>
+            <Step6 ref="step" v-if="active == 5" :upload="param.upload"></Step6>
+            <Step7 ref="step" v-if="active == 6" :orderId="orderId" :sign="param.sign" @update="updateSign"></Step7>
+            <Step8 ref="step" v-if="active == 7" :backSign="param.backSign"></Step8>
+            <Step9 v-if="active == 8" :detail="param" :orderId="orderId"></Step9>
           </el-card>
-          <div>
-            <el-button style="margin-top: 12px" @click="prev">上一步</el-button>
-            <el-button style="margin-top: 12px" @click="">保存</el-button>
-            <el-button style="margin-top: 12px" v-if="active != 8" @click="next">下一步</el-button>
-            <el-button style="margin-top: 12px" v-if="active == 1" type="primary" @click="submitOrder()">提交订单</el-button>
+          <div style="margin-top: 15px">
+            <el-button @click="prev">上一步</el-button>
+            <el-button @click="saveOrder()">保存</el-button>
+            <el-button v-if="active != 8" @click="next">{{ active == 1 && orderId == undefined ? '创建订单' : '下一步' }}</el-button>
           </div>
         </div>
       </el-col>
     </el-row>
 
     <br />
-
   </div>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import Step1 from './step1.vue'
 import Step2 from './step2.vue'
 import Step3 from './step3.vue'
@@ -52,8 +51,12 @@ import Step6 from './step6.vue'
 import Step7 from './step7.vue'
 import Step8 from './step8.vue'
 import Step9 from './step9.vue'
-import { accountList, account, accountDelete, accountUpdate, accountLogin, accountRegister, accountVerify } from '@/http/api/account.ts'
-import { orderCreate } from '@/http/api/order.ts'
+import { orderCreate, orderUpdate, orderShow } from '@/http/api/order.ts'
+
+const router = useRouter()
+const type = router.currentRoute.value.query.type
+const orderId = ref(router.currentRoute.value.query.orderId)
+const userInfo = JSON.parse(localStorage.getItem('userInfo'))
 // 阶段状态
 const stage = reactive([
   { name: 'QUOTATION_STARTED', val: 10 }, // 已付款
@@ -68,184 +71,138 @@ const stage = reactive([
   { name: 'FINISHED', val: 18 }, // 完结
   { name: 'DELETED', val: 99 } // 删除
 ])
+// 业务订单
+let param: any = reactive({
+  order: {
+    ruleListDataC: [],
+    ruleListDataLLC: [],
+    selectRegion: '',
+    regionText: '',
+    companyType: '',
+    mainBusinessIncome: {
+      // type: { income: 0, price: 260, mark: "0资产运营", area: "佛罗里达" },
+      type: '',
+      inUSchildCompany: 2,
+      noUSchildCompany: 1
+    },
+    companyMainIncome: {
+      price: 0
+    },
+    main_business_type: '',
+    total_asset: '',
+    fixedAssetAmount: '',
+    isMoneyTrading: true,
+    isChildCompany: true,
+    isConfirm: false
+  },
+  invoice: {
+    agentName: userInfo.agent,
+    companyName: userInfo.company_name,
+    content: '',
+    price: 0,
+    email: userInfo.email
+  },
+  pay: {
+    voucher:[]
+  },
+  upload: {
+    list: []
+  },
+  sign: {
+    pdfPath: '',
+    mark: [
+      {
+        page: '22',
+        desc: '右下方签名'
+      },
+      {
+        page: '23',
+        desc: '左下方签名'
+      }
+    ],
+    isSign: true
+  },
+  backSign: [],
+  isDone: false
+})
 // 当前阶段
 const active = ref(0)
-
 const prev = () => {
   if (active.value-- <= 0) active.value = 0
 }
 const next = () => {
-  if (active.value++ > 7) active.value = 0
-}
-
-const data = reactive({
-  currentPage: ref(1),
-  pageSize: ref(20),
-  total: ref(0),
-})
-
-const getAccountList = () => {
-  accountList({ page: data.currentPage, count: data.pageSize }).then((res: any) => {
-    console.log('accountList', res)
-  }).catch((e) => {
-    console.log(e)
-  })
-}
-const del = () => {
-  accountDelete({ uid: 1 }).then((res: any) => {
-    console.log('del', res)
-  }).catch((e) => {
-    console.log(e)
-  })
-}
-const update = () => {
-  accountUpdate({ uid: 1 }).then((res: any) => {
-    console.log('update', res)
-  }).catch((e) => {
-    console.log(e)
-  })
-}
-const getAccount = () => {
-  account({ uid: 2 }).then((res: any) => {
-    console.log('account', res)
-  }).catch((e) => {
-    console.log(e)
-  })
-}
-
-const login = () => {
-  const data = reactive({
-    userName: "string",
-    email: "string",
-    password: "string"
-  })
-
-  accountLogin(data).then((res: any) => {
-    console.log('login', res)
-  }).catch((e) => {
-    console.log(e)
-  })
-}
-
-
-const register = () => {
-  const reg = reactive({
-    userName: "string",
-    agent: "string",
-    password: "string",
-    fullName: "string",
-    email: "string",
-    mobile: "string",
-    wechat: "string"
-  })
-  accountRegister(reg).then((res: any) => {
-    console.log('reg', res)
-  }).catch((e) => {
-    console.log(e)
-  })
-}
-const verify = () => {
-  accountVerify({ uid: 1 }).then((res: any) => {
-    console.log('accountVerify', res)
-  }).catch((e) => {
-    console.log(e)
-  })
-}
-
-const submitOrder = () => {
-
-  let param = {
-    order: {
-      selectRegion: "加州",
-      companyType: "LLC",
-      businessType: {
-        type: { income: 0, price: 260, mark: "0资产运营", area: "佛罗里达" },
-        inUSchildCompany: 2,
-        noUSchildCompany: 1,
-      },
-      mainBusinessIncome: 20,
-      totalCompanyAssets: 200,
-      fixedAssetAmount: 200,
-      isMoneyTrading: true,
-      isChildCompany: true,
-      isConfirm: true,
-    },
-    invoice: {
-      agentName: "渠道/代理公司",
-      companyName: "CCC公司做的业务",
-      content: "报税+2021年度 组合",
-      price: 629,
-      email: "bruce_cao@qq.com",
-    },
-    pay: {
-      type: "monthPay",
-      voucher: [
-        "https://img2.baidu.com/it/u=1570247328,458070796&fm=253&fmt=auto&app=138&f=JPEG?w=642&h=410",
-        "https://img2.baidu.com/it/u=4236181049,2598982592&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=1083"
-      ],
-      isPay: true,
-    },
-    upload: {
-      list: [
-        {
-          id: 1,
-          fileName: "报税资料1-2023年度公司流水.doc",
-          status: "1",
-          upAccount: "cycsky",
-          uploadDate: "2023-10-10 12:12:22",
-        },
-        {
-          id: 2,
-          fileName: "年审资料2-2022年度公司流水.doc",
-          status: "1",
-          upAccount: "cycsky",
-          uploadDate: "2023-10-10 12:12:22",
-        },
-        {
-          id: 3,
-          fileName: "年审资料3-2022年度公司流水.doc",
-          status: "1",
-          upAccount: "cycsky",
-          uploadDate: "2023-10-10 12:12:22",
-        },
-      ],
-      isPass: true,
-    },
-    sign: {
-      pdfPath: "报税资料-2023年度公司流水.PDF",
-      mark: [
-        {
-          page: "22",
-          desc: "右下方签名",
-        },
-        {
-          page: "23",
-          desc: "左下方签名",
-        },
-      ],
-      isSign: true,
-    },
-    backSign: [
-      "https://p1-tt.byteimg.com/origin/dfic-imagehandler/ef9cd84b-ca39-44f8-94c3-dc63f9b8269f?from=pc",
-      "https://p1-tt.byteimg.com/origin/dfic-imagehandler/ef9cd84b-ca39-44f8-94c3-dc63f9b8269f?from=pc",
-    ],
-    isDone: false,
+  if (active.value == 0 && orderId.value == undefined) {
+    createOrder()
+  } else if (active.value++ > 7) {
+    active.value = 0
   }
-  orderCreate(param).then((res: any) => {
-    console.log('order', res)
-  }).catch((e) => {
-    console.log(e)
-  })
 }
 
-
-
+const createOrder = () => {
+  orderCreate({ businessType: 10, creator: userInfo.uid, content: param })
+    .then((res: any) => {
+      orderId.value = res.data.order_id
+      active.value = active.value + 1
+      param.order.id = res.data.order_id
+    })
+    .catch((err: any) => {
+      console.log(err)
+    })
+}
+const saveOrder = () => {
+  if (active.value == 0 && orderId.value == undefined) {
+    createOrder()
+    return
+  }
+  orderUpdate({ orderId: orderId.value, data: { creator: userInfo.uid, content: param } })
+    .then((res: any) => {
+      console.log('update order', res)
+    })
+    .catch((err: any) => {
+      console.log(err)
+    })
+}
+const updateOrder = (val: any) => {
+  param.order = { ...param.order, ...val }
+}
+const updatePrice = (val: any) => {
+  param.invoice.price = val
+}
+const updateInvoice = (val: any) => {
+  param.invoice = val
+}
+const updatePayInfo = (val: any) => {
+  param.pay.voucher = val
+}
+const updateUploadList = (val: any) => {
+  param.upload.list = val
+}
+const updateSign = (val) => {
+  param.sign.imageList = val
+}
+const initOrder = () => {
+  orderShow({ order_id: orderId.value })
+    .then((res: any) => {
+      // console.log('orderInfo', JSON.parse(res.data.content))
+      const content = JSON.parse(res.data.content)
+      param.order.id = orderId.value
+      param.order = { ...param.order, ...content.order }
+      param.invoice = { ...param.invoice, ...content.invoice }
+      param.pay = { ...param.pay, ...content.pay }
+      param.upload = { ...param.upload, ...content.upload }
+      param.sign = { ...param.sign, ...content.sign }
+      param.backSign = content.backSign
+      param.isDone = content.isDone
+    })
+    .catch((err: any) => {
+      console.log(err)
+    })
+}
 onMounted(() => {
-  // getAccountList()
-  getAccount()
+  if (orderId.value !== undefined) {
+    initOrder()
+  }
 })
-
-
 </script>
 <style scoped>
 .box {
