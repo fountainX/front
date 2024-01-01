@@ -2,7 +2,7 @@
   <Header></Header>
   <div class="container box">
     <div class="order-type">
-      <div v-for="(item, index) in typeList.slice(0, 4)" @click="openBusiness(item.code)">{{ item.name }}</div>
+      <div v-for="(item, index) in typeList" @click="openBusiness(item.code)">{{ item.name }}</div>
     </div>
   </div>
   <!-- <Footer></Footer> -->
@@ -64,7 +64,7 @@ export default defineComponent({
         })
       },
       openBusiness: (code) => {
-        router.push({ path: '/order', query: { type: code } })
+        router.push({ path: '/tax', query: { code: code } })
       }
     })
 

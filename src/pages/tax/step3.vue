@@ -1,23 +1,24 @@
+
 <template>
   <el-divider content-position="left">
     <h2>出具发票</h2>
   </el-divider>
-  <div class="desc">出具发票</div>
+  <div class="desc">invoice</div>
   <el-form :model="formData" ref="vForm" :rules="rules" label-position="right" label-width="140px" size="small" @submit.prevent>
     <el-row>
       <el-col :span="24" class="grid-cell">
         <el-form-item label="客户单位名字：" prop="businessIncome" class="required label-right-align">
-          {{ formData.agentName }}
+          渠道/代理公司
         </el-form-item>
       </el-col>
       <el-col :span="24" class="grid-cell">
         <el-form-item label="服务公司名字：" prop="total1" class="required label-right-align">
-          {{ formData.companyName }}
+          当前订单是为哪个公司做的业务
         </el-form-item>
       </el-col>
       <el-col :span="24" class="grid-cell">
         <el-form-item label="服务内容：" prop="total2" class="required label-right-align">
-          {{ formData.content }}
+          报税+2021年度 组合
         </el-form-item>
       </el-col>
       <el-col :span="24" class="grid-cell">
@@ -27,7 +28,7 @@
       </el-col>
       <el-col :span="24" class="grid-cell">
         <el-form-item label="合计：" prop="isChild" class="label-right-align">
-          <span class="price" style="font-size: 30px;">${{ formData.price }}</span>
+          <span class="price" style="font-size: 30px;">$2660</span>
         </el-form-item>
       </el-col>
     </el-row>
@@ -39,15 +40,12 @@
 import { defineComponent, toRefs, reactive, getCurrentInstance } from 'vue'
 export default defineComponent({
   components: {},
-  props: {
-    invoice: {
-      type: Object
-    }
-  },
-  emits: ['update'],
-  setup(props, context) {
+  props: {},
+  setup() {
     const state = reactive({
-      formData: {} as any,
+      formData: {
+        email: "",
+      },
       rules: {
         email: [{
           pattern: /^([-_A-Za-z0-9.]+)@([_A-Za-z0-9]+\.)+[A-Za-z0-9]{2,3}$/,
@@ -56,11 +54,6 @@ export default defineComponent({
         }],
       },
     })
-    state.formData = props.invoice
-    const saveInvoice = () => {
-      context.emit('update', state.formData)
-    }
-    // 
     const instance = getCurrentInstance()
     const submitForm = () => {
       instance.proxy.$refs['vForm'].validate(valid => {
@@ -74,16 +67,11 @@ export default defineComponent({
     return {
       ...toRefs(state),
       submitForm,
-      resetForm,
-      saveInvoice
+      resetForm
     }
   }
 })
 
 </script>
 
-<style lang="scss" scoped>
-  .desc{
-    margin-top: 30px;
-  }
-</style>
+<style lang="scss"></style>

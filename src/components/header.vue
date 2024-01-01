@@ -1,7 +1,7 @@
 <template>
   <el-row style="margin: 10px 30px">
     <el-col :span="4">
-      <h2>Longview LK</h2>
+      <h2>logo</h2>
     </el-col>
     <el-col :span="20" style="text-align: right;">
       <router-link :to="'/ucenter?uid=' + userInfo.uid">{{ userInfo.user_name }}</router-link>

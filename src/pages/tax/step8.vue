@@ -4,23 +4,19 @@
   </el-divider>
   <div class="desc">签回图片</div>
   <div class="demo-image__lazy">
-    <el-image v-for="url in backSign" :key="url" :src="url" lazy />
+    <el-image v-for="url in urls" :key="url" :src="url" lazy />
   </div>
 </template>
-<script lang="ts">
-import { ref, defineComponent } from 'vue'
-export default defineComponent({
-  components: {},
-  props: {
-    backSign: {
-      type: Array
-    }
-  },
-  setup(props, context) {
-    const backSign = props.backSign
-    return backSign
-  }
-})
+<script lang="ts" setup>
+const urls = [
+  'https://p1-tt.byteimg.com/origin/dfic-imagehandler/ef9cd84b-ca39-44f8-94c3-dc63f9b8269f?from=pc',
+  'https://p1-tt.byteimg.com/origin/dfic-imagehandler/ef9cd84b-ca39-44f8-94c3-dc63f9b8269f?from=pc',
+  'https://p1-tt.byteimg.com/origin/dfic-imagehandler/ef9cd84b-ca39-44f8-94c3-dc63f9b8269f?from=pc',
+  'https://p1-tt.byteimg.com/origin/dfic-imagehandler/ef9cd84b-ca39-44f8-94c3-dc63f9b8269f?from=pc',
+  'https://p1-tt.byteimg.com/origin/dfic-imagehandler/ef9cd84b-ca39-44f8-94c3-dc63f9b8269f?from=pc',
+  'https://p1-tt.byteimg.com/origin/dfic-imagehandler/ef9cd84b-ca39-44f8-94c3-dc63f9b8269f?from=pc',
+  'https://p1-tt.byteimg.com/origin/dfic-imagehandler/ef9cd84b-ca39-44f8-94c3-dc63f9b8269f?from=pc',
+]
 </script>
 
 <style scoped>
@@ -37,8 +33,5 @@ export default defineComponent({
 
 .demo-image__lazy .el-image:last-child {
   margin-bottom: 0;
-}
-.desc {
-  margin-top: 30px;
 }
 </style>
