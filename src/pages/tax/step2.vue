@@ -2,134 +2,100 @@
   <el-divider content-position="left">
     <h2>确认报价</h2>
   </el-divider>
-  <div class="desc"></div>
-  <el-form label-position="right" label-width="140px" size="default" @submit.prevent>
-    <el-row>
-      <el-col :span="24" class="grid-cell">
-        <el-form-item label="选择区域：" prop="selectArea" class="label-right-align">
-          加州
-        </el-form-item>
-      </el-col>
-      <el-col :span="12" class="grid-cell">
-        <el-form-item label="公司类型：" prop="incType" class="label-right-align">
-          LLC
-        </el-form-item>
-      </el-col>
-      <el-col :span="12" class="grid-cell">
-        <div class="static-content-item">
-          <div>报价：<span class="price">$260</span></div>
-        </div>
-      </el-col>
-      <el-col :span="24" class="grid-cell">
-        <el-form-item label="公司主营业务类型：" prop="businessType" class="label-right-align">
-          <el-radio-group>
-            <div class="table-container">
-              <table class="table-layout">
-                <tbody>
-                  <tr>
-                    <!-- <td class="table-cell" bgcolor="#f1f1f1" style="width: 80px;">选择</td> -->
-                    <td class="table-cell" bgcolor="#f1f1f1">收入(美金)</td>
-                    <td class="table-cell" bgcolor="#f1f1f1">报价</td>
-                    <td class="table-cell" bgcolor="#f1f1f1">备注</td>
-                    <td class="table-cell" bgcolor="#f1f1f1">区域</td>
-                  </tr>
-                  <tr v-for="(item, index) in businessTypeOptions">
-                    <!-- <td class="table-cell">
-                      <el-radio :key="index" :label="item.value" :disabled="item.disabled" style="{display: inline}">{{ item.label }}</el-radio>
-                    </td> -->
-                    <td class="table-cell">{{ item.income }}万</td>
-                    <td class="table-cell"><span class="price">${{ item.price }}</span></td>
-                    <td class="table-cell">{{ item.remark }}</td>
-                    <td class="table-cell">{{ item.area }}</td>
-                  </tr>
-                  <tr>
-                    <td class="table-cell" colspan="4" style="text-align: left; padding: 10px;">
-                      在美有2家子公司
-                      报价：<span class="price">${{ 2 * 200 }}</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="table-cell" colspan="4" style="text-align: left;padding: 10px;">
-                      子公司为非美国公司有1家
-                      报价：<span class="price">${{ 1 * 1000 }}</span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </el-radio-group>
-        </el-form-item>
-      </el-col>
-      <el-col :span="12" class="grid-cell">
-        <el-form-item label="主营业务收入：" prop="businessIncome" class="required label-right-align">
-          $20万美元
-        </el-form-item>
-      </el-col>
-      <el-col :span="12" class="grid-cell">
-        <el-form-item label="公司资产总额：" prop="total1" class="required label-right-align">
-          $20万美元
-        </el-form-item>
-      </el-col>
-      <el-col :span="12" class="grid-cell">
-        <el-form-item label="固定资产金额：" prop="total2" class="required label-right-align">
-          $20万美元
-        </el-form-item>
-      </el-col>
-      <el-col :span="12" class="grid-cell">
-        <el-form-item label="是否有资金往来：" prop="isFlow" class="label-right-align">
-          是
-        </el-form-item>
-      </el-col>
-      <el-col :span="12" class="grid-cell">
-        <el-form-item label="是否有子公司：" prop="isChild" class="label-right-align">
-          是
-        </el-form-item>
-      </el-col>
-      <el-col :span="12" class="grid-cell">
-        <el-form-item label="合计：" prop="isChild" class="label-right-align">
-          <span class="price" style="font-size: 30px;">$2660</span>
-        </el-form-item>
-      </el-col>
-    </el-row>
+  <div class="desc">
+    <el-descriptions :title="'订单号' + order.id" :column="2">
+      <el-descriptions-item :span="2" label="所在州：">{{ order.regionText }}</el-descriptions-item>
+      <el-descriptions-item :span="2" label="公司类型：">{{ order.companyType == 1 ? 'C' : 'LLC' }}</el-descriptions-item>
 
-  </el-form>
+      <template v-if="order.companyType == 2">
+        <template v-for="item in order.ruleListDataLLC" ::key="item.field_name">
+          <el-descriptions-item v-if="item.field_name == 'is_c_rule'" label="是否按照C公司方式纳税：" :span="2">{{ order.is_c_rule ? '是' : '否' }}</el-descriptions-item>
+
+          <template v-if="order.is_c_rule">
+            <el-descriptions-item v-if="item.field_name == 'first_year'" label="是否第一年纳税：">{{ order.first_year ? '是' : '否' }}</el-descriptions-item>
+            <el-descriptions-item v-if="item.field_name == 'first_year'" label="费用：">
+              <span v-if="order.first_year">
+                {{ item.price }}
+              </span>
+              <span v-else>0</span>
+            </el-descriptions-item>
+          </template>
+
+          <template v-else>
+            <el-descriptions-item :span="2" v-if="item.field_name == 'has_us_tax_no'" label="是否有美国税号：">{{ order.has_us_tax_no ? '是' : '否' }}</el-descriptions-item>
+
+            <template v-if="!order.has_us_tax_no">
+              <el-descriptions-item v-if="item.field_name == 'apply_individual' && order.taxType == 'apply_individual'" label="申请税号类型：">个人股东</el-descriptions-item>
+              <el-descriptions-item v-if="item.field_name == 'apply_individual' && order.taxType == 'apply_individual'" label="费用：">{{ item.price }}</el-descriptions-item>
+              <el-descriptions-item v-if="item.field_name == 'apply_company' && order.taxType == 'apply_company'" label="申请税号类型：">公司股东</el-descriptions-item>
+              <el-descriptions-item v-if="item.field_name == 'apply_company' && order.taxType == 'apply_company'" label="费用：">{{ item.price }}美元</el-descriptions-item>
+            </template>
+          </template>
+        </template>
+      </template>
+
+      <el-descriptions-item label="主营业务收入：">{{ order.companyMainIncome.rule_content }}万美元</el-descriptions-item>
+      <el-descriptions-item label="费用：">{{ order.companyMainIncome.price || 0 }}美元</el-descriptions-item>
+
+      <el-descriptions-item :span="2" label="主营业务类型：">{{ order.main_business_type }}</el-descriptions-item>
+      <el-descriptions-item :span="2" label="公司资产总额：">{{ order.total_asset }}</el-descriptions-item>
+
+      <template v-for="item in order.ruleListDataC" :key="item.field_name">
+        <el-descriptions-item v-if="item.field_name == 'amount_fixed_asset'" label="固定资产金额：">{{ order.amount_fixed_asset || 0 }}万美元</el-descriptions-item>
+        <el-descriptions-item v-if="item.field_name == 'amount_fixed_asset'" label="费用：">{{ order.amount_fixed_asset > 0 ? item.price : 0 }}美元</el-descriptions-item>
+
+        <el-descriptions-item v-if="item.field_name == 'exchange_fund_com_number'" label="资金往来公司数：">{{ order.exchange_fund_com_number }}</el-descriptions-item>
+        <el-descriptions-item v-if="item.field_name == 'exchange_fund_com_number'" label="费用：">{{ (order.exchange_fund_com_number || 0) * item.price }}美元</el-descriptions-item>
+
+        <el-descriptions-item v-if="item.field_name == 'subsidiary_us'" label="在美子公司数：">{{ order.subsidiary_us }}</el-descriptions-item>
+        <el-descriptions-item v-if="item.field_name == 'subsidiary_us'" label="费用：">{{ (order.subsidiary_us || 0) * item.price || 0 }}美元</el-descriptions-item>
+
+        <el-descriptions-item v-if="item.field_name == 'subsidiary_non_us_number'" label="非美子公司：">{{ order.subsidiary_non_us_number }}</el-descriptions-item>
+        <el-descriptions-item v-if="item.field_name == 'subsidiary_non_us_number'" label="费用：">{{ (order.subsidiary_non_us_number || 0) * item.price || 0 }}美元</el-descriptions-item>
+      </template>
+    </el-descriptions>
+    <div>
+      <span class="total-price">
+        <span>合计：</span>
+        <span class="price">${{ order.totalPrice }}</span>
+      </span>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, toRefs, reactive } from 'vue'
+import { defineComponent, toRefs, reactive, ref } from 'vue'
 export default defineComponent({
   components: {},
-  props: {},
-  setup() {
-    const state = reactive({
-      businessTypeOptions: [{
-        "label": "选择",
-        "value": 0,
-        income: '0',
-        price: 260,
-        remark: '0资产运营',
-        area: '特拉华州 华盛顿  佛罗里达'
-      }],
-    })
+  props: {
+    order: {
+      type: Object
+    }
+  },
+  emits: ['update'],
+  setup(props, context) {
+    const order = ref(props.order)
     return {
-      ...toRefs(state)
+      order
     }
   }
 })
-
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .desc {
   font-size: 14px;
   color: #ccc;
   line-height: 50px;
 }
 
-.price {
-  font-size: 20px;
+.total-price {
+  font-size: 24px;
   font-weight: bold;
-  color: #67C23A;
+  color: #000;
+  .price {
+    color: #67c23a;
+  }
 }
 
 .el-input-number.full-width-input,
@@ -170,7 +136,7 @@ export default defineComponent({
 .clear-fix:before,
 .clear-fix:after {
   display: table;
-  content: "";
+  content: '';
 }
 
 .clear-fix:after {
@@ -199,7 +165,8 @@ div.table-container {
   }
 }
 
-div.tab-container {}
+div.tab-container {
+}
 
 .label-left-align :deep(.el-form-item__label) {
   text-align: left;
@@ -213,7 +180,8 @@ div.tab-container {}
   text-align: right;
 }
 
-.custom-label {}
+.custom-label {
+}
 
 .static-content-item {
   min-height: 20px;
@@ -239,7 +207,8 @@ div.table-container {
   }
 }
 
-div.tab-container {}
+div.tab-container {
+}
 
 .label-left-align :deep(.el-form-item__label) {
   text-align: left;
@@ -253,7 +222,8 @@ div.tab-container {}
   text-align: right;
 }
 
-.custom-label {}
+.custom-label {
+}
 
 .static-content-item {
   min-height: 20px;
@@ -263,5 +233,10 @@ div.tab-container {}
   :deep(.el-divider--horizontal) {
     margin: 0;
   }
+}
+
+.box {
+  display: inline-block;
+  width: 290px;
 }
 </style>

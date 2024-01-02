@@ -12,8 +12,8 @@ export function accountDelete(data: any) {
   return http.post(`/account/delete/${data.uid}`)
 }
 
-export function accountUpdate(data: any) {
-  return http.post(`/account/update/${data.uid}`, data)
+export function accountUpdate(uid: any, data: any) {
+  return http.post(`/account/update/${uid}`, data)
 }
 
 export async function accountLogin(data) {
@@ -32,4 +32,7 @@ export async function accountAudit(data) {
 }
 export async function accountBan(data) {
   return http.post(`/account/ban`, data)
+}
+export async function getAgentList() {
+  return http.get(`/agent/list/page/1?count=1000`)
 }

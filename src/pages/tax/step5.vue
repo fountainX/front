@@ -6,60 +6,105 @@
   <div class="table-container">
     <table class="table-layout">
       <tbody>
-        <tr>
+        <tr v-for="(item, index) in templateList">
           <td class="table-cell">
-            <Document style="width: 1.3em; color:#999; vertical-align: sub; margin-right: 8px" />公司注册资料.doc
-          </td>
-        </tr>
-        <tr>
-          <td class="table-cell">
-            <Document style="width: 1.3em; color:#999; vertical-align: sub; margin-right: 8px" />公司注册资料.doc
-          </td>
-        </tr>
-        <tr>
-          <td class="table-cell">
-            <Document style="width: 1.3em; color:#999; vertical-align: sub; margin-right: 8px" />公司注册资料.doc
+            <Document style="width: 1.3em; color: #999; vertical-align: sub; margin-right: 8px" />
+            {{ item.file_name }}
           </td>
         </tr>
       </tbody>
     </table>
     <br />
-    <el-button>下载全部资料</el-button>
+    <el-button @click="down">下载全部资料</el-button>
   </div>
   <br />
   <br />
-  <el-upload
-    v-model:file-list="fileList"
-    class="upload-demo"
-    action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-    :on-change="handleChange">
+  <el-upload class="upload-demo" :file-list="fileList" :http-request="subUploadFile" multiple action="" accept="" :on-remove="handleRemove">
     <el-button type="primary">上传资料</el-button>
-    <template #tip>
-      <div class="el-upload__tip">
-        files with a size less than 500kb
-      </div>
-    </template>
   </el-upload>
 </template>
-<script lang="ts" setup>
-import { ref } from 'vue'
+<script lang="ts">
+import { ref, defineProps, defineComponent, defineEmits } from 'vue'
+import { uploadSingleFile, getTemplate, uploadMultipleFile } from '@/http/api/order.ts'
 
 import type { UploadProps, UploadUserFile } from 'element-plus'
 
-const fileList = ref<UploadUserFile[]>([
-  {
-    name: 'food.jpeg',
-    url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+export default defineComponent({
+  components: {},
+  props: {
+    upload: {
+      type: Object
+    },
+    orderId: String
   },
-  {
-    name: 'food2.jpeg',
-    url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
-  },
-])
+  emits: ['update'],
+  setup(props, context) {
+    const userInfo = JSON.parse(localStorage.getItem('userInfo')) || {}
+    const fileList = ref<UploadUserFile[]>([...props.upload.list])
+    const templateList = ref<any[]>([])
+    const handleRemove: UploadProps['onRemove'] = (uploadFile, uploadFiles) => {
+      fileList.value = uploadFiles
+      context.emits('update', fileList)
+    }
 
-const handleChange: UploadProps['onChange'] = (uploadFile, uploadFiles) => {
-  fileList.value = fileList.value.slice(-3)
-}
+    const subUploadFile = (param) => {
+      const formData = new FormData()
+      console.log(param)
+      formData.append('files', param.file)
+      // 限制上传超过100M
+      if (parseInt(param.file.size / 1000) > 1024 * 100) {
+        ElMessage.error('文件大小不能超过100M')
+        return
+      }
+      return uploadMultipleFile({ formData: formData, order_status: 15, order_id: props.orderId }).then((res) => {
+        let data = res.data[0]
+        let file = {
+          uid: data.create_at,
+          updateTime: data.updateTime,
+          name: data.file_name,
+          url: 'https://narcissus-me.s3.ap-northeast-1.amazonaws.com/' + data.file_name,
+          account: userInfo.user_name
+        }
+        fileList.value.push(file)
+        context.emit('update', fileList)
+        return true
+      })
+    }
+    const getTemplateList = () => {
+      getTemplate({ business_type: 10, order_status: 15 }).then((res) => {
+        templateList.value = res.data
+        console.log(templateList)
+      })
+    }
+    const down = () => {
+      templateList.value.map((item, index) => {
+        setTimeout(() => {
+          downFile('https://narcissus-me.s3.ap-northeast-1.amazonaws.com/' + item.file_name, item.file_name)
+        }, index * 1000)
+      })
+    }
+    const downFile = (url, fileName) => {
+      const link = document.createElement('a')
+      link.href = url
+      link.download = 'download'
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+    }
+    getTemplateList()
+    return {
+      fileList,
+      handleRemove,
+      templateList,
+      subUploadFile,
+      getTemplateList,
+      downFile,
+      down
+    }
+  }
+})
+
+// const fileList = ref<UploadUserFile[]>([...props.upload.list])
 </script>
 
 <style lang="scss" scoped>
@@ -79,4 +124,9 @@ div.table-container {
     }
   }
 }
+</style>
+<style lang="scss" scoped>
+  .desc{
+    margin-top: 30px;
+  }
 </style>

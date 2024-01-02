@@ -7,41 +7,41 @@
     <table class="table-layout">
       <tbody>
         <tr>
-          <td class="table-cell" bgcolor="#f1f1f1" style="width: 60px;">序号</td>
+          <td class="table-cell" bgcolor="#f1f1f1" style="width: 60px">序号</td>
           <td class="table-cell" bgcolor="#f1f1f1">资料名称</td>
-          <td class="table-cell" bgcolor="#f1f1f1" style="width: 80px;">状态</td>
+          <td class="table-cell" bgcolor="#f1f1f1" style="width: 80px">状态</td>
           <td class="table-cell" bgcolor="#f1f1f1">备注</td>
         </tr>
-        <tr>
-          <td class="table-cell">1</td>
-          <td class="table-cell">报税资料-2023年度公司流水.doc</td>
-          <td class="table-cell">通过</td>
-          <td class="table-cell">资料未过问题原因</td>
-        </tr>
-        <tr>
-          <td class="table-cell">2</td>
-          <td class="table-cell">报税资料-2023年度公司流水.doc</td>
-          <td class="table-cell">审核中</td>
-          <td class="table-cell">资料未过问题原因</td>
-        </tr>
-        <tr>
-          <td class="table-cell">3</td>
-          <td class="table-cell">报税资料-2023年度公司流水.doc</td>
-          <td class="table-cell">审核中</td>
-          <td class="table-cell">资料未过问题原因</td>
-        </tr>
-        <tr>
-          <td class="table-cell">4</td>
-          <td class="table-cell">报税资料-2023年度公司流水.doc</td>
-          <td class="table-cell">审核中</td>
-          <td class="table-cell">资料未过问题原因</td>
+        <tr v-for="(item, index) in fileList">
+          <td class="table-cell">{{ index + 1 }}</td>
+          <td class="table-cell">{{ item.name }}</td>
+          <td class="table-cell">{{ item.status == 1 ? '通过' : item.status == -1 ? '不通过' : '审核中' }}</td>
+          <td class="table-cell">
+            <span v-if="item.status == -1">{{ item.reason }}</span>
+          </td>
         </tr>
       </tbody>
     </table>
   </div>
 </template>
-<script lang="ts" setup>
+<script lang="ts">
+import { ref, defineProps, defineComponent } from 'vue'
 
+export default defineComponent({
+  components: {},
+  props: {
+    upload: {
+      type: Object
+    },
+    orderId: String
+  },
+  setup(props, context) {
+    const fileList = ref<UploadUserFile[]>([...props.upload.list])
+    return {
+      fileList
+    }
+  }
+})
 </script>
 
 <style lang="scss" scoped>
@@ -60,7 +60,8 @@ div.table-container {
   }
 }
 
-div.tab-container {}
+div.tab-container {
+}
 
 .label-left-align :deep(.el-form-item__label) {
   text-align: left;
@@ -74,7 +75,8 @@ div.tab-container {}
   text-align: right;
 }
 
-.custom-label {}
+.custom-label {
+}
 
 .static-content-item {
   min-height: 20px;
@@ -102,7 +104,8 @@ div.table-container {
   }
 }
 
-div.tab-container {}
+div.tab-container {
+}
 
 .label-left-align :deep(.el-form-item__label) {
   text-align: left;
@@ -116,7 +119,8 @@ div.tab-container {}
   text-align: right;
 }
 
-.custom-label {}
+.custom-label {
+}
 
 .static-content-item {
   min-height: 20px;
@@ -127,4 +131,9 @@ div.tab-container {}
     margin: 0;
   }
 }
+</style>
+<style lang="scss" scoped>
+  .desc{
+    margin-top: 30px;
+  }
 </style>

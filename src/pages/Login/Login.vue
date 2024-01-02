@@ -20,39 +20,6 @@
         <el-button type="primary" @click="userDelete()">账号删除</el-button> -->
 
       </el-tab-pane>
-      <el-tab-pane label="注册" name="second">
-        <div class="box">
-          <el-form :model="formData" ref="vForm" :rules="rules" label-position="right" label-width="100px"
-            size="small" @submit.prevent>
-            <el-form-item label="用户名：" prop="userName" class="required label-right-align">
-              <el-input v-model="formData.userName" type="text" clearable></el-input>
-            </el-form-item>
-            <el-form-item label="姓名：" prop="fullName" class="required label-right-align">
-              <el-input v-model="formData.fullName" type="text" clearable></el-input>
-            </el-form-item>
-            <el-form-item label="密码：" prop="password" class="required label-right-align">
-              <el-input v-model="formData.password" type="password" clearable></el-input>
-            </el-form-item>
-            <el-form-item label="代理：" prop="agent" class="label-right-align">
-              <el-input v-model="formData.agent" type="text" clearable></el-input>
-            </el-form-item>
-            <el-form-item label="邮箱：" prop="email" class="required label-right-align">
-              <el-input v-model="formData.email" type="text" clearable></el-input>
-            </el-form-item>
-            <el-form-item label="手机号：" prop="mobile" class="required label-right-align">
-              <el-input v-model="formData.mobile" type="text" clearable></el-input>
-            </el-form-item>
-            <el-form-item label="微信号：" prop="wechat" class="required label-right-align">
-              <el-input v-model="formData.wechat" type="text" clearable></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="resetForm()">重置</el-button>
-              <el-button type="primary" @click="submitForm()">注册</el-button>
-            </el-form-item>
-          </el-form>
-
-        </div>
-      </el-tab-pane>
     </el-tabs>
 
 
@@ -88,6 +55,7 @@ const formData = reactive({
   fullName: "",
   password: "",
   agent: "",
+  companyName:"",
   email: "",
   mobile: "",
   wechat: "",
@@ -121,16 +89,16 @@ const rules = {
     trigger: ['blur', 'change'],
     message: '请输入正确手机号'
   }],
-  wechat: [{
-    required: true,
-    message: '微信号不可为空',
-  }],
+  // wechat: [{
+  //   required: true,
+  //   message: '微信号不可为空',
+  // }],
 }
 
 const login = () => {
   if (userName.value === 'admin' && pwd.value === 'admin') {
     ElMessage({ type: 'success', message: '登录成功' })
-    router.push('/main')
+    userLogin();
   } else if (userName.value === '' && pwd.value === '') {
     ElMessage({ type: 'error', message: '请输入用户名和密码' })
   } else {
@@ -150,7 +118,6 @@ const userLogin = () => {
       setToken(res.data.accessToken)
       getAccount(res.data.uid)
       ElMessage.success('登录成功')
-      router.push('/')
     }
   }).catch((e: any) => {
     console.log(e)
@@ -170,6 +137,7 @@ const getAccount = (uid: any) => {
   account({ uid: uid }).then((res: any) => {
     //console.log('account', res)
     localStorage.setItem('userInfo', JSON.stringify(res.data))
+    router.push('/')
   }).catch((e: any) => {
     console.log(e)
   })

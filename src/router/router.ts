@@ -18,14 +18,19 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/pages/Login/Login.vue')
   },
   {
+    path: '/Registry',
+    name: 'Registry',
+    component: () => import('@/pages/Login/Registry.vue')
+  },
+  {
     path: '/main',
     name: 'Main',
     component: () => import('@/pages/Main/Main.vue')
     // children: [],//子组件
   },
   {
-    path: '/tax',
-    name: 'tax',
+    path: '/order',
+    name: 'order',
     component: () => import('@/pages/tax/index.vue')
     // children: [],//子组件
   },
@@ -35,11 +40,17 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/pages/ucenter/index.vue')
   },
   {
-    path: '/order',
-    name: 'order',
-    component: () => import('@/pages/order.vue')
-    // children: [],//子组件
+    path: '/customerService',
+    name: 'customerService',
+    component: () => import('@/pages/customerService/index.vue')
   }
+  
+  // {
+  //   path: '/order',
+  //   name: 'order',
+  //   component: () => import('@/pages/order.vue')
+  //   // children: [],//子组件
+  // }
 ]
 
 // createWebHistory路由模式路径不带#号(生产环境下不能直接访问项目，需要nginx转发)

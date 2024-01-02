@@ -6,7 +6,7 @@ const messages = {
   en,
   zh,
 }
-const language = (navigator.language || "zh").toLocaleLowerCase() // 这是获取浏览器的语言
+const language = ("zh").toLocaleLowerCase() // 这是获取浏览器的语言
 const i18n = createI18n({
   legacy: false,
   globalInjection: true,
