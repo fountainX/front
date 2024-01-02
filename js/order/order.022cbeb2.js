@@ -1,1 +1,0 @@
-import{H as e}from"../Http/Http.fcd9958f.js";function t(){return e.get("/order/types")}async function n(r){return e.post("/order/create",r)}function s(r){return e.get(`/order/list/page/${r.page}`,r)}const u=r=>e.upload(`/order/upload/${r.order_status}/id/${r.order_id}`,r.formData);export{n as a,s as b,t as o,u};
