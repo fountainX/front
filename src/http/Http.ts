@@ -31,12 +31,17 @@ axios.defaults.headers = {
   'X-Requested-With': 'XMLHttpRequest',
   'Access-Control-Allow-Origin': '*'
 }
-
+const defaultHeaders = {
+  // @ts-ignoreÒ
+  'Content-Type': 'application/json;charset=UTF-8',
+  Accept: 'application/json, text/plain, */*',
+  'X-Requested-With': 'XMLHttpRequest',
+  'Access-Control-Allow-Origin': '*'
+}
 //请求拦截器
 axios.interceptors.request.use(
   (config: AxiosRequestConfig) => {
-    config.headers = { 'Access-Control-Allow-Origin': '*' }
-    config.headers['Content-Type'] = 'application/json;charset=UTF-8'
+    config.headers = { ...defaultHeaders, ...config.headers }
     if (getToken()) {
       config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
     }
@@ -51,7 +56,6 @@ axios.interceptors.response.use(
   (config: any) => {
     // 是否需要设置 token
     const isToken = (config.headers || {}).isToken === false
-    
     // get请求映射params参数
     if (config.method === 'get' && config.params) {
       let url = config.url + '?'
@@ -156,11 +160,14 @@ const Http: Http = {
         })
     })
   },
-  post(url, params) {
+  // @ts-ignoreÒ
+  post(url, params, headers) {
     return new Promise((resolve, reject) => {
       NProgress.start()
       axios
-        .post(url, JSON.stringify(params))
+        .post(url, JSON.stringify(params), {
+          headers: headers
+        })
         .then((res) => {
           NProgress.done()
           resolve(res.data)
@@ -196,6 +203,14 @@ const Http: Http = {
       document.body.removeChild(iframe)
     }
     document.body.appendChild(iframe)
+  },
+  async downloadBlob(url) {
+    return fetch(axios.defaults.baseURL + url, {
+      method: 'post',
+      headers: {
+        Authorization: 'Bearer ' + getToken()
+      }
+    })
   }
 }
 

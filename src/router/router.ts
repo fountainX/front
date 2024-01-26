@@ -8,6 +8,36 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/pages/index.vue') // 注意这里要带上 文件后缀.vue
   },
   {
+    path: '/team',
+    name: 'team',
+    component: () => import('@/pages/team.vue')
+  },
+  {
+    path: '/contact',
+    name: 'contact',
+    component: () => import('@/pages/contact.vue')
+  },
+  {
+    path: '/blog',
+    name: 'blog',
+    component: () => import('@/pages/blog.vue')
+  },
+  {
+    path: '/blogDetail',
+    name: 'blogDetail',
+    component: () => import('@/pages/blogDetail.vue')
+  },
+  {
+    path: '/faq',
+    name: 'faq',
+    component: () => import('@/pages/faq.vue')
+  },
+  {
+    path: '/about',
+    name: 'about',
+    component: () => import('@/pages/about.vue')
+  },
+  {
     path: '/tips',
     name: 'tips',
     component: () => import('@/pages/tips.vue')
@@ -16,6 +46,11 @@ const routes: RouteRecordRaw[] = [
     path: '/Login',
     name: 'Login',
     component: () => import('@/pages/Login/Login.vue')
+  },
+  {
+    path: '/forget',
+    name: 'forget',
+    component: () => import('@/pages/Login/forget.vue')
   },
   {
     path: '/Registry',
@@ -31,7 +66,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/order',
     name: 'order',
-    component: () => import('@/pages/tax/index.vue')
+    component: () => import('@/pages/order/index.vue')
     // children: [],//子组件
   },
   {
@@ -44,7 +79,7 @@ const routes: RouteRecordRaw[] = [
     name: 'customerService',
     component: () => import('@/pages/customerService/index.vue')
   }
-  
+
   // {
   //   path: '/order',
   //   name: 'order',

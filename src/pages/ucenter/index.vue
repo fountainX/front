@@ -1,76 +1,100 @@
 <template>
   <Header />
-  <div class="login">
-    <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
-      <el-tab-pane label="我的订单" name="1">
-        <div class="box">
-          <el-table :data="order" stripe border style="width: 100%">
-            <el-table-column prop="order_id" label="订单ID" width="80" />
-            <el-table-column prop="business_type" label="订单类型">
-              <template #default="scope">
-                {{ getType(scope.row.business_type) }}
-              </template>
-            </el-table-column>
-            <el-table-column prop="order_no" label="订单编号" />
-            <el-table-column prop="order_status" label="订单状态">
-              <template #default="scope">
-                {{ getStatus(scope.row.order_status) }}
-              </template>
-            </el-table-column>
-            <el-table-column prop="updateTime" label="更新时间" width="160" />
-            <el-table-column label="操作" width="60">
-              <template #default="{ row }">
-                <el-button type="primary" @click="reviewOrder(row.order_id)" link>查看</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-        </div>
-      </el-tab-pane>
-      <el-tab-pane label="用户资料" name="2">
-        <div class="box">
-          <el-form :model="formData" ref="vForm" :rules="rules" label-position="right" label-width="100px" @submit.prevent>
-            <el-form-item label="用户名：" prop="userName" class="required label-right-align">
-              <el-input v-model="formData.userName" type="text" clearable></el-input>
-            </el-form-item>
-            <el-form-item label="姓名：" prop="fullName" class="required label-right-align">
-              <el-input v-model="formData.fullName" type="text" clearable></el-input>
-            </el-form-item>
-            <!-- <el-form-item label="密码：" prop="password" class="required label-right-align">
+  <br><br>
+  <div class="container">
+    <el-card>
+      <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
+        <el-tab-pane label="我的订单" name="1">
+          <div class="box">
+            <el-table :data="order" :loading="loading" stripe border>
+              <el-table-column prop="order_id" label="订单ID" width="100" />
+              <el-table-column prop="business_type" label="订单类型" width="140">
+                <template #default="scope">
+                  {{ getType(scope.row.business_type) }}
+                </template>
+              </el-table-column>
+              <el-table-column prop="order_no" label="订单编号" />
+              <el-table-column prop="order_status" label="订单状态">
+                <template #default="scope">
+                  {{ getStatus(scope.row.order_status) }}
+                </template>
+              </el-table-column>
+              <el-table-column prop="updateTime" label="更新时间" />
+              <el-table-column label="操作" width="110">
+                <template #default="{ row }">
+                  <el-button type="primary" size="small" @click="reviewOrder(row.order_id, row.business_type)" plain>查看订单</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+
+            <div class="page">
+              <el-pagination
+                background
+                layout="prev, pager, next"
+                v-model:current-page="pagination.current"
+                :page-size="pagination.pageSize"
+                :total="pagination.total"
+                @current-change="() => { getOrderList(); }">
+              </el-pagination>
+            </div>
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="个人资料" name="2">
+          <div class="box tc">
+            <el-form :model="formData" ref="vForm" :rules="rules" label-position="right" label-width="100px" @submit.prevent>
+              <el-form-item label="用户名：" prop="userName" class="required label-right-align">
+                <el-input v-model="formData.userName" type="text" clearable></el-input>
+              </el-form-item>
+              <el-form-item label="姓名：" prop="fullName" class="required label-right-align">
+                <el-input v-model="formData.fullName" type="text" clearable></el-input>
+              </el-form-item>
+              <!-- <el-form-item label="密码：" prop="password" class="required label-right-align">
               <el-input v-model="formData.password" type="password" clearable></el-input>
             </el-form-item> -->
-            <el-form-item label="代理：" prop="agent" class="label-right-align">
-              <el-input v-model="formData.agent" type="text" clearable></el-input>
-            </el-form-item>
-            <el-form-item label="邮箱：" prop="email" class="required label-right-align">
-              <el-input v-model="formData.email" type="text" clearable></el-input>
-            </el-form-item>
-            <el-form-item label="手机号：" prop="mobile" class="required label-right-align">
-              <el-input v-model="formData.mobile" type="text" clearable></el-input>
-            </el-form-item>
-            <el-form-item label="微信号：" prop="wechat" class="required label-right-align">
-              <el-input v-model="formData.wechat" type="text" clearable></el-input>
-            </el-form-item>
-            <el-form-item>
-              <!-- <el-button type="primary" @click="resetForm()">重置</el-button> -->
-              <el-button type="primary" @click="submitForm()">修改用户信息</el-button>
-            </el-form-item>
-          </el-form>
-        </div>
-      </el-tab-pane>
-    </el-tabs>
+              <!-- <el-form-item label="代理：" prop="agentId" class="label-right-align">
+              <el-input v-model="formData.agentId" type="text" clearable></el-input>
+            </el-form-item> -->
+
+              <el-form-item label="代理：" prop="agentId" class="label-right-align">
+                <el-select v-model="formData.agentId" @change="selectAgent" style="width: 100%">
+                  <el-option v-for="item in agentList" :value="item.agent_id" :label="item.agent_name"></el-option>
+                </el-select>
+              </el-form-item>
+
+              <el-form-item label="邮箱：" prop="email" class="required label-right-align">
+                <el-input v-model="formData.email" type="text" clearable></el-input>
+              </el-form-item>
+              <el-form-item label="手机号：" prop="mobile" class="required label-right-align">
+                <el-input v-model="formData.mobile" type="text" clearable></el-input>
+              </el-form-item>
+              <el-form-item label="微信号：" prop="wechat" class="required label-right-align">
+                <el-input v-model="formData.wechat" type="text" clearable></el-input>
+              </el-form-item>
+              <el-form-item>
+                <!-- <el-button type="primary" @click="resetForm()">重置</el-button> -->
+                <el-button type="primary" @click="submitForm()">修改用户信息</el-button>
+              </el-form-item>
+            </el-form>
+          </div>
+        </el-tab-pane>
+      </el-tabs>
+    </el-card>
   </div>
-  <!-- <Footer /> -->
+  <br><br>
+  <Footer />
 </template>
 <script lang="ts" setup>
 import Header from '../../components/header.vue'
+import Footer from '../../components/Footer.vue'
 import { useRouter } from 'vue-router'
-import { ref, toRefs, reactive, getCurrentInstance } from 'vue'
+import { ref, toRefs, reactive, getCurrentInstance, onMounted } from 'vue'
 import type { TabsPaneContext } from 'element-plus'
 import { ElMessage } from 'element-plus'
-import { account, accountUpdate } from '@/http/api/account.ts'
+import { account, accountUpdate, getAgentList, getCouponInfo } from '@/http/api/account.ts'
 import { orderList, orderShow } from '@/http/api/order.ts'
 
 const router = useRouter()
+const loading = ref(true);
 const uid = router.currentRoute.value.query.uid
 const userInfo = JSON.parse(localStorage.getItem('userInfo'))
 const businessTypeList = [
@@ -81,7 +105,7 @@ const businessTypeList = [
   },
   {
     id: 20,
-    value: 'ACCOUNTING',
+    value: 'ANNUAL_REVIEW',
     desc: '年审'
   },
   {
@@ -311,15 +335,24 @@ const getAccount = (id) => {
       formData.email = res.data.email
       formData.mobile = res.data.mobile
       formData.wechat = res.data.wechat
+      formData.agentId = res.data.agent_id
     })
     .catch((e) => {
       console.log(e)
     })
 }
+
+const pagination = reactive({
+  total: 0,
+  current: 1,
+  pageSize: 10
+});
+
 const getOrderList = () => {
+  loading.value = true
   let param = {
-    page: 1,
-    count: 20,
+    page: pagination.current,
+    count: pagination.pageSize,
     businessType: 10,
     uid: userInfo.uid
   }
@@ -327,6 +360,8 @@ const getOrderList = () => {
     .then((res: any) => {
       if (res.code == 200) {
         order.value = res.data
+        pagination.total = res.total
+        loading.value = false
         // ElMessage.success('更新成功')
       }
     })
@@ -334,8 +369,11 @@ const getOrderList = () => {
       console.log(e)
     })
 }
-const reviewOrder = (id) => {
-  router.push({ path: 'order', query: { type: 'TAX', orderId: id } })
+const reviewOrder = (id, type) => {
+  let res = businessTypeList.find((item) => {
+    return item.id == type
+  })
+  router.push({ path: 'order', query: { type: res.value, orderId: id } })
 }
 
 getAccount(uid)
@@ -376,11 +414,21 @@ const submitForm = () => {
 const resetForm = () => {
   instance.proxy.$refs['vForm'].resetFields()
 }
+
+const getAgentListHandle = async () => {
+  let res = await getAgentList()
+  agentList.value = res.data
+  console.log(res)
+}
+const agentList = ref([])
+onMounted(() => {
+  getAgentListHandle()
+})
 </script>
 <style scoped>
 .login {
   margin: 40px auto;
-  width: 800px;
+  width: 1000px;
   height: auto;
 }
 
@@ -390,7 +438,19 @@ const resetForm = () => {
 }
 
 .box {
+  padding: 0px;
+}
+
+.tc {
   padding: 50px;
-  background: #ecf5ff;
+  width: 600px;
+  margin: 0 auto;
+}
+
+.page {
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 </style>

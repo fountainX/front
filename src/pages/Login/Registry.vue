@@ -1,46 +1,49 @@
 <template>
-  <!-- <Header /> -->
-  <div class="login">
-    <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
-      <el-tab-pane label="注册" name="second">
-        <div class="box">
-          <el-form :model="formData" ref="vForm" :rules="rules" label-position="right" label-width="100px" size="small" @submit.prevent>
-            <el-form-item label="用户名：" prop="userName" class="required label-right-align">
-              <el-input v-model="formData.userName" type="text" clearable></el-input>
-            </el-form-item>
-            <el-form-item label="姓名：" prop="fullName" class="required label-right-align">
-              <el-input v-model="formData.fullName" type="text" clearable></el-input>
-            </el-form-item>
-            <el-form-item label="密码：" prop="password" class="required label-right-align">
-              <el-input v-model="formData.password" type="password" clearable></el-input>
-            </el-form-item>
-            <el-form-item label="公司名称：" prop="userName" class="required label-right-align">
-              <el-input v-model="formData.companyName" type="text" clearable></el-input>
-            </el-form-item>
-            <el-form-item label="代理：" prop="agent" class="label-right-align">
-              <el-select v-model="agentId" @change="selectAgent" style="width: 100%">
-                <el-option v-for="item in agentList" :value="item.agent_id" :label="item.agent_name"></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="邮箱：" prop="email" class="required label-right-align">
-              <el-input v-model="formData.email" type="text" clearable></el-input>
-            </el-form-item>
-            <el-form-item label="手机号：" prop="mobile" class="required label-right-align">
-              <el-input v-model="formData.mobile" type="text" clearable></el-input>
-            </el-form-item>
-            <el-form-item label="微信号：" prop="wechat" class="required label-right-align">
-              <el-input v-model="formData.wechat" type="text" clearable></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="resetForm()">重置</el-button>
-              <el-button type="primary" @click="submitForm()">注册</el-button>
-            </el-form-item>
-          </el-form>
+  <Header />
+  <div class="login container">
+    <el-card class="bg">
+
+      <div class="box">
+        <div class="tc">
+          <span>用户注册</span>
         </div>
-      </el-tab-pane>
-    </el-tabs>
+        <el-form :model="formData" ref="vForm" :rules="rules" label-position="right" label-width="80px" @submit.prevent>
+          <el-form-item label="用户名：" prop="userName" class="required label-right-align">
+            <el-input v-model="formData.userName" type="text" placeholder="请填写用户名" clearable></el-input>
+          </el-form-item>
+          <el-form-item label="姓名：" prop="fullName" class="required label-right-align">
+            <el-input v-model="formData.fullName" type="text" placeholder="请填写姓名" clearable></el-input>
+          </el-form-item>
+          <el-form-item label="密码：" prop="password" class="required label-right-align">
+            <el-input v-model="formData.password" type="password" placeholder="请填写密码" clearable></el-input>
+          </el-form-item>
+          <!-- <el-form-item label="公司名称：" prop="userName" class="required label-right-align">
+              <el-input v-model="formData.companyName" type="text" clearable></el-input>
+            </el-form-item> -->
+          <el-form-item label="代理：" prop="agentId" class="label-right-align">
+            <el-select v-model="formData.agentId" @change="selectAgent" placeholder="请选择代理" style="width: 100%">
+              <el-option v-for="item in agentList" :value="item.agent_id" :label="item.agent_name"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="邮箱：" prop="email" class="required label-right-align">
+            <el-input v-model="formData.email" type="text" placeholder="请填写邮箱" clearable></el-input>
+          </el-form-item>
+          <el-form-item label="手机号：" prop="mobile" class="required label-right-align">
+            <el-input v-model="formData.mobile" type="text" placeholder="请填写手机号" clearable></el-input>
+          </el-form-item>
+          <el-form-item label="微信号：" prop="wechat" class="required label-right-align">
+            <el-input v-model="formData.wechat" type="text" placeholder="请填写微信号" clearable></el-input>
+          </el-form-item>
+          <el-form-item>
+
+            <el-button type="primary" @click="submitForm()">注册</el-button>
+            <el-button @click="resetForm()">重置</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+    </el-card>
   </div>
-  <!-- <Footer /> -->
+  <Footer />
 </template>
 <script lang="ts" setup>
 import Header from '../../components/header.vue'
@@ -71,7 +74,7 @@ const formData = reactive({
   userName: '',
   fullName: '',
   password: '',
-  agent: '',
+  agentId: '',
   companyName: '',
   email: '',
   mobile: '',
@@ -94,6 +97,12 @@ const rules = {
     {
       required: true,
       message: '密码不可为空'
+    }
+  ],
+  agentId: [
+    {
+      required: true,
+      message: '代理不可为空'
     }
   ],
   email: [
@@ -240,7 +249,7 @@ onMounted(() => {
 <style scoped>
 .login {
   margin: 40px auto;
-  width: 600px;
+  /* width: 800px; */
   height: auto;
 }
 
@@ -250,7 +259,27 @@ onMounted(() => {
 }
 
 .box {
-  padding: 50px 100px;
-  background: #ecf5ff;
+  padding: 50px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.9);
+  margin-bottom: 20px;
+  width: 60%;
+  float: right;
+}
+
+.tc {
+  text-align: center;
+  line-height: 50px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #fff;
+}
+
+.tc span {
+  font-size: 20px;
+}
+
+.bg {
+  background: url(@/assets/img/contact.jpg) center no-repeat;
+  background-size: cover;
 }
 </style>

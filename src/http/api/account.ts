@@ -20,6 +20,18 @@ export async function accountLogin(data) {
   return http.post(`/account/login`, data)
 }
 
+export function accountLogout(data) {
+  return http.post(`/account/logout`, data)
+}
+
+export function accountForget(data) {
+  return http.post(`/account/forget`, data)
+}
+
+export function accountReset(data) {
+  return http.post(`/account/reset`, data)
+}
+
 export async function accountRegister(data) {
   return http.post(`/account/register`, data)
 }
@@ -27,12 +39,19 @@ export async function accountRegister(data) {
 export async function accountVerify(data) {
   return http.post(`/account/verify`, data)
 }
+
 export async function accountAudit(data) {
   return http.post(`/account/audit`, data)
 }
+
 export async function accountBan(data) {
   return http.post(`/account/ban`, data)
 }
+
 export async function getAgentList() {
   return http.get(`/agent/list/page/1?count=1000`)
+}
+
+export async function getCouponInfo(coupon_id) {
+  return http.get(`/agent/coupon/${coupon_id}`)
 }

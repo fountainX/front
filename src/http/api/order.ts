@@ -40,6 +40,10 @@ export function getTemplate(data: { business_type: any; order_status: any }) {
 export function updateOrderStatus(order_id: any, data: any) {
   return http.post(`/order/update/status/${order_id}`, data)
 }
-export function createMsg( data: any) {
+export function createMsg(data: any) {
   return http.post(`/msg/create/`, data)
+}
+export function downloadZip(orderId: any, fileNames: any) {
+  return http.downloadBlob(`/order/template/download/?orderId=${orderId}${fileNames}`)
+  // return http.post(`/order/template/download/`, { orderId, fileNames })
 }

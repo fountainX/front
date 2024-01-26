@@ -1,20 +1,17 @@
 <template>
   <!-- <Header /> -->
-  <div class="login">
-    <div class="box">
-      <el-form :model="formData" ref="vForm" :rules="rules" label-position="right" label-width="100px" size="small" @submit.prevent>
-        <el-form-item label="业务类型：" prop="desc" class="required label-right-align">
-          <el-input v-model="formData.desc" type="text" readonly></el-input>
-        </el-form-item>
-        <el-form-item label="咨询内容：" prop="content" class="required label-right-align">
-          <el-input v-model="formData.content" :rows="3" type="textarea" clearable></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="submitForm()">提交</el-button>
-        </el-form-item>
-      </el-form>
-    </div>
-  </div>
+  <el-form :model="formData" ref="vForm" :rules="rules" label-position="right" label-width="100px" @submit.prevent>
+    <el-form-item label="业务类型：" prop="desc" class="required label-right-align">
+      <el-input v-model="formData.desc" type="text" readonly></el-input>
+    </el-form-item>
+    <el-form-item label="咨询内容：" prop="content" class="required label-right-align">
+      <el-input v-model="formData.content" :rows="4" type="textarea" clearable></el-input>
+    </el-form-item>
+    <el-form-item>
+      <el-button type="primary" @click="submitForm()">提交</el-button>
+    </el-form-item>
+    {{ params }}
+  </el-form>
   <!-- <Footer /> -->
 </template>
 <script lang="ts" setup>
@@ -30,6 +27,7 @@ const desc = ref(route.query.desc)
 const userInfo = JSON.parse(localStorage.getItem('userInfo'))
 const orderId = ref(route.query.orderId || 0) * 1
 const orderStatus = ref(route.query.orderStatus || 0) * 1
+
 // 注册
 const formData = ref({
   creator: userInfo.uid,
@@ -56,20 +54,4 @@ const submitForm = async () => {
   }
 }
 </script>
-<style scoped>
-.login {
-  margin: 40px auto;
-  width: 600px;
-  height: auto;
-}
-
-.login-input {
-  width: 200px;
-  margin: 10px;
-}
-
-.box {
-  padding: 50px 100px;
-  background: #ecf5ff;
-}
-</style>
+<style scoped></style>
