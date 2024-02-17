@@ -62,6 +62,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted, provide } from 'vue'
+import { ElMessage } from 'element-plus'
 import Header from '../../components/header.vue'
 import Footer from '../../components/footer.vue'
 import { useRouter } from 'vue-router'
@@ -200,6 +201,7 @@ let param: any = reactive({
         desc: '左下方签名'
       }
     ],
+    imageList: [],
     isSign: true
   },
   backSign: [],
@@ -257,6 +259,10 @@ const updateOrderStatusHandle = async (status) => {
     orderStatus: status,
     businessType: typeValue
   })
+
+  setTimeout(() => {
+    window.location.href = window.location.href + '&orderId=' + orderId.value
+  }, 300);
 }
 const createOrder = () => {
   orderCreate({ order_status: 10, businessType: typeValue, creator: userInfo.uid, companyName: companyName.value, content: param })
@@ -278,6 +284,7 @@ const saveOrder = () => {
   }
   orderUpdate({ orderId: orderId.value, data: { creator: userInfo.uid, content: param, companyName: companyName.value } })
     .then((res: any) => {
+      ElMessage.success('已提交，请联系专员')
       console.log('update order', res)
       if (active.value == 1) {
         updateOrderStatusHandle(11)

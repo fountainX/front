@@ -16,7 +16,7 @@
 
         <div style="display: flex">
           <div class="title" :title="item.file_name">{{ item.file_name }}</div>
-          <a v-if="props.showDownload" :href="$filePath + item.file_name" download>下载</a>
+          <a class="dw" v-if="props.showDownload" :href="$filePath + item.file_name" download>下载</a>
         </div>
       </div>
     </div>
@@ -95,22 +95,39 @@ export default defineComponent({
 </script>
 <style lang="scss" scoped>
 .title {
-  max-width: 100px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  margin-top: 2px;
+  // max-width: 100px;
+  // overflow: hidden;
+  // text-overflow: ellipsis;
+  // white-space: nowrap;
 }
-.pdf {
+
+.pdf {}
+
+.dw {
+  padding: 0 10px;
+  margin: 0 10px;
+  border: 1px solid #409eff;
+  border-radius: 3px;
+  color: #409eff;
+  background: #f3f7fb;
+  font-size: 12px;
 }
+
 .file-container {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
 }
+
 .sub-container {
+  display: flex;
+  align-items: center;
   position: relative;
-  margin-bottom: 10px;
+  margin: 10px 0;
+  border: 1px dotted #ccc;
+  padding: 10px;
+  width: 100%;
+
   .remove {
     display: none;
     position: absolute;
@@ -118,15 +135,18 @@ export default defineComponent({
     top: 2px;
     z-index: 99;
   }
+
   &:hover {
     .remove {
       display: inline-block;
     }
   }
 }
+
 .item {
   position: relative;
   border: 1px dashed #ccc;
   cursor: pointer;
+  margin-right: 10px;
 }
 </style>

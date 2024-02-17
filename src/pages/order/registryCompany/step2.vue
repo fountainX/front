@@ -4,7 +4,7 @@
   </el-divider>
   <div class="desc">
     <el-descriptions :title="'订单号：' + order_no" :column="2">
-      <el-descriptions-item :span="2" label="所在州：">{{ order.regionText }}</el-descriptions-item>
+      <el-descriptions-item :span="2" label="所在地区：">{{ order.regionText }}</el-descriptions-item>
       <el-descriptions-item :span="2" label="公司类型：">{{ order.companyType == 1 ? 'C' : 'LLC' }}</el-descriptions-item>
 
       <template v-if="order.companyType == 1">
@@ -33,17 +33,60 @@
               {{ order.isApplySsnEin ? item.price : 0 }}
             </el-descriptions-item>
           </template>
+
+          <template v-if="item.field_name == 'is_chinese_name'">
+            <el-descriptions-item :label="item.rule_content + '：'">{{ order.is_chinese_name ? '是' : '否' }}</el-descriptions-item>
+            <el-descriptions-item label="费用：">
+              {{ order.is_chinese_name ? item.price : 0 }}
+            </el-descriptions-item>
+          </template>
+
+          <template v-if="item.field_name == 'shareholders'">
+            <el-descriptions-item label="股东数大于5的个数：">{{ order.shareholders  }}</el-descriptions-item>
+            <el-descriptions-item label="费用：">
+              {{ order.shareholders * item.price}}
+            </el-descriptions-item>
+          </template>
+
+          <template v-if="item.field_name == 'certificate_of_incumbency'">
+            <el-descriptions-item :label="item.rule_content + '：'">{{ order.certificate_of_incumbency?'是':'否'  }}</el-descriptions-item>
+            <el-descriptions-item label="费用：">
+              {{ order.certificate_of_incumbency ? item.price : 0 }}
+            </el-descriptions-item>
+          </template>
+
+          <template v-if="item.field_name == 'certificate_of_incumbency_num'">
+            <el-descriptions-item :label="item.rule_content + '：'">{{ order.certificate_of_incumbency_num  }}</el-descriptions-item>
+            <el-descriptions-item label="费用：">
+              {{ order.certificate_of_incumbency_num  *  item.price}}
+            </el-descriptions-item>
+          </template>
+
+          <template v-if="item.field_name == 'certificate_of_good_standing'">
+            <el-descriptions-item :label="item.rule_content + '：'">{{ order.certificate_of_good_standing?'是':'否'  }}</el-descriptions-item>
+            <el-descriptions-item label="费用：">
+              {{ order.certificate_of_good_standing ? item.price : 0 }}
+            </el-descriptions-item>
+          </template>
+
+          <template v-if="item.field_name == 'express_service'">
+            <el-descriptions-item :label="item.rule_content + '：'">{{ order.express_service?'是':'否'  }}</el-descriptions-item>
+            <el-descriptions-item label="费用：">
+              {{ order.express_service ? item.price : 0 }}
+            </el-descriptions-item>
+          </template>
+          
         </template>
       </template>
     </el-descriptions>
     <div>
       <div class="total-price">
         <span>原价：</span>
-        <span class="price">${{ order.oldTotalPrice }}</span>
+        <span class="price">{{ order.us === false ? '￥' : '$' }}{{ order.oldTotalPrice }}</span>
       </div>
       <div class="total-price">
         <span>折扣价：</span>
-        <span class="price">${{ order.totalPrice }}</span>
+        <span class="price">{{ order.us === false ? '￥' : '$' }}{{ order.totalPrice }}</span>
       </div>
     </div>
   </div>
@@ -87,6 +130,7 @@ export default defineComponent({
   font-size: 24px;
   font-weight: bold;
   color: #000;
+
   .price {
     color: #67c23a;
   }
@@ -159,8 +203,7 @@ div.table-container {
   }
 }
 
-div.tab-container {
-}
+div.tab-container {}
 
 .label-left-align :deep(.el-form-item__label) {
   text-align: left;
@@ -174,8 +217,7 @@ div.tab-container {
   text-align: right;
 }
 
-.custom-label {
-}
+.custom-label {}
 
 .static-content-item {
   min-height: 20px;
@@ -201,8 +243,7 @@ div.table-container {
   }
 }
 
-div.tab-container {
-}
+div.tab-container {}
 
 .label-left-align :deep(.el-form-item__label) {
   text-align: left;
@@ -216,8 +257,7 @@ div.tab-container {
   text-align: right;
 }
 
-.custom-label {
-}
+.custom-label {}
 
 .static-content-item {
   min-height: 20px;

@@ -23,6 +23,7 @@ interface Http {
 
 // 设置请求头和请求路径
 axios.defaults.baseURL = 'https://api.ayuan.uk'
+// axios.defaults.baseURL = 'https://narcissus-ye.s3.ap-northeast-1.amazonaws.com'
 axios.defaults.timeout = 10000
 axios.defaults.headers = {
   // @ts-ignoreÒ

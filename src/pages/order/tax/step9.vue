@@ -75,8 +75,8 @@
     <el-divider content-position="left">出具发票</el-divider>
     <div>
       <el-descriptions :column="1">
-        <el-descriptions-item label="客户单位名字：">{{ invoice.agentName }}</el-descriptions-item>
-        <el-descriptions-item label="服务公司名字：">{{ props.companyName }}</el-descriptions-item>
+        <el-descriptions-item label="客户单位名称：">{{ invoice.agentName }}</el-descriptions-item>
+        <el-descriptions-item label="服务公司名称：">{{ props.companyName }}</el-descriptions-item>
         <el-descriptions-item label="服务内容：">{{ invoice.content }}</el-descriptions-item>
         <el-descriptions-item label="邮箱：">{{ invoice.email }}</el-descriptions-item>
       </el-descriptions>
@@ -105,7 +105,9 @@
           <tr v-for="(item, index) in upload.list">
             <td class="table-cell">{{ index + 1 }}</td>
             <td class="table-cell">
-              <div class="flex-center"><FileList :list="[item]" :size="50" /></div>
+              <div class="flex-center">
+                <FileList :list="[item]" :size="50" />
+              </div>
             </td>
             <td class="table-cell">{{ item.status == 1 ? '通过' : item.status == -1 ? '不通过' : '审核中' }}</td>
             <td class="table-cell">
@@ -130,7 +132,7 @@
         </tbody>
       </table> -->
       <br />
-      <!-- <el-alert :title="mark" type="info" />
+      <!-- <el-alert :title="mark" type="warning" />
       <br /> -->
 
       <FileList :list="sign.imageList" :size="50"></FileList>
@@ -202,6 +204,7 @@ export default defineComponent({
   align-items: center;
   padding: 5px;
 }
+
 div.table-container {
   table.table-layout {
     width: 100%;
@@ -235,15 +238,29 @@ div.table-container {
   width: 100%;
   height: 200px;
 }
+
 .desc {
   margin-top: 30px;
 }
+
 .total-price {
   font-size: 24px;
   font-weight: bold;
   color: #000;
+
+  span:nth-child(1) {
+    display: inline-block;
+    width: 100px;
+    text-align: right;
+  }
+
   .price {
     color: #67c23a;
   }
+}
+</style>
+<style scoped>
+/deep/ .el-descriptions__body {
+  margin-bottom: 20px;
 }
 </style>

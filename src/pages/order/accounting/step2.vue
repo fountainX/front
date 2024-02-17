@@ -14,19 +14,19 @@
         </el-descriptions-item>
 
         <el-descriptions-item v-if="order.is_e_commerce" label="报价类型：">
-          {{getItemFromC(order.e_price_type).rule_content}}
+          {{ getItemFromC(order.e_price_type).rule_content }}
           <!-- 查找报价类型 -->
         </el-descriptions-item>
         <el-descriptions-item v-if="order.is_e_commerce" label="费用：">
-          {{getItemFromC(order.e_price_type).price}}
+          {{ getItemFromC(order.e_price_type).price }}
           <!-- 查找报价类型的费用 -->
         </el-descriptions-item>
         <el-descriptions-item v-if="!order.is_e_commerce" label="银行流水笔数：">
-          {{getItemFromC(order.bank_count).rule_content}}
+          {{ getItemFromC(order.bank_count).rule_content }}
           <!-- 查找银行流水笔数 -->
         </el-descriptions-item>
         <el-descriptions-item v-if="!order.is_e_commerce" label="费用：">
-          {{getItemFromC(order.bank_count).price}}
+          {{ getItemFromC(order.bank_count).price }}
           <!-- 查找银行流水笔数对应的费用 -->
         </el-descriptions-item>
       </template>
@@ -38,19 +38,19 @@
         </el-descriptions-item>
 
         <el-descriptions-item v-if="order.is_e_commerce" label="报价类型：">
-          {{getItemFromLLC(order.e_price_type).rule_content}}
+          {{ getItemFromLLC(order.e_price_type).rule_content }}
           <!-- 查找报价类型 -->
         </el-descriptions-item>
         <el-descriptions-item v-if="order.is_e_commerce" label="费用：">
-          {{getItemFromLLC(order.e_price_type).price}}
+          {{ getItemFromLLC(order.e_price_type).price }}
           <!-- 查找报价类型的费用 -->
         </el-descriptions-item>
         <el-descriptions-item v-if="!order.is_e_commerce" label="银行流水笔数：">
-          {{getItemFromLLC(order.bank_count).rule_content}}
+          {{ getItemFromLLC(order.bank_count).rule_content }}
           <!-- 查找银行流水笔数 -->
         </el-descriptions-item>
         <el-descriptions-item v-if="!order.is_e_commerce" label="费用：">
-          {{getItemFromLLC(order.bank_count).price}}
+          {{ getItemFromLLC(order.bank_count).price }}
           <!-- 查找银行流水笔数对应的费用 -->
         </el-descriptions-item>
       </template>
@@ -128,6 +128,7 @@ export default defineComponent({
   font-size: 24px;
   font-weight: bold;
   color: #000;
+
   .price {
     color: #67c23a;
   }
@@ -200,8 +201,7 @@ div.table-container {
   }
 }
 
-div.tab-container {
-}
+div.tab-container {}
 
 .label-left-align :deep(.el-form-item__label) {
   text-align: left;
@@ -215,8 +215,7 @@ div.tab-container {
   text-align: right;
 }
 
-.custom-label {
-}
+.custom-label {}
 
 .static-content-item {
   min-height: 20px;
@@ -242,8 +241,7 @@ div.table-container {
   }
 }
 
-div.tab-container {
-}
+div.tab-container {}
 
 .label-left-align :deep(.el-form-item__label) {
   text-align: left;
@@ -257,8 +255,7 @@ div.tab-container {
   text-align: right;
 }
 
-.custom-label {
-}
+.custom-label {}
 
 .static-content-item {
   min-height: 20px;

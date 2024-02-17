@@ -45,7 +45,7 @@
 </template>
 
 <script lang="ts">
-import { ref, defineProps, defineComponent, defineEmits,inject } from 'vue'
+import { ref, defineProps, defineComponent, defineEmits, inject } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { uploadSingleFile, getTemplate } from '@/http/api/order.ts'
@@ -101,6 +101,7 @@ export default defineComponent({
       }
       return uploadSingleFile({ formData: formData, order_status: 12, order_id: props.orderId }).then((res) => {
         console.log('imgList', fileList.value)
+        ElMessage.success('文件上传成功')
         let data = res.data
         const extension = data.file_name.split('.').pop()
         fileList.value.push({ file_name: data.file_name, extension: extension })
@@ -167,6 +168,7 @@ export default defineComponent({
 .desc {
   margin-top: 30px;
 }
+
 .upload {
   height: 150px;
   width: 150px;
@@ -176,6 +178,7 @@ export default defineComponent({
   text-align: center;
   line-height: 150px;
   font-weight: bold;
+
   .upload-text {
     color: #ccc !important;
   }

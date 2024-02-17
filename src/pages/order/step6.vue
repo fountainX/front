@@ -2,6 +2,7 @@
   <el-divider content-position="left">
     <h2>资料审核</h2>
   </el-divider>
+  <br>
   <div class="table-container">
     <table class="table-layout">
       <tbody>
@@ -55,6 +56,7 @@ export default defineComponent({
   align-items: center;
   padding: 5px;
 }
+
 div.table-container {
   table.table-layout {
     width: 100%;
@@ -70,8 +72,7 @@ div.table-container {
   }
 }
 
-div.tab-container {
-}
+div.tab-container {}
 
 .label-left-align :deep(.el-form-item__label) {
   text-align: left;
@@ -85,8 +86,7 @@ div.tab-container {
   text-align: right;
 }
 
-.custom-label {
-}
+.custom-label {}
 
 .static-content-item {
   min-height: 20px;
@@ -114,8 +114,7 @@ div.table-container {
   }
 }
 
-div.tab-container {
-}
+div.tab-container {}
 
 .label-left-align :deep(.el-form-item__label) {
   text-align: left;
@@ -129,8 +128,7 @@ div.tab-container {
   text-align: right;
 }
 
-.custom-label {
-}
+.custom-label {}
 
 .static-content-item {
   min-height: 20px;

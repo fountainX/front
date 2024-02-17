@@ -130,7 +130,10 @@ const userLogin = () => {
         setToken(res.data.accessToken)
         getAccount(res.data.uid)
         ElMessage.success('登录成功')
-        router.push('./')
+        setTimeout(() => {
+          router.push('/ucenter?uid=' + res.data.uid)
+        }, 200);
+        // location.reload()
       }
     })
     .catch((e: any) => {
@@ -255,7 +258,7 @@ const resetForm = () => {
 }
 
 .bg {
-  background: url(@/assets/img/slider.png) center no-repeat;
-  background-size: cover;
+  /* background: url(@/assets/img/slider.png) center no-repeat;
+  background-size: cover; */
 }
 </style>

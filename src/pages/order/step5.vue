@@ -17,14 +17,14 @@
       </tbody>
     </table> -->
     <br />
-    <el-button @click="down">下载全部资料</el-button>
+    <el-button type="primary" plain @click="down">下载全部资料</el-button>
   </div>
   <br />
   <br />
   <!-- <el-upload class="upload-demo" :file-list="fileList" :http-request="subUploadFile" multiple action="" accept="" :on-remove="handleRemove">
     <el-button type="primary">上传资料</el-button>
   </el-upload> -->
-  <el-upload class="upload" :http-request="subUploadFile" action="" accept="image/*,.pdf">
+  <el-upload class="upload" :http-request="subUploadFile" action="" accept="image/*,.pdf,.zip,.rar">
     <div style="height: 100%; width: 150px">
       <el-icon>
         <Plus class="upload-text" />
@@ -34,13 +34,14 @@
   <FileList :list="fileList" :size="150" :showRemove="true" @remove="remove" />
 </template>
 <script lang="ts">
-import { ref, defineProps, defineComponent, defineEmits, reactive,inject } from 'vue'
+import { ref, defineProps, defineComponent, defineEmits, reactive, inject } from 'vue'
 import { uploadSingleFile, getTemplate, uploadMultipleFile, downloadZip } from '@/http/api/order.ts'
 import FileList from '@/components/fileList/index.vue'
-
+import { useRouter, useRoute } from 'vue-router'
 import type { UploadProps, UploadUserFile } from 'element-plus'
 import { saveAs } from 'file-saver'
 import FileDownload from 'js-file-download'
+import { debug } from 'console'
 export default defineComponent({
   components: { FileList },
   props: {
@@ -51,6 +52,8 @@ export default defineComponent({
   },
   emits: ['update'],
   setup(props, context) {
+    const router = useRouter()
+    const route = useRoute()
     const typeValue = inject('typeValue')
     const userInfo = JSON.parse(localStorage.getItem('userInfo')) || {}
     const fileList = ref<UploadUserFile[]>([...props.upload.list])
@@ -108,11 +111,18 @@ export default defineComponent({
           return response.blob()
         })
         .then((blob) => {
+          let type = route.query.type
+          let fileName = ''
+          if (type == 'TAX') fileName = '报税_'
+          if (type == 'ANNUAL_REVIEW') fileName = '年审_'
+          if (type == 'ACCOUNTING') fileName = '做账_'
+          if (type == 'REGISTER_COMPANY') fileName = '注册公司_'
+
           // 创建一个下载链接
           const url = window.URL.createObjectURL(blob)
           const a = document.createElement('a')
           a.href = url
-          a.download = 'file.zip' // 替换为文件名
+          a.download = fileName + '上传资料.zip' // 替换为文件名
           document.body.appendChild(a)
           a.click()
           window.URL.revokeObjectURL(url)
@@ -176,6 +186,7 @@ div.table-container {
 .desc {
   margin-top: 30px;
 }
+
 .upload {
   margin-bottom: 20px;
   height: 150px;
@@ -186,6 +197,7 @@ div.table-container {
   text-align: center;
   line-height: 150px;
   font-weight: bold;
+
   .upload-text {
     color: #ccc !important;
   }

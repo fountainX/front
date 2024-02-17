@@ -105,6 +105,7 @@ export default defineComponent({
   font-size: 24px;
   font-weight: bold;
   color: #000;
+
   .price {
     color: #67c23a;
   }
@@ -177,8 +178,7 @@ div.table-container {
   }
 }
 
-div.tab-container {
-}
+div.tab-container {}
 
 .label-left-align :deep(.el-form-item__label) {
   text-align: left;
@@ -192,8 +192,7 @@ div.tab-container {
   text-align: right;
 }
 
-.custom-label {
-}
+.custom-label {}
 
 .static-content-item {
   min-height: 20px;
@@ -219,8 +218,7 @@ div.table-container {
   }
 }
 
-div.tab-container {
-}
+div.tab-container {}
 
 .label-left-align :deep(.el-form-item__label) {
   text-align: left;
@@ -234,8 +232,7 @@ div.tab-container {
   text-align: right;
 }
 
-.custom-label {
-}
+.custom-label {}
 
 .static-content-item {
   min-height: 20px;

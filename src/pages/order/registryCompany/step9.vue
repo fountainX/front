@@ -15,11 +15,11 @@
             <template v-if="item.field_name == 'registration'">
               <el-descriptions-item :span="2" label="注册费用：">{{ item.price }}</el-descriptions-item>
             </template>
-  
+
             <template v-if="item.field_name == 'is_apply_ssn_ein'">
               <el-descriptions-item :label="item.rule_content + '：'">{{ order.isApplySsnEin ? '是' : '否' }}</el-descriptions-item>
               <el-descriptions-item label="费用：">
-                {{  order.isApplySsnEin ? item.price :0}}
+                {{ order.isApplySsnEin ? item.price : 0 }}
               </el-descriptions-item>
             </template>
           </template>
@@ -29,26 +29,70 @@
             <template v-if="item.field_name == 'registration'">
               <el-descriptions-item :span="2" label="注册费用：">{{ item.price }}</el-descriptions-item>
             </template>
-  
+
             <template v-if="item.field_name == 'is_apply_ssn_ein'">
               <el-descriptions-item :label="item.rule_content + '：'">{{ order.isApplySsnEin ? '是' : '否' }}</el-descriptions-item>
               <el-descriptions-item label="费用：">
-                {{  order.isApplySsnEin ? item.price :0}}
+                {{ order.isApplySsnEin ? item.price : 0 }}
               </el-descriptions-item>
             </template>
+
+
+            <template v-if="item.field_name == 'is_chinese_name'">
+              <el-descriptions-item :label="item.rule_content + '：'">{{ order.is_chinese_name ? '是' : '否' }}</el-descriptions-item>
+              <el-descriptions-item label="费用：">
+                {{ order.is_chinese_name ? item.price : 0 }}
+              </el-descriptions-item>
+            </template>
+
+            <template v-if="item.field_name == 'shareholders'">
+              <el-descriptions-item label="股东数大于5的个数：">{{ order.shareholders }}</el-descriptions-item>
+              <el-descriptions-item label="费用：">
+                {{ order.shareholders * item.price }}
+              </el-descriptions-item>
+            </template>
+
+            <template v-if="item.field_name == 'certificate_of_incumbency'">
+              <el-descriptions-item :label="item.rule_content + '：'">{{ order.certificate_of_incumbency ? '是' : '否' }}</el-descriptions-item>
+              <el-descriptions-item label="费用：">
+                {{ order.certificate_of_incumbency ? item.price : 0 }}
+              </el-descriptions-item>
+            </template>
+
+            <template v-if="item.field_name == 'certificate_of_incumbency_num'">
+              <el-descriptions-item :label="item.rule_content + '：'">{{ order.certificate_of_incumbency_num }}</el-descriptions-item>
+              <el-descriptions-item label="费用：">
+                {{ order.certificate_of_incumbency_num * item.price }}
+              </el-descriptions-item>
+            </template>
+
+            <template v-if="item.field_name == 'certificate_of_good_standing'">
+              <el-descriptions-item :label="item.rule_content + '：'">{{ order.certificate_of_good_standing ? '是' : '否' }}</el-descriptions-item>
+              <el-descriptions-item label="费用：">
+                {{ order.certificate_of_good_standing ? item.price : 0 }}
+              </el-descriptions-item>
+            </template>
+
+            <template v-if="item.field_name == 'express_service'">
+              <el-descriptions-item :label="item.rule_content + '：'">{{ order.express_service ? '是' : '否' }}</el-descriptions-item>
+              <el-descriptions-item label="费用：">
+                {{ order.express_service ? item.price : 0 }}
+              </el-descriptions-item>
+            </template>
+
           </template>
         </template>
       </el-descriptions>
       <div>
         <span class="total-price">
           <span>原价：</span>
-          <span class="price">${{ order.oldTotalPrice }}</span>
+          <span class="price">{{ order.us === false ? '￥' : '$' }}{{ order.oldTotalPrice }}</span>
         </span>
       </div>
       <div>
         <span class="total-price">
           <span>折扣价：</span>
-          <span class="price">${{ order.totalPrice }}</span>
+          <span class="price">{{ order.us === false ? '￥' : '$' }}{{ order.totalPrice }}</span>
         </span>
       </div>
     </div>
@@ -56,15 +100,15 @@
     <el-divider content-position="left">出具发票</el-divider>
     <div>
       <el-descriptions :column="1">
-        <el-descriptions-item label="客户单位名字：">{{ invoice.agentName }}</el-descriptions-item>
-        <el-descriptions-item label="服务公司名字：">{{ props.companyName }}</el-descriptions-item>
+        <el-descriptions-item label="客户单位名称：">{{ invoice.agentName }}</el-descriptions-item>
+        <el-descriptions-item label="服务公司名称：">{{ props.companyName }}</el-descriptions-item>
         <el-descriptions-item label="服务内容：">{{ invoice.content }}</el-descriptions-item>
         <el-descriptions-item label="邮箱：">{{ invoice.email }}</el-descriptions-item>
       </el-descriptions>
       <div>
         <span class="total-price">
           <span>合计：</span>
-          <span class="price">${{ invoice.price }}</span>
+          <span class="price">{{ order.us === false ? '￥' : '$' }}{{ invoice.price }}</span>
         </span>
       </div>
     </div>
@@ -86,7 +130,9 @@
           <tr v-for="(item, index) in upload.list">
             <td class="table-cell">{{ index + 1 }}</td>
             <td class="table-cell">
-              <div class="flex-center"><FileList :list="[item]" :size="50" /></div>
+              <div class="flex-center">
+                <FileList :list="[item]" :size="50" />
+              </div>
             </td>
             <td class="table-cell">{{ item.status == 1 ? '通过' : item.status == -1 ? '不通过' : '审核中' }}</td>
             <td class="table-cell">
@@ -111,7 +157,7 @@
         </tbody>
       </table> -->
       <br />
-      <!-- <el-alert :title="mark" type="info" />
+      <!-- <el-alert :title="mark" type="warning" />
       <br /> -->
 
       <FileList :list="sign.imageList" :size="50"></FileList>
@@ -183,6 +229,7 @@ export default defineComponent({
   align-items: center;
   padding: 5px;
 }
+
 div.table-container {
   table.table-layout {
     width: 100%;
@@ -216,13 +263,16 @@ div.table-container {
   width: 100%;
   height: 200px;
 }
+
 .desc {
   margin-top: 30px;
 }
+
 .total-price {
   font-size: 24px;
   font-weight: bold;
   color: #000;
+
   .price {
     color: #67c23a;
   }

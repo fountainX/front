@@ -85,13 +85,14 @@
 </template>
 <script lang="ts" setup>
 import Header from '../../components/header.vue'
-import Footer from '../../components/footer.vue'
+import Footer from '../../components/Footer.vue'
 import { useRouter } from 'vue-router'
 import { ref, toRefs, reactive, getCurrentInstance, onMounted } from 'vue'
 import type { TabsPaneContext } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import { account, accountUpdate, getAgentList, getCouponInfo } from '@/http/api/account.ts'
 import { orderList, orderShow } from '@/http/api/order.ts'
+
 const router = useRouter()
 const loading = ref(true);
 const uid = router.currentRoute.value.query.uid

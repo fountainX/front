@@ -17,7 +17,7 @@ const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
 
 const app = createApp(App)
-app.config.globalProperties.$filePath = 'https://narcissus-me.s3.ap-northeast-1.amazonaws.com/';
+app.config.globalProperties.$filePath = 'https://narcissus-ye.s3.ap-northeast-1.amazonaws.com/'
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }

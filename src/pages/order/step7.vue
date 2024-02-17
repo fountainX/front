@@ -30,7 +30,7 @@
     </tbody>
   </table> -->
   <br />
-  <el-alert :title="mark" type="info" />
+  <el-alert :title="mark" type="warning" />
   <br />
   <div>
     <el-upload class="upload" :http-request="subUploadFile" :show-file-list="false" action="" accept="image/*,.pdf">
@@ -59,10 +59,11 @@
   </el-dialog> -->
 </template>
 <script lang="ts">
-import { ref, defineComponent,inject } from 'vue'
+import { ref, defineComponent, inject } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
 import { uploadSingleFile, getTemplate } from '@/http/api/order.ts'
 import FileList from '@/components/fileList/index.vue'
+import { ElMessage } from 'element-plus'
 
 import type { UploadProps, UploadUserFile } from 'element-plus'
 export default defineComponent({
@@ -123,6 +124,7 @@ export default defineComponent({
         order_id: props.orderId
       }).then((res) => {
         console.log('imgList', fileList.value)
+        ElMessage.success('文件上传成功')
         let data = res.data
         const extension = data.file_name.split('.').pop()
         fileList.value.push({ file_name: data.file_name, extension: extension })
@@ -211,6 +213,7 @@ div.table-container {
 .desc {
   margin-top: 30px;
 }
+
 .upload {
   height: 150px;
   width: 150px;
@@ -220,6 +223,7 @@ div.table-container {
   text-align: center;
   line-height: 150px;
   font-weight: bold;
+
   .upload-text {
     color: #ccc !important;
   }

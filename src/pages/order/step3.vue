@@ -3,40 +3,18 @@
     <h2>出具发票</h2>
   </el-divider>
   <div ref="targetElement">
-    <el-form :model="formData" ref="vForm" :rules="rules" label-position="right" label-width="140px" size="small" @submit.prevent>
-      <el-row>
-        <el-col :span="24" class="grid-cell">
-          <el-form-item label="订单号：" prop="businessIncome" class="required label-right-align">
-            {{ order_no }}
-          </el-form-item>
-        </el-col>
-        <el-col :span="24" class="grid-cell">
-          <el-form-item label="客户单位名字：" prop="businessIncome" class="required label-right-align">
-            {{ formData.agentName }}
-          </el-form-item>
-        </el-col>
-        <el-col :span="24" class="grid-cell">
-          <el-form-item label="服务公司名字：" prop="total1" class="required label-right-align">
-            {{ companyName }}
-          </el-form-item>
-        </el-col>
-        <el-col :span="24" class="grid-cell">
-          <el-form-item label="服务内容：" prop="total2" class="required label-right-align">
-            {{ formData.content }}
-          </el-form-item>
-        </el-col>
-        <el-col :span="24" class="grid-cell">
-          <el-form-item label="邮箱：" prop="email" class="label-right-align">
-            <el-input v-model="formData.email" placeholder="默认发送到注册时的邮箱" type="text" style="width: 200px" clearable></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="24" class="grid-cell">
-          <el-form-item label="合计：" prop="isChild" class="label-right-align">
-            <span class="price" style="font-size: 30px">${{ formData.price }}</span>
-          </el-form-item>
-        </el-col>
-      </el-row>
-    </el-form>
+    <br>
+    <el-descriptions>
+      <el-descriptions-item :span="4" label="订单号：">{{ order_no }}</el-descriptions-item>
+      <el-descriptions-item :span="4" label="客户单位名称：">{{ formData.agentName }}</el-descriptions-item>
+      <el-descriptions-item :span="4" label="服务公司名称：">{{ companyName }}</el-descriptions-item>
+      <el-descriptions-item :span="4" label="服务内容：">{{ formData.content }}</el-descriptions-item>
+      <el-descriptions-item :span="4" label="邮箱：">
+        <el-input v-model="formData.email" placeholder="默认发送到注册时的邮箱" style="width: 300px" clearable />
+      </el-descriptions-item>
+      <el-descriptions-item :span="4" label="合计："><span class="price">{{ formData.us ? '$' : '￥' }}{{ formData.price }}</span></el-descriptions-item>
+    </el-descriptions>
+    <br>
   </div>
   <div>
     <el-button @click="generateImage">预览</el-button>
@@ -48,7 +26,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, toRefs, reactive, getCurrentInstance, ref,inject } from 'vue'
+import { defineComponent, toRefs, reactive, getCurrentInstance, ref, inject } from 'vue'
 import html2canvas from 'html2canvas'
 export default defineComponent({
   components: {},
@@ -134,5 +112,10 @@ export default defineComponent({
 <style lang="scss" scoped>
 .desc {
   margin-top: 30px;
+}
+
+.price {
+  color: green;
+  font-size: 20px;
 }
 </style>

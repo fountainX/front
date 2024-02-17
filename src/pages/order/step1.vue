@@ -554,7 +554,6 @@ export default defineComponent({
       resetForm,
       regionChange,
       companyTypeChange,
-      companyTypeChange,
       companyMainIncomeChange,
       order,
       computedTotalPrice,

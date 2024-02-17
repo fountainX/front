@@ -1,6 +1,6 @@
 <template>
   <el-divider content-position="left">
-    <h2>报价</h2>
+    <h2>年审-报价</h2>
   </el-divider>
   <div class="desc">选择您想要的州和业务类型，然后选择您的附加组件以开始您的订单</div>
   <el-form :model="formData" ref="vForm" :rules="rules" label-position="right" label-width="180px" size="default" @submit.prevent>
@@ -35,8 +35,7 @@
                       display: inline;
                     }
                   "
-                  @change="companyTypeChange(item.value)"
-                >
+                  @change="companyTypeChange(item.value)">
                   {{ item.label }}
                 </el-radio>
               </el-radio-group>
@@ -51,10 +50,10 @@
       </el-col>
       <el-col :span="8" class="grid-cell">
         <div class="total-price">
-          <div>原价：${{ computedTotalPrice() }}</div>
+          <div>原价：{{ currentRegion.us === false ? '￥' : '$' }}{{ computedTotalPrice() }}</div>
           <div>
             折扣价：
-            <span class="price">${{ (computedTotalPrice() * rate) / 100 }}</span>
+            <span class="price">{{ currentRegion.us === false ? '￥' : '$' }}{{ (computedTotalPrice() * rate) / 100 }}</span>
           </div>
           <!-- <span class="price">${{ computedTotalPrice() }}</span> -->
         </div>
@@ -79,8 +78,7 @@
                      {
                       display: inline;
                     }
-                  "
-                >
+                  ">
                   否
                 </el-radio>
                 <el-radio
@@ -90,8 +88,7 @@
                      {
                       display: inline;
                     }
-                  "
-                >
+                  ">
                   是
                 </el-radio>
               </el-radio-group>
@@ -120,8 +117,7 @@
                      {
                       display: inline;
                     }
-                  "
-                >
+                  ">
                   否
                 </el-radio>
                 <el-radio
@@ -131,8 +127,7 @@
                      {
                       display: inline;
                     }
-                  "
-                >
+                  ">
                   是
                 </el-radio>
               </el-radio-group>
@@ -476,7 +471,6 @@ export default defineComponent({
       resetForm,
       regionChange,
       companyTypeChange,
-      companyTypeChange,
       companyMainIncomeChange,
       order,
       computedTotalPrice,
@@ -492,6 +486,7 @@ export default defineComponent({
   font-size: 12px;
   width: 100%;
 }
+
 .total-price {
   display: flex;
   flex-direction: column;
@@ -500,10 +495,12 @@ export default defineComponent({
   font-weight: bold;
   font-size: 20px;
   margin-left: 20px;
+
   .price {
     font-size: 24px;
   }
 }
+
 .desc {
   font-size: 14px;
   color: #ccc;
@@ -583,8 +580,7 @@ div.table-container {
   }
 }
 
-div.tab-container {
-}
+div.tab-container {}
 
 .label-left-align :deep(.el-form-item__label) {
   text-align: left;
@@ -598,8 +594,7 @@ div.tab-container {
   text-align: right;
 }
 
-.custom-label {
-}
+.custom-label {}
 
 .static-content-item {
   min-height: 20px;
@@ -625,8 +620,7 @@ div.table-container {
   }
 }
 
-div.tab-container {
-}
+div.tab-container {}
 
 .label-left-align :deep(.el-form-item__label) {
   text-align: left;
@@ -640,8 +634,7 @@ div.tab-container {
   text-align: right;
 }
 
-.custom-label {
-}
+.custom-label {}
 
 .static-content-item {
   min-height: 20px;

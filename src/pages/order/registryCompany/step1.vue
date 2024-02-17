@@ -1,6 +1,6 @@
 <template>
   <el-divider content-position="left">
-    <h2>报价</h2>
+    <h2>注册公司-报价</h2>
   </el-divider>
   <div class="desc">选择您想要的州和业务类型，然后选择您的附加组件以开始您的订单</div>
   <el-form :model="formData" ref="vForm" :rules="rules" label-position="right" label-width="180px" size="default" @submit.prevent>
@@ -51,10 +51,10 @@
       </el-col>
       <el-col :span="8" class="grid-cell">
         <div class="total-price">
-          <div>原价：${{ computedTotalPrice() }}</div>
+          <div>原价：{{ currentRegion.us === false ? '￥' : '$' }}{{ computedTotalPrice() }}</div>
           <div>
             折扣价：
-            <span class="price">${{ (computedTotalPrice() * rate) / 100 }}</span>
+            <span class="price">{{ currentRegion.us === false ? '￥' : '$' }} {{ (computedTotalPrice() * rate) / 100 }}</span>
           </div>
           <!-- <span class="price">${{ computedTotalPrice() }}</span> -->
         </div>
@@ -66,6 +66,8 @@
           <template v-if="item.field_name == 'registration'">
             <el-form-item label="费用：" class="label-right-align">
               <span>{{ item.price }}</span>
+              &nbsp;
+              <el-text v-if="currentRegion.us == false" class="mx-1" type="info">{{ item.rule_content }}</el-text>
               <!-- <el-input :value="item.price" type="text" disabled></el-input> -->
             </el-form-item>
           </template>
@@ -107,12 +109,140 @@
           <template v-if="item.field_name == 'registration'">
             <el-form-item label="费用：" class="label-right-align">
               <span>{{ item.price }}</span>
-              <!-- <el-input :value="item.price" type="text" disabled></el-input> -->
+              &nbsp;
+              <el-text v-if="currentRegion.us == false" class="mx-1" type="info">{{ item.rule_content }}</el-text>
             </el-form-item>
           </template>
           <template v-if="item.field_name == 'is_apply_ssn_ein'">
             <el-form-item :label="item.rule_content + '：'" prop="isApplySsnEin" class="label-right-align">
               <el-radio-group v-model="formData.isApplySsnEin">
+                <el-radio
+                  :value="0"
+                  :label="0"
+                  style="
+                     {
+                      display: inline;
+                    }
+                  "
+                >
+                  否
+                </el-radio>
+                <el-radio
+                  :label="1"
+                  :value="1"
+                  style="
+                     {
+                      display: inline;
+                    }
+                  "
+                >
+                  是
+                </el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </template>
+
+          <template v-if="item.field_name == 'is_chinese_name'">
+            <el-form-item :label="item.rule_content + '：'" prop="is_chinese_name" class="label-right-align">
+              <el-radio-group v-model="formData.is_chinese_name">
+                <el-radio
+                  :value="0"
+                  :label="0"
+                  style="
+                     {
+                      display: inline;
+                    }
+                  "
+                >
+                  否
+                </el-radio>
+                <el-radio
+                  :label="1"
+                  :value="1"
+                  style="
+                     {
+                      display: inline;
+                    }
+                  "
+                >
+                  是
+                </el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </template>
+
+          <template v-if="item.field_name == 'shareholders'">
+            <el-form-item label="股东数大于5个的个数：" prop="shareholders" class="label-right-align">
+              <el-input-number :min="0" v-model="formData.shareholders"></el-input-number>
+              &nbsp;
+              <el-text v-if="currentRegion.us == false" class="mx-1" type="info">{{ item.rule_content }}</el-text>
+            </el-form-item>
+          </template>
+
+          <template v-if="item.field_name == 'certificate_of_incumbency'">
+            <el-form-item :label="item.rule_content + '：'" prop="certificate_of_incumbency" class="label-right-align">
+              <el-radio-group v-model="formData.certificate_of_incumbency">
+                <el-radio
+                  :value="0"
+                  :label="0"
+                  style="
+                     {
+                      display: inline;
+                    }
+                  "
+                >
+                  否
+                </el-radio>
+                <el-radio
+                  :label="1"
+                  :value="1"
+                  style="
+                     {
+                      display: inline;
+                    }
+                  "
+                >
+                  是
+                </el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </template>
+          <template v-if="item.field_name == 'certificate_of_incumbency_num'">
+            <el-form-item :label="item.rule_content + '：'" prop="certificate_of_incumbency_num" class="label-right-align">
+              <el-input-number :min="0" v-model="formData.certificate_of_incumbency_num"></el-input-number>
+            </el-form-item>
+          </template>
+          <template v-if="item.field_name == 'certificate_of_good_standing'">
+            <el-form-item :label="item.rule_content + '：'" prop="certificate_of_good_standing" class="label-right-align">
+              <el-radio-group v-model="formData.certificate_of_good_standing">
+                <el-radio
+                  :value="0"
+                  :label="0"
+                  style="
+                     {
+                      display: inline;
+                    }
+                  "
+                >
+                  否
+                </el-radio>
+                <el-radio
+                  :label="1"
+                  :value="1"
+                  style="
+                     {
+                      display: inline;
+                    }
+                  "
+                >
+                  是
+                </el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </template>
+          <template v-if="item.field_name == 'express_service'">
+            <el-form-item :label="item.rule_content + '：'" prop="express_service" class="label-right-align">
+              <el-radio-group v-model="formData.express_service">
                 <el-radio
                   :value="0"
                   :label="0"
@@ -179,8 +309,12 @@ export default defineComponent({
       formData: {
         selectRegion: '',
         regionText: '',
-        companyType: ''
+        companyType: '',
+        us: true
       } as any,
+      currentRegion: {
+        us: true
+      },
 
       selectAreaOptions: [],
       rules: {
@@ -310,6 +444,13 @@ export default defineComponent({
     // 初始化父组件数据
     state.formData = props.order
     state.formData.isApplySsnEin = props.order.isApplySsnEin || 0
+    state.formData.is_chinese_name = props.order.is_chinese_name || 0
+    state.formData.shareholders = props.order.shareholders || 0
+    state.formData.certificate_of_incumbency = props.order.certificate_of_incumbency || 0
+    state.formData.certificate_of_incumbency_num = props.order.certificate_of_incumbency_num || 0
+    state.formData.certificate_of_good_standing = props.order.certificate_of_good_standing || 0
+    state.formData.express_service = props.order.express_service || 0
+    state.formData.us =  props.order.us || true
     const saveOrder = () => {
       context.emit('update', state.formData)
     }
@@ -395,13 +536,18 @@ export default defineComponent({
       } // 如果是LLC
       else if (state.formData.companyType == 2) {
         ruleListDataLLC.value.map((item) => {
-          // 相乘
           if (item.field_name == 'registration') {
             price1 += item.price
           } else if (item.field_name == 'is_apply_ssn_ein') {
             if (state.formData.isApplySsnEin) {
               price1 += item.price
             }
+          } else if (item.vale_type == 'BOOL') {
+            if (state.formData[item.field_name]) {
+              price1 += item.price
+            }
+          } else if (item.vale_type == 'TEXT_MULTIPLY') {
+            price1 += item.price * state.formData[item.field_name]
           }
         })
       }
@@ -435,6 +581,8 @@ export default defineComponent({
           state.selectAreaOptions.find((item) => {
             return item.code == newVal
           }) || {}
+        state.currentRegion = region
+        state.formData.us = region.us
         state.formData.regionText = region.name
       }
     )
@@ -475,7 +623,6 @@ export default defineComponent({
       resetForm,
       regionChange,
       companyTypeChange,
-      companyTypeChange,
       companyMainIncomeChange,
       order,
       computedTotalPrice,
@@ -491,6 +638,7 @@ export default defineComponent({
   font-size: 12px;
   width: 100%;
 }
+
 .total-price {
   display: flex;
   flex-direction: column;
@@ -499,10 +647,12 @@ export default defineComponent({
   font-weight: bold;
   font-size: 20px;
   margin-left: 20px;
+
   .price {
     font-size: 24px;
   }
 }
+
 .desc {
   font-size: 14px;
   color: #ccc;

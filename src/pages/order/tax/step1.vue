@@ -1,6 +1,6 @@
 <template>
   <el-divider content-position="left">
-    <h2>报价</h2>
+    <h2>报税-报价</h2>
   </el-divider>
   <div class="desc">选择您想要的州和业务类型，然后选择您的附加组件以开始您的订单</div>
   <el-form :model="formData" ref="vForm" :rules="rules" label-position="right" label-width="180px" size="default" @submit.prevent>
