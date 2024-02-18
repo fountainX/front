@@ -113,10 +113,22 @@ export default defineComponent({
         .then((blob) => {
           let type = route.query.type
           let fileName = ''
-          if (type == 'TAX') fileName = '报税_'
-          if (type == 'ANNUAL_REVIEW') fileName = '年审_'
-          if (type == 'ACCOUNTING') fileName = '做账_'
-          if (type == 'REGISTER_COMPANY') fileName = '注册公司_'
+          switch (type) {
+            case 'TAX':
+              fileName = '报税_';
+              break;
+            case 'ANNUAL_REVIEW':
+              fileName = '年审_';
+              break;
+            case 'ACCOUNTING':
+              fileName = '做账_';
+              break;
+            case 'REGISTER_COMPANY':
+              fileName = '注册公司_';
+              break;
+            default:
+              fileName = '其它';
+          }
 
           // 创建一个下载链接
           const url = window.URL.createObjectURL(blob)

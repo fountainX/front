@@ -262,9 +262,8 @@ onMounted(() => {
   padding: 50px;
   border-radius: 5px;
   background: rgba(255, 255, 255, 0.9);
-  margin-bottom: 20px;
+  margin: 0 auto;
   width: 60%;
-  float: right;
 }
 
 .tc {
@@ -279,7 +278,7 @@ onMounted(() => {
 }
 
 .bg {
-  background: url(@/assets/img/contact.jpg) center no-repeat;
-  background-size: cover;
+  /* background: url(@/assets/img/contact.jpg) center no-repeat;
+  background-size: cover; */
 }
 </style>

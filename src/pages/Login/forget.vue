@@ -149,9 +149,8 @@ const resetForm = () => {
 .box {
   border-radius: 5px;
   padding: 30px;
-  margin-bottom: 20px;
-  width: 60%;
-  float: right;
+  margin: 0 auto;
+  width: 50%;
   background: rgba(255, 255, 255, 0.9);
 }
 
@@ -167,7 +166,7 @@ const resetForm = () => {
 }
 
 .bg {
-  background: url(@/assets/img/video-bg.jpg) center no-repeat;
-  background-size: cover;
+  /* background: url(@/assets/img/video-bg.jpg) center no-repeat;
+  background-size: cover; */
 }
 </style>

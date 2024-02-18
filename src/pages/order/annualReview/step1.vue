@@ -177,7 +177,9 @@ export default defineComponent({
         companyType: '',
         agentAddress: 0
       } as any,
-
+      currentRegion: {
+        us: true
+      },
       selectAreaOptions: [],
       rules: {
         mainBusinessType: [
@@ -431,6 +433,8 @@ export default defineComponent({
           state.selectAreaOptions.find((item) => {
             return item.code == newVal
           }) || {}
+        state.currentRegion = region
+        state.formData.us = region.us
         state.formData.regionText = region.name
       }
     )

@@ -141,7 +141,7 @@
     <el-divider content-position="left">签回</el-divider>
     <div>
       <br />
-      <el-image v-for="(item, index) in backSign" style="width: 100px" :src="item" :zoom-rate="1.2" :max-scale="7" :min-scale="0.2" :preview-src-list="backSign" :initial-index="index" fit="cover" />
+      <el-image v-for="(item, index) in backSign" style="width: 100px" :src="$filePath + item" :zoom-rate="1.2" :max-scale="7" :min-scale="0.2" :preview-src-list="getAwsList($filePath, backSign)" :initial-index="index" fit="cover" />
     </div>
     <div></div>
   </div>
@@ -187,6 +187,11 @@ export default defineComponent({
         return {}
       }
     }
+    const getAwsList = (path, list) => {
+      return list.map((item) => {
+        return path + item
+      })
+    }
     const { order, invoice, pay, upload, sign, backSign } = props.detail
     const order_no = props.order_no
     let mark = '注：请在'
@@ -214,7 +219,8 @@ export default defineComponent({
       ruleListDataLLC,
       props,
       getItemFromC,
-      getItemFromLLC
+      getItemFromLLC,
+      getAwsList
     }
   }
 })

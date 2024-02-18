@@ -166,7 +166,7 @@
     <el-divider content-position="left">签回</el-divider>
     <div>
       <br />
-      <el-image v-for="(item, index) in backSign" style="width: 100px" :src="item" :zoom-rate="1.2" :max-scale="7" :min-scale="0.2" :preview-src-list="backSign" :initial-index="index" fit="cover" />
+      <el-image v-for="(item, index) in backSign" style="width: 100px" :src="$filePath + item" :zoom-rate="1.2" :max-scale="7" :min-scale="0.2" :preview-src-list="getAwsList($filePath, backSign)" :initial-index="index" fit="cover" />
     </div>
     <div></div>
   </div>
@@ -206,6 +206,11 @@ export default defineComponent({
     })
 
     mark += '签字后扫描复印件或手机拍照上传'
+    const getAwsList = (path, list) => {
+      return list.map((item) => {
+        return path + item
+      })
+    }
     return {
       order,
       pay,
@@ -217,7 +222,8 @@ export default defineComponent({
       order_no,
       ruleListDataC,
       ruleListDataLLC,
-      props
+      props,
+      getAwsList
     }
   }
 })

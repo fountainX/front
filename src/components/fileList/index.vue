@@ -12,6 +12,7 @@
         <el-image :style="{ width: props.size + 'px', height: props.size + 'px' }" class="item" v-else-if="item.extension == 'doc' || item.extension == 'docx'" :src="docImage" @click="down(item)"></el-image>
         <el-image :style="{ width: props.size + 'px', height: props.size + 'px' }" class="item" v-else-if="item.extension == 'xls' || item.extension == 'xlsx'" :src="xlsImage" @click="down(item)"></el-image>
         <el-image :style="{ width: props.size + 'px', height: props.size + 'px' }" class="item" v-else-if="item.extension == 'ppt' || item.extension == 'pptx'" :src="ppfImage" @click="down(item)"></el-image>
+        <el-image :style="{ width: props.size + 'px', height: props.size + 'px' }" class="item" v-else-if="item.extension == 'zip' || item.extension == 'rar'" :src="rarImage" @click="down(item)"></el-image>
         <el-image :style="{ width: props.size + 'px', height: props.size + 'px' }" class="item" v-else :src="otherImage" @click="down(item)"></el-image>
 
         <div style="display: flex">
@@ -33,6 +34,7 @@ import docImage from './word.png'
 import xlsImage from './excel.png'
 import ppfImage from './ppt.png'
 import otherImage from './other.png'
+import rarImage from './rar.png'
 export default defineComponent({
   components: {},
   props: {
@@ -80,6 +82,7 @@ export default defineComponent({
       list,
       pdfImage,
       otherImage,
+      rarImage,
       docImage,
       ppfImage,
       xlsImage,
@@ -99,6 +102,10 @@ export default defineComponent({
   // overflow: hidden;
   // text-overflow: ellipsis;
   // white-space: nowrap;
+}
+
+.el-image__inner {
+  background: #FFF;
 }
 
 .pdf {}

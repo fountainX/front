@@ -29,7 +29,7 @@ export function accountForget(data) {
 }
 
 export function accountReset(data) {
-  return http.post(`/account/reset`, data)
+  return http.post(`/account/reset?code=${data.code}&password=${data.password}`, data)
 }
 
 export async function accountRegister(data) {

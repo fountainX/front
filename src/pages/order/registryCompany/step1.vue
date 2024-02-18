@@ -17,7 +17,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6" style="margin-left: 40px">
-                <span @click="cs">非美国</span>
+                <el-button plain @click="nonUS()">非美国</el-button>
               </el-col>
             </el-row>
           </el-col>
@@ -35,8 +35,7 @@
                       display: inline;
                     }
                   "
-                  @change="companyTypeChange(item.value)"
-                >
+                  @change="companyTypeChange(item.value)">
                   {{ item.label }}
                 </el-radio>
               </el-radio-group>
@@ -81,8 +80,7 @@
                      {
                       display: inline;
                     }
-                  "
-                >
+                  ">
                   否
                 </el-radio>
                 <el-radio
@@ -92,8 +90,7 @@
                      {
                       display: inline;
                     }
-                  "
-                >
+                  ">
                   是
                 </el-radio>
               </el-radio-group>
@@ -123,8 +120,7 @@
                      {
                       display: inline;
                     }
-                  "
-                >
+                  ">
                   否
                 </el-radio>
                 <el-radio
@@ -134,8 +130,7 @@
                      {
                       display: inline;
                     }
-                  "
-                >
+                  ">
                   是
                 </el-radio>
               </el-radio-group>
@@ -152,8 +147,7 @@
                      {
                       display: inline;
                     }
-                  "
-                >
+                  ">
                   否
                 </el-radio>
                 <el-radio
@@ -163,8 +157,7 @@
                      {
                       display: inline;
                     }
-                  "
-                >
+                  ">
                   是
                 </el-radio>
               </el-radio-group>
@@ -189,8 +182,7 @@
                      {
                       display: inline;
                     }
-                  "
-                >
+                  ">
                   否
                 </el-radio>
                 <el-radio
@@ -200,8 +192,7 @@
                      {
                       display: inline;
                     }
-                  "
-                >
+                  ">
                   是
                 </el-radio>
               </el-radio-group>
@@ -222,8 +213,7 @@
                      {
                       display: inline;
                     }
-                  "
-                >
+                  ">
                   否
                 </el-radio>
                 <el-radio
@@ -233,8 +223,7 @@
                      {
                       display: inline;
                     }
-                  "
-                >
+                  ">
                   是
                 </el-radio>
               </el-radio-group>
@@ -250,8 +239,7 @@
                      {
                       display: inline;
                     }
-                  "
-                >
+                  ">
                   否
                 </el-radio>
                 <el-radio
@@ -261,8 +249,7 @@
                      {
                       display: inline;
                     }
-                  "
-                >
+                  ">
                   是
                 </el-radio>
               </el-radio-group>
@@ -272,17 +259,22 @@
       </el-row>
     </div>
   </el-form>
+
+  <el-dialog v-model="dialogFormVisible" title="非美国">
+    <SeekAdvice :params="query"></SeekAdvice>
+  </el-dialog>
 </template>
 
 <script lang="ts">
 import { defineComponent, toRefs, reactive, getCurrentInstance, onMounted, ref, watch, inject } from 'vue'
 import { regionList, ruleList } from '@/http/api/pub.ts'
+import SeekAdvice from '@/pages/customerService/index.vue'
 // import { ruleList, agentList, invoiceList } from '@/http/api/pub.ts'
 
 import { useRouter, useRoute } from 'vue-router'
 
 export default defineComponent({
-  components: {},
+  components: { SeekAdvice },
   // props: ['order'],
   props: {
     orderId: 0,
@@ -450,7 +442,7 @@ export default defineComponent({
     state.formData.certificate_of_incumbency_num = props.order.certificate_of_incumbency_num || 0
     state.formData.certificate_of_good_standing = props.order.certificate_of_good_standing || 0
     state.formData.express_service = props.order.express_service || 0
-    state.formData.us =  props.order.us || true
+    state.formData.us = props.order.us || true
     const saveOrder = () => {
       context.emit('update', state.formData)
     }
@@ -569,6 +561,23 @@ export default defineComponent({
       }
       router.push({ name: 'customerService', query: query })
     }
+    let dialogFormVisible = ref(false)
+    let query = reactive({
+      type: 40,
+      desc: '注册'
+    })
+    const nonUS = () => {
+      debugger
+      dialogFormVisible.value = true
+      if (props.orderId) {
+        query.orderId = props.orderId
+      }
+      if (props.orderStatus) {
+        query.orderStatus = props.orderStatus
+      }
+
+      // router.push({ name: 'customerService', query: query })
+    }
     onMounted(() => {
       // state.formData = order
       getRegionList()
@@ -626,8 +635,10 @@ export default defineComponent({
       companyMainIncomeChange,
       order,
       computedTotalPrice,
-      cs,
-      changeCompanyName
+      nonUS,
+      changeCompanyName,
+      dialogFormVisible,
+      query
     }
   }
 })
@@ -732,8 +743,7 @@ div.table-container {
   }
 }
 
-div.tab-container {
-}
+div.tab-container {}
 
 .label-left-align :deep(.el-form-item__label) {
   text-align: left;
@@ -747,8 +757,7 @@ div.tab-container {
   text-align: right;
 }
 
-.custom-label {
-}
+.custom-label {}
 
 .static-content-item {
   min-height: 20px;
@@ -774,8 +783,7 @@ div.table-container {
   }
 }
 
-div.tab-container {
-}
+div.tab-container {}
 
 .label-left-align :deep(.el-form-item__label) {
   text-align: left;
@@ -789,8 +797,7 @@ div.tab-container {
   text-align: right;
 }
 
-.custom-label {
-}
+.custom-label {}
 
 .static-content-item {
   min-height: 20px;

@@ -131,7 +131,8 @@ const userLogin = () => {
         getAccount(res.data.uid)
         ElMessage.success('登录成功')
         setTimeout(() => {
-          router.push('/ucenter?uid=' + res.data.uid)
+          // router.push('/ucenter?uid=' + res.data.uid)
+          router.push('/')
         }, 200);
         // location.reload()
       }
@@ -235,9 +236,8 @@ const resetForm = () => {
   padding: 50px;
   border-radius: 5px;
   background: rgba(255, 255, 255, 0.9);
-  margin-bottom: 20px;
+  margin: 0 auto;
   width: 50%;
-  float: right;
 }
 
 .flex {

@@ -509,7 +509,6 @@ export default defineComponent({
       desc: '报税'
     })
     const nonUS = () => {
-      debugger
       dialogFormVisible.value = true
       if (props.orderId) {
         query.orderId = props.orderId

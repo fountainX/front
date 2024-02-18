@@ -4,7 +4,7 @@
   </el-divider>
   <div class="desc">签回图片</div>
   <div class="demo-image__lazy">
-    <el-image v-for="url in backSign" :key="url" :src="url" lazy />
+    <el-image v-for="url in backSign" :key="url" :src="$filePath + url" lazy />
   </div>
 </template>
 <script lang="ts">

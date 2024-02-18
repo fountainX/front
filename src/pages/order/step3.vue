@@ -13,6 +13,7 @@
         <el-input v-model="formData.email" placeholder="默认发送到注册时的邮箱" style="width: 300px" clearable />
       </el-descriptions-item>
       <el-descriptions-item :span="4" label="合计："><span class="price">{{ formData.us ? '$' : '￥' }}{{ formData.price }}</span></el-descriptions-item>
+      <el-descriptions-item :span="4" label="最终价格：" v-if="formData.finalPrice !== ''"><span class="price">{{ formData.us ? '$' : '￥' }}{{ formData.finalPrice }}</span></el-descriptions-item>
     </el-descriptions>
     <br>
   </div>

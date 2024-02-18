@@ -87,7 +87,7 @@ import Step7 from './step7.vue'
 import Step8 from './step8.vue'
 // import Step9 from './step9.vue'
 import { orderCreate, orderUpdate, orderShow, updateOrderStatus } from '@/http/api/order.ts'
-import { ruleList } from '@/http/api/pub.ts'
+import { ruleList,agentShow } from '@/http/api/pub.ts'
 const router = useRouter()
 let type = router.currentRoute.value.query.type
 let typeValue
@@ -107,6 +107,7 @@ switch (type) {
   default:
     break
 }
+const agent = ref()
 const orderId = ref(router.currentRoute.value.query.orderId)
 const userInfo = JSON.parse(localStorage.getItem('userInfo'))
 // 阶段状态
@@ -128,6 +129,11 @@ const ruleListDataLLC = ref([])
 provide('ruleListDataC', ruleListDataC)
 provide('ruleListDataLLC', ruleListDataLLC)
 provide('typeValue', typeValue)
+const getAgent = () => {
+  agentShow({agent_id:userInfo.agent_id}).then(res=>{
+    agent.value = res.data;
+  });
+}
 const getRuleList = (data) => {
   // TAX   ANNUAL_REVIEW  ACCOUNTING    REGISTER_COMPANY  SALE_TAX
   let region = data.selectRegion
@@ -265,7 +271,7 @@ const updateOrderStatusHandle = async (status) => {
   }, 300);
 }
 const createOrder = () => {
-  orderCreate({ order_status: 10, businessType: typeValue, creator: userInfo.uid, companyName: companyName.value, content: param })
+  orderCreate({ order_status: 10, businessType: typeValue, creator: userInfo.uid, companyName: companyName.value, content: {param ,...agent.value}})
     .then((res: any) => {
       orderId.value = res.data.order_id
       active.value = active.value + 1
@@ -329,6 +335,8 @@ const initOrder = () => {
       param.sign = { ...param.sign, ...content.sign }
       param.backSign = content.backSign
       param.isDone = content.isDone
+      param.agent_id = content.agent_id
+      param.agent_name = content.agent_name
       orderStatus.value = data.order_status
       order_no.value = data.order_no
       let index = statusList[orderStatus.value.toString()].active
@@ -344,6 +352,7 @@ onMounted(() => {
   if (orderId.value !== undefined) {
     initOrder()
   }
+  getAgent();
 })
 </script>
 <style scoped>
