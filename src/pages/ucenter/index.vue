@@ -85,7 +85,7 @@
 </template>
 <script lang="ts" setup>
 import Header from '../../components/header.vue'
-import Footer from '../../components/Footer.vue'
+import Footer from '../../components/footer.vue'
 import { useRouter } from 'vue-router'
 import { ref, toRefs, reactive, getCurrentInstance, onMounted } from 'vue'
 import type { TabsPaneContext } from 'element-plus'
