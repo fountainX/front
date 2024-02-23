@@ -39,7 +39,7 @@
               <RegistryCompanyStep9 v-if="active == 8" :detail="param" :companyName="companyName" :order_no="order_no" :orderId="orderId"></RegistryCompanyStep9>
             </template>
             <!-- <Step2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no" @update="updatePrice"></Step2> -->
-            <Step3 ref="step" v-if="active == 2" :companyName="companyName" :invoice="param.invoice" :order_no="order_no" @update="updateInvoice"></Step3>
+            <Step3 ref="step" v-if="active == 2" :agentName="param.agent_name" :companyName="companyName" :invoice="param.invoice" :order_no="order_no" @update="updateInvoice"></Step3>
             <Step4 ref="step" v-if="active == 3" :pay="param.pay" @update="updatePayInfo" :orderId="orderId"></Step4>
             <Step5 ref="step" v-if="active == 4" :upload="param.upload" @update="updateUploadList" :orderId="orderId"></Step5>
             <Step6 ref="step" v-if="active == 5" :upload="param.upload"></Step6>
@@ -87,8 +87,10 @@ import Step7 from './step7.vue'
 import Step8 from './step8.vue'
 // import Step9 from './step9.vue'
 import { orderCreate, orderUpdate, orderShow, updateOrderStatus } from '@/http/api/order.ts'
-import { ruleList,agentShow } from '@/http/api/pub.ts'
+import { ruleList, agentShow } from '@/http/api/pub.ts'
+import { getToken } from '@/utils/auth.ts'
 const router = useRouter()
+
 let type = router.currentRoute.value.query.type
 let typeValue
 switch (type) {
@@ -109,7 +111,18 @@ switch (type) {
 }
 const agent = ref()
 const orderId = ref(router.currentRoute.value.query.orderId)
-const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+const userInfo = ref(JSON.parse(localStorage.getItem('userInfo') as any))
+
+console.log(11, getToken())
+const isLogin = () => {
+  if (userInfo.value == null) {
+    userInfo.value = { agent: '' }
+    router.push("/login")
+    return
+  }
+}
+isLogin()
+
 // 阶段状态
 const stage = reactive([
   { name: 'QUOTATION_STARTED', val: 10 }, // 已付款
@@ -130,9 +143,9 @@ provide('ruleListDataC', ruleListDataC)
 provide('ruleListDataLLC', ruleListDataLLC)
 provide('typeValue', typeValue)
 const getAgent = () => {
-  agentShow({agent_id:userInfo.agent_id}).then(res=>{
-    agent.value = res.data;
-  });
+  agentShow({ agent_id: userInfo.value.agent_id }).then((res) => {
+    agent.value = res.data
+  })
 }
 const getRuleList = (data) => {
   // TAX   ANNUAL_REVIEW  ACCOUNTING    REGISTER_COMPANY  SALE_TAX
@@ -183,11 +196,11 @@ let param: any = reactive({
     isConfirm: false
   },
   invoice: {
-    agentName: userInfo.agent,
-    companyName: userInfo.company_name,
+    agentName: userInfo.value.agent,
+    companyName: userInfo.value.company_name,
     content: '',
     price: 0,
-    email: userInfo.email
+    email: userInfo.value.email
   },
   pay: {
     voucher: []
@@ -265,13 +278,21 @@ const updateOrderStatusHandle = async (status) => {
     orderStatus: status,
     businessType: typeValue
   })
+  router.replace({
+    path: '/order',
+    query: {
+      type: type,
+      orderId: orderId.value
+    }
+  })
 
-  setTimeout(() => {
-    window.location.href = window.location.href + '&orderId=' + orderId.value
-  }, 300);
+  // setTimeout(() => {
+  //   window.location.href = window.location.href + '&orderId=' + orderId.value
+  // }, 300);
 }
 const createOrder = () => {
-  orderCreate({ order_status: 10, businessType: typeValue, creator: userInfo.uid, companyName: companyName.value, content: {param ,...agent.value}})
+  console.log(agent.value);
+  orderCreate({ order_status: 10, businessType: typeValue, creator: userInfo.uid, companyName: companyName.value, content: { ...param, ...agent.value } })
     .then((res: any) => {
       orderId.value = res.data.order_id
       active.value = active.value + 1
@@ -352,7 +373,7 @@ onMounted(() => {
   if (orderId.value !== undefined) {
     initOrder()
   }
-  getAgent();
+  getAgent()
 })
 </script>
 <style scoped>

@@ -56,8 +56,8 @@
     <el-divider content-position="left">出具发票</el-divider>
     <div>
       <el-descriptions :column="1">
-        <el-descriptions-item label="客户单位名称：">{{ invoice.agentName }}</el-descriptions-item>
-        <el-descriptions-item label="服务公司名称：">{{ props.companyName }}</el-descriptions-item>
+        <el-descriptions-item label="客户单位名称：">{{ companyName }}</el-descriptions-item>
+        <el-descriptions-item label="服务公司名称：">{{ agent_name }}</el-descriptions-item>
         <el-descriptions-item label="服务内容：">{{ invoice.content }}</el-descriptions-item>
         <el-descriptions-item label="邮箱：">{{ invoice.email }}</el-descriptions-item>
       </el-descriptions>
@@ -65,6 +65,12 @@
         <span class="total-price">
           <span>合计：</span>
           <span class="price">{{ order.us === false ? '￥' : '$' }}{{ invoice.price }}</span>
+        </span>
+      </div>
+      <div>
+        <span class="total-price">
+          <span>最终价格：</span>
+          <span class="price">{{ order.us === false ? '￥' : '$' }}{{ invoice.finalPrice }}</span>
         </span>
       </div>
     </div>
@@ -148,7 +154,7 @@ export default defineComponent({
   setup(props, context) {
     const ruleListDataC = inject('ruleListDataC')
     const ruleListDataLLC = inject('ruleListDataLLC')
-    const { order, invoice, pay, upload, sign, backSign } = props.detail
+    const { order, invoice, pay, upload, sign, backSign, agent_name } = props.detail
     const order_no = props.order_no
     let mark = '注：请在'
     sign.mark.map((item, index) => {
@@ -179,6 +185,7 @@ export default defineComponent({
       ruleListDataC,
       ruleListDataLLC,
       props,
+      agent_name,
       getAwsList
     }
   }
@@ -234,6 +241,7 @@ div.table-container {
   font-size: 24px;
   font-weight: bold;
   color: #000;
+  line-height: 50px;
 
   .price {
     color: #67c23a;

@@ -9,9 +9,9 @@
         <el-row>
           <el-col :span="24">
             <el-row>
-              <el-col :span="12">
+              <el-col :span="15">
                 <el-form-item label="选择区域：" prop="selectRegion" class="label-right-align">
-                  <el-select @change="regionChange" v-model="formData.selectRegion" class="full-width-input" placeholder="请选择" clearable>
+                  <el-select @change="regionChange" v-model="formData.selectRegion" placeholder="请选择" clearable>
                     <el-option v-for="(item, index) in selectAreaOptions" :key="index" :label="item.name" :value="item.code"></el-option>
                   </el-select>
                 </el-form-item>
@@ -567,7 +567,6 @@ export default defineComponent({
       desc: '注册'
     })
     const nonUS = () => {
-      debugger
       dialogFormVisible.value = true
       if (props.orderId) {
         query.orderId = props.orderId

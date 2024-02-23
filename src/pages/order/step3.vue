@@ -6,8 +6,8 @@
     <br>
     <el-descriptions>
       <el-descriptions-item :span="4" label="订单号：">{{ order_no }}</el-descriptions-item>
-      <el-descriptions-item :span="4" label="客户单位名称：">{{ formData.agentName }}</el-descriptions-item>
-      <el-descriptions-item :span="4" label="服务公司名称：">{{ companyName }}</el-descriptions-item>
+      <el-descriptions-item :span="4" label="客户单位名称：">{{ companyName }}</el-descriptions-item>
+      <el-descriptions-item :span="4" label="服务公司名称：">{{ agentName }}</el-descriptions-item>
       <el-descriptions-item :span="4" label="服务内容：">{{ formData.content }}</el-descriptions-item>
       <el-descriptions-item :span="4" label="邮箱：">
         <el-input v-model="formData.email" placeholder="默认发送到注册时的邮箱" style="width: 300px" clearable />
@@ -32,6 +32,9 @@ import html2canvas from 'html2canvas'
 export default defineComponent({
   components: {},
   props: {
+    agentName:{
+      type:String
+    },
     invoice: {
       type: Object
     },

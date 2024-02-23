@@ -5,12 +5,12 @@
   <div class="desc">以下是回传签字资料PDF文件，下载请按要求签字</div>
   <br />
   <div class="table-container">
-    <FileList :list="[sign.pdf]" :size="50" :showDownload="true" />
+    <FileList v-if="sign.pdf" :list="[sign.pdf]" :size="50" :showDownload="true" />
   </div>
   <br />
   <span>提示：签字内容请参考以下示例</span>
   <br />
-  <FileList :key="templateList.length" :list="transferFile(templateList)" :showDownload="true" :size="50" />
+  <FileList  :key="templateList.length" :list="transferFile(templateList)" :showDownload="true" :size="50" />
 
   <!-- <table class="table-layout">
     <tbody>
@@ -31,6 +31,8 @@
   </table> -->
   <br />
   <el-alert :title="mark" type="warning" />
+  <el-image style="height: 100px;width: 100px;border: 1px dashed #ccc;margin-right: 10px;margin-top: 10px;" fit="contain" v-for="item in sign.mark" :src="$filePath + item.image" :preview-src-list="[$filePath + item.image]"
+  ></el-image>
   <br />
   <div>
     <el-upload class="upload" :http-request="subUploadFile" :show-file-list="false" action="" accept="image/*,.pdf">
@@ -136,8 +138,8 @@ export default defineComponent({
     }
     const getTemplateList = () => {
       getTemplate({ business_type: typeValue, order_status: 17 }).then((res) => {
-        templateList.value = res.data
-        console.log(templateList)
+        // templateList.value = res.data
+        console.log("templateList",templateList)
       })
     }
     const preview1 = (file_name) => {

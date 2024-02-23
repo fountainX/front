@@ -126,6 +126,10 @@ const userLogin = () => {
   accountLogin(formLogin)
     .then((res: any) => {
       console.log('Login', res)
+      if (res.status == 403) {
+        ElMessage.error('等待管理员激活登录')
+        return
+      }
       if (res.code == 200) {
         setToken(res.data.accessToken)
         getAccount(res.data.uid)

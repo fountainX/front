@@ -7,23 +7,23 @@
     <div class="file-container">
       <div class="sub-container" v-for="(item, index) in list" :key="item.file_name">
         <el-icon v-if="props.showRemove" size="16" class="remove" @click.stop="remove(index)"><Delete /></el-icon>
-        <el-image :style="{ width: props.size + 'px', height: props.size + 'px' }" class="item" v-if="item.extension == 'pdf'" :src="pdfImage" @click="showPDF(item)"></el-image>
-        <el-image :style="{ width: props.size + 'px', height: props.size + 'px' }" class="item" v-else-if="item.extension == 'jpg' || item.extension == 'png' || item.extension == 'jpeg'" :src="$filePath + item.file_name" :preview-src-list="[$filePath + item.file_name]" fit="contain" />
-        <el-image :style="{ width: props.size + 'px', height: props.size + 'px' }" class="item" v-else-if="item.extension == 'doc' || item.extension == 'docx'" :src="docImage" @click="down(item)"></el-image>
-        <el-image :style="{ width: props.size + 'px', height: props.size + 'px' }" class="item" v-else-if="item.extension == 'xls' || item.extension == 'xlsx'" :src="xlsImage" @click="down(item)"></el-image>
-        <el-image :style="{ width: props.size + 'px', height: props.size + 'px' }" class="item" v-else-if="item.extension == 'ppt' || item.extension == 'pptx'" :src="ppfImage" @click="down(item)"></el-image>
-        <el-image :style="{ width: props.size + 'px', height: props.size + 'px' }" class="item" v-else-if="item.extension == 'zip' || item.extension == 'rar'" :src="rarImage" @click="down(item)"></el-image>
-        <el-image :style="{ width: props.size + 'px', height: props.size + 'px' }" class="item" v-else :src="otherImage" @click="down(item)"></el-image>
+        <el-image :style="{ width: props.size + 'px'}" class="item" v-if="item.extension == 'pdf'" :src="pdfImage" @click="showPDF(item)"></el-image>
+        <el-image :style="{ width: props.size + 'px'}" class="item" v-else-if="item.extension == 'jpg' || item.extension == 'png' || item.extension == 'jpeg'" :src="$filePath +  encodeURIComponent(item.file_name)" :preview-src-list="[$filePath + encodeURIComponent(item.file_name)]" fit="contain" />
+        <el-image :style="{ width: props.size + 'px'}" class="item" v-else-if="item.extension == 'doc' || item.extension == 'docx'" :src="docImage" @click="down(item)"></el-image>
+        <el-image :style="{ width: props.size + 'px'}" class="item" v-else-if="item.extension == 'xls' || item.extension == 'xlsx'" :src="xlsImage" @click="down(item)"></el-image>
+        <el-image :style="{ width: props.size + 'px'}" class="item" v-else-if="item.extension == 'ppt' || item.extension == 'pptx'" :src="ppfImage" @click="down(item)"></el-image>
+        <el-image :style="{ width: 60 + 'px'}" class="item" v-else-if="item.extension == 'zip' || item.extension == 'rar'" :src="rarImage" @click="down(item)"></el-image>
+        <el-image :style="{ width: props.size + 'px'}" class="item" v-else :src="otherImage" @click="down(item)"></el-image>
 
         <div style="display: flex">
-          <div class="title" :title="item.file_name">{{ item.file_name }}</div>
-          <a class="dw" v-if="props.showDownload" :href="$filePath + item.file_name" download>下载</a>
+          <div class="title" :title="item.file_name">{{ decodeURIComponent(item.file_name) }}</div>
+          <a class="dw" v-if="props.showDownload" :href="$filePath + encodeURIComponent(item.file_name)" download>下载</a>
         </div>
       </div>
     </div>
 
     <el-dialog v-model="dialogVisible" title="预览">
-      <embed :src="[$filePath + currentPDF.file_name]" type="application/pdf" width="100%" height="600px" />
+      <embed :src="[$filePath + encodeURIComponent(currentPDF.file_name)]" type="application/pdf" width="100%" height="600px" />
     </el-dialog>
   </div>
 </template>
@@ -127,10 +127,10 @@ export default defineComponent({
 }
 
 .sub-container {
+  word-break: break-all;
   display: flex;
   align-items: center;
   position: relative;
-  margin: 10px 0;
   border: 1px dotted #ccc;
   padding: 10px;
   width: 100%;
@@ -155,5 +155,9 @@ export default defineComponent({
   border: 1px dashed #ccc;
   cursor: pointer;
   margin-right: 10px;
+}
+
+.el-upload-list__item .el-upload-list__item-info {
+  opacity: 0;
 }
 </style>

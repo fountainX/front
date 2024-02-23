@@ -9,15 +9,15 @@
         <el-row>
           <el-col :span="24">
             <el-row>
-              <el-col :span="12">
+              <el-col :span="15">
                 <el-form-item label="选择区域：" prop="selectRegion" class="label-right-align">
-                  <el-select @change="regionChange" v-model="formData.selectRegion" class="full-width-input" placeholder="请选择" clearable>
+                  <el-select @change="regionChange" v-model="formData.selectRegion" placeholder="请选择" clearable>
                     <el-option v-for="(item, index) in selectAreaOptions" :key="index" :label="item.name" :value="item.code"></el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="6" style="margin-left: 40px">
-                <span @click="cs">非美国</span>
+                <el-button plain @click="nonUS()">非美国</el-button>
               </el-col>
             </el-row>
           </el-col>
@@ -137,17 +137,22 @@
       </el-row>
     </div>
   </el-form>
+
+  <el-dialog v-model="dialogFormVisible" title="非美国">
+    <SeekAdvice :params="query"></SeekAdvice>
+  </el-dialog>
 </template>
 
 <script lang="ts">
 import { defineComponent, toRefs, reactive, getCurrentInstance, onMounted, ref, watch, inject } from 'vue'
 import { regionList, ruleList } from '@/http/api/pub.ts'
+import SeekAdvice from '@/pages/customerService/index.vue'
 // import { ruleList, agentList, invoiceList } from '@/http/api/pub.ts'
 
 import { useRouter, useRoute } from 'vue-router'
 
 export default defineComponent({
-  components: {},
+  components: { SeekAdvice },
   // props: ['order'],
   props: {
     orderId: 0,
@@ -421,6 +426,22 @@ export default defineComponent({
       }
       router.push({ name: 'customerService', query: query })
     }
+    let dialogFormVisible = ref(false)
+    let query = reactive({
+      type: 20,
+      desc: '报税'
+    })
+    const nonUS = () => {
+      dialogFormVisible.value = true
+      if (props.orderId) {
+        query.orderId = props.orderId
+      }
+      if (props.orderStatus) {
+        query.orderStatus = props.orderStatus
+      }
+
+      // router.push({ name: 'customerService', query: query })
+    }
     onMounted(() => {
       // state.formData = order
       getRegionList()
@@ -478,8 +499,10 @@ export default defineComponent({
       companyMainIncomeChange,
       order,
       computedTotalPrice,
-      cs,
-      changeCompanyName
+      nonUS,
+      changeCompanyName,
+      dialogFormVisible,
+      query
     }
   }
 })

@@ -75,8 +75,8 @@
     <el-divider content-position="left">出具发票</el-divider>
     <div>
       <el-descriptions :column="1">
-        <el-descriptions-item label="客户单位名称：">{{ invoice.agentName }}</el-descriptions-item>
-        <el-descriptions-item label="服务公司名称：">{{ props.companyName }}</el-descriptions-item>
+        <el-descriptions-item label="客户单位名称：">{{ companyName }}</el-descriptions-item>
+        <el-descriptions-item label="服务公司名称：">{{ agent_name }}</el-descriptions-item>
         <el-descriptions-item label="服务内容：">{{ invoice.content }}</el-descriptions-item>
         <el-descriptions-item label="邮箱：">{{ invoice.email }}</el-descriptions-item>
       </el-descriptions>
@@ -84,6 +84,12 @@
         <span class="total-price">
           <span>合计：</span>
           <span class="price">${{ invoice.price }}</span>
+        </span>
+      </div>
+      <div>
+        <span class="total-price">
+          <span>最终价格：</span>
+          <span class="price">{{ order.us === false ? '￥' : '$' }}{{ invoice.finalPrice }}</span>
         </span>
       </div>
     </div>
@@ -141,7 +147,7 @@
     <el-divider content-position="left">签回</el-divider>
     <div>
       <br />
-      <el-image v-for="(item, index) in backSign" style="width: 100px" :src="$filePath+item" :zoom-rate="1.2" :max-scale="7" :min-scale="0.2" :preview-src-list="getAwsList($filePath, backSign)" :initial-index="index" fit="cover" />
+      <el-image v-for="(item, index) in backSign" style="width: 100px" :src="$filePath + item" :zoom-rate="1.2" :max-scale="7" :min-scale="0.2" :preview-src-list="getAwsList($filePath, backSign)" :initial-index="index" fit="cover" />
     </div>
     <div></div>
   </div>
@@ -253,6 +259,7 @@ div.table-container {
   font-size: 24px;
   font-weight: bold;
   color: #000;
+  line-height: 50px;
 
   span:nth-child(1) {
     display: inline-block;

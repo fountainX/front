@@ -164,11 +164,8 @@ export default defineComponent({
         localStorage.setItem('lang', lang)
       },
       init: () => {
-        data.userInfo = JSON.parse(localStorage.getItem('userInfo'))
-        console.log(localStorage.getItem('userInfo'))
-        if (data.userInfo == null) {
-          data.userInfo = 'null'
-        }
+        let u = JSON.parse(localStorage.getItem('userInfo') as any)
+        if (u !== null) data.userInfo = u
       },
       login: () => {
         router.push('/login')

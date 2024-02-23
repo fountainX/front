@@ -96,7 +96,16 @@ import { orderList, orderShow } from '@/http/api/order.ts'
 const router = useRouter()
 const loading = ref(true);
 const uid = router.currentRoute.value.query.uid
-const userInfo = JSON.parse(localStorage.getItem('userInfo'))
+const userInfo = ref(JSON.parse(localStorage.getItem('userInfo') as any))
+const isLogin = () => {
+  if (userInfo.value == null) {
+    userInfo.value = { uid: '' }
+    router.push("/login")
+    return
+  }
+}
+isLogin()
+
 const businessTypeList = [
   {
     id: 10,
