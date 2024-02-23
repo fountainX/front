@@ -1,1 +1,0 @@
-import{H as n}from"../Http/Http.fa37c74c.js";function a(t){return n.get(`/account/show/${t.uid}`)}function u(t,c){return n.post(`/account/update/${t}`,c)}async function e(t){return n.post("/account/login",t)}async function s(t){return n.post("/account/register",t)}async function r(){return n.get("/agent/list/page/1?count=1000")}export{e as a,a as b,s as c,u as d,r as g};
