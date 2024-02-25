@@ -112,8 +112,7 @@ switch (type) {
 const agent = ref()
 const orderId = ref(router.currentRoute.value.query.orderId)
 const userInfo = ref(JSON.parse(localStorage.getItem('userInfo') as any))
-
-console.log(11, getToken())
+// console.log(11, getToken())
 const isLogin = () => {
   if (userInfo.value == null) {
     userInfo.value = { agent: '' }
@@ -292,7 +291,7 @@ const updateOrderStatusHandle = async (status) => {
 }
 const createOrder = () => {
   console.log(agent.value);
-  orderCreate({ order_status: 10, businessType: typeValue, creator: userInfo.uid, companyName: companyName.value, content: { ...param, ...agent.value } })
+  orderCreate({ order_status: 10, businessType: typeValue, creator: userInfo.value.uid, companyName: companyName.value, content: { ...param, ...agent.value } })
     .then((res: any) => {
       orderId.value = res.data.order_id
       active.value = active.value + 1
@@ -309,7 +308,7 @@ const saveOrder = () => {
     createOrder()
     return
   }
-  orderUpdate({ orderId: orderId.value, data: { creator: userInfo.uid, content: param, companyName: companyName.value } })
+  orderUpdate({ orderId: orderId.value, data: { creator: userInfo.value.uid, content: param, companyName: companyName.value } })
     .then((res: any) => {
       ElMessage.success('已提交，请联系专员')
       console.log('update order', res)

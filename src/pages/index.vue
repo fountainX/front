@@ -660,7 +660,7 @@ export default defineComponent({
           horizontalOffset: 0,
           verticalOffset: 0
         });
-      }, 1000)
+      })
     }
     onMounted(() => {
       // data.getRuleList()

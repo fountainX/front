@@ -134,6 +134,7 @@ export default defineComponent({
   border: 1px dotted #ccc;
   padding: 10px;
   width: 100%;
+  background: #FFF;
 
   .remove {
     display: none;

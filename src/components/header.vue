@@ -178,6 +178,7 @@ export default defineComponent({
           console.log(res)
           localStorage.removeItem('userInfo')
           removeToken()
+          localStorage.clear()
           location.replace('/')
         })
           .catch((err: any) => {
