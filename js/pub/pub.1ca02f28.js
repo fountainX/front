@@ -1,0 +1,1 @@
+import{H as e}from"../Http/Http.38ce0599.js";function i(){return e.get("/region/list/")}function g(t){return e.get(`/rule/list/page/${t.page}`,t)}function r(t){return e.get(`/agent/list/page/${t.page}`)}function a(t){return e.get(`/agent/show/${t.agent_id}`)}function s(t){return e.get(`/invoice/list/page/${t.page}`)}export{r as a,i as b,a as c,s as i,g as r};
