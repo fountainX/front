@@ -387,30 +387,30 @@ onMounted(() => {
   padding: 50px;
 }
 
-/deep/ .el-card__body {
+:deep(.el-card__body) {
   padding: 60px;
 }
 
-/deep/ .el-descriptions__cell {
+:deep(.el-descriptions__cell) {
   border: 1px solid #dfdfdf;
 }
 
-/deep/ .el-descriptions__body .el-descriptions__table:not(.is-bordered) .el-descriptions__cell {
+:deep(.el-descriptions__body .el-descriptions__table:not(.is-bordered) .el-descriptions__cell) {
   line-height: 40px;
   padding-bottom: 0;
 }
 
-/deep/.el-descriptions__label:not(.is-bordered-label) {
+:deep(.el-descriptions__label:not(.is-bordered-label)) {
   margin-right: 5px;
   background: #f7f7f7;
 }
 
-/deep/ .el-descriptions__label {
+:deep(.el-descriptions__label) {
   display: inline-block;
   width: 140px;
   text-align: right;
   /* background: #f1f1f1; */
 }
 
-/deep/ .el-descriptions__content {}
+:deep(.el-descriptions__content) {}
 </style>

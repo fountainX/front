@@ -5,7 +5,7 @@
   <section class="slider index2">
     <div class="hero-slider">
       <!-- Start Single Slider -->
-      <div class="single-slider" style="background-image:url('/src/assets/img/slider.png')">
+      <div class="single-slider image">
         <div class="container">
           <div class="row">
             <div class="col-lg-7">
@@ -22,7 +22,7 @@
       </div>
       <!-- End Single Slider -->
       <!-- Start Single Slider -->
-      <div class="single-slider" v-show="banner" style="background-image:url('/src/assets/img/slider.png');">
+      <div class="single-slider image" v-show="banner">
         <div class="container">
           <div class="row">
             <div class="col-lg-7">
@@ -342,6 +342,8 @@ import { useStore } from '../store/store'
 import { useRouter } from 'vue-router'
 import { orderType } from '@/http/api/order.ts'
 import { ruleList, agentList, invoiceList } from '@/http/api/pub.ts'
+
+
 
 export default defineComponent({
   name: 'new page',
@@ -705,5 +707,10 @@ export default defineComponent({
 
 .order-type div:hover {
   background: #eff6ff;
+}
+
+.image {
+  background: url('/src/assets/img/slider.png');
+  background-size: cover;
 }
 </style>

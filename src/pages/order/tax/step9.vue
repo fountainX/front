@@ -273,7 +273,7 @@ div.table-container {
 }
 </style>
 <style scoped>
-/deep/ .el-descriptions__body {
+:deep(.el-descriptions__body) {
   margin-bottom: 20px;
 }
 </style>
