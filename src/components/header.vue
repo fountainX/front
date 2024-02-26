@@ -145,6 +145,7 @@ import { useStore } from '../store/store'
 import { useI18n } from 'vue-i18n'
 import { removeToken } from '@/utils/auth.ts'
 import { accountLogout } from '@/http/api/account.ts'
+import { ElMessage } from 'element-plus'
 
 
 export default defineComponent({
@@ -179,7 +180,12 @@ export default defineComponent({
           localStorage.removeItem('userInfo')
           removeToken()
           localStorage.clear()
-          location.replace('/')
+          ElMessage.success('退出成功')
+          router.push('/')
+          setTimeout(() => {
+            location.reload()
+          }, 200)
+          // location.replace('/')
         })
           .catch((err: any) => {
             console.log(err)
