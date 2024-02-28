@@ -137,9 +137,7 @@ const userLogin = () => {
         setTimeout(() => {
           // router.push('/ucenter?uid=' + res.data.uid)
           router.push('/')
-          setTimeout(() => {
-            location.reload()
-          }, 200)
+          location.reload()
         }, 200);
       }
     })
