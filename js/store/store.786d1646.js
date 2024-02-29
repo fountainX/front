@@ -1,0 +1,1 @@
+import{d as t}from"../pinia/pinia.1c4a5e88.js";const s=t("storeId",{state:()=>({counter:0,name:"Bruce Cao",isAdmin:!0,switchDark:!0}),getters:{nameLength:e=>e.name.length},actions:{async insertPost(e){this.name=e}},persist:!0});export{s as u};
