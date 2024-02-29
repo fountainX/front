@@ -27,8 +27,15 @@
           <div class="row">
             <div class="col-lg-7">
               <div class="text">
-                <h1>您可以信赖的<span>会计</span></h1>
+                <template>
+                  <h1><span>LK</span> 高效、专业的跨境财税服务专家轻松自助下单，专业财税指导</h1>
+                <p>只需 10 分钟即可轻松开展业务，并获得成功所需的所有指导</p>
+                </template>
+                <template>
+                  <h1>您可以信赖的<span>会计</span></h1>
                 <p>从免费咨询开始吧！</p>
+                </template>
+                
                 <div class="button">
                   <a href="#/order?type=TAX" class="btn">开始您的税务申报</a>
                 </div>

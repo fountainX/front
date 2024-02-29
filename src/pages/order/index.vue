@@ -74,7 +74,7 @@ import AnnualReviewStep2 from './annualReview/step2.vue'
 import AnnualReviewStep9 from './annualReview/step9.vue'
 import AccountingStep1 from './accounting/step1.vue'
 import AccountingStep2 from './accounting/step2.vue'
-import AccountingStep3 from './accounting/step9.vue'
+import AccountingStep9 from './accounting/step9.vue'
 import RegistryCompanyStep1 from './registryCompany/step1.vue'
 import RegistryCompanyStep2 from './registryCompany/step2.vue'
 import RegistryCompanyStep9 from './registryCompany/step9.vue'
@@ -109,7 +109,7 @@ switch (type) {
   default:
     break
 }
-const agent = ref()
+const agent = ref({})
 const orderId = ref(router.currentRoute.value.query.orderId)
 const userInfo = ref(JSON.parse(localStorage.getItem('userInfo') as any))
 // console.log(11, getToken())
@@ -141,6 +141,7 @@ const ruleListDataLLC = ref([])
 provide('ruleListDataC', ruleListDataC)
 provide('ruleListDataLLC', ruleListDataLLC)
 provide('typeValue', typeValue)
+provide('agent', agent)
 const getAgent = () => {
   agentShow({ agent_id: userInfo.value.agent_id }).then((res) => {
     agent.value = res.data

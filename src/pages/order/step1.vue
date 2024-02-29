@@ -225,7 +225,7 @@ export default defineComponent({
   emits: ['update', 'updateCompanyName'],
   setup(props, context) {
     const couponInfo = JSON.parse(localStorage.getItem('couponInfo') || '{}')
-    const rate = couponInfo.rate || 1
+    const rate = couponInfo.rate || 100
     const router = useRouter()
     const company_name = ref(props.companyName)
     const ruleListDataC = inject('ruleListDataC')

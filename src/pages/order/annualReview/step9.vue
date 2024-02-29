@@ -57,7 +57,7 @@
     <div>
       <el-descriptions :column="1">
         <el-descriptions-item label="客户单位名称：">{{ companyName }}</el-descriptions-item>
-        <el-descriptions-item label="服务公司名称：">{{ agent_name }}</el-descriptions-item>
+        <el-descriptions-item label="服务公司名称：">{{ agent.agent_name }}</el-descriptions-item>
         <el-descriptions-item label="服务内容：">{{ invoice.content }}</el-descriptions-item>
         <el-descriptions-item label="邮箱：">{{ invoice.email }}</el-descriptions-item>
       </el-descriptions>
@@ -154,6 +154,7 @@ export default defineComponent({
   setup(props, context) {
     const ruleListDataC = inject('ruleListDataC')
     const ruleListDataLLC = inject('ruleListDataLLC')
+    const agent = inject('agent')
     const { order, invoice, pay, upload, sign, backSign, agent_name } = props.detail
     const order_no = props.order_no
     let mark = '注：请在'
@@ -186,6 +187,7 @@ export default defineComponent({
       ruleListDataLLC,
       props,
       agent_name,
+      agent,
       getAwsList
     }
   }

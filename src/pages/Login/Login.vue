@@ -122,9 +122,9 @@ const login = () => {
   }
 }
 
-const userLogin = () => {
+const userLogin = async () => {
   accountLogin(formLogin)
-    .then((res: any) => {
+    .then(async (res: any) => {
       console.log('Login', res)
       if (res.status == 403) {
         ElMessage.error('等待管理员激活登录')
@@ -132,13 +132,8 @@ const userLogin = () => {
       }
       if (res.code == 200) {
         setToken(res.data.accessToken)
-        getAccount(res.data.uid)
+        await getAccount(res.data.uid)
         ElMessage.success('登录成功')
-        setTimeout(() => {
-          // router.push('/ucenter?uid=' + res.data.uid)
-          router.push('/')
-          location.reload()
-        }, 200);
       }
     })
     .catch((e: any) => {
@@ -157,7 +152,7 @@ const userRegister = () => {
       console.log(e)
     })
 }
-const getAccount = (uid: any) => {
+const getAccount = async (uid: any) => {
   account({ uid: uid })
     .then((res: any) => {
       //console.log('account', res)
@@ -166,10 +161,22 @@ const getAccount = (uid: any) => {
         getCouponInfo(res.data.couponId)
           .then((coupon) => {
             localStorage.setItem('couponInfo', JSON.stringify(coupon.data))
-            router.push('/')
+            setTimeout(() => {
+              // router.push('/ucenter?uid=' + res.data.uid)
+              router.push('/')
+              // setTimeout(() => {
+              //   location.reload()
+              // }, 200)
+            }, 200)
           })
           .catch((err) => {
-            router.push('/')
+            setTimeout(() => {
+              // router.push('/ucenter?uid=' + res.data.uid)
+              router.push('/')
+              // setTimeout(() => {
+              //   location.reload()
+              // }, 200)
+            }, 200)
           })
       }
     })

@@ -102,7 +102,7 @@ export default defineComponent({
     const down = () => {
       let filenames = ''
       let list = templateList.value.map((item) => {
-        filenames += '&fileNames=' + item.file_name
+        filenames += '&fileNames=' + encodeURIComponent(item.file_name)
       })
 
       downloadZip(props.orderId, filenames)
