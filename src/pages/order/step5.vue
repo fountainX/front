@@ -87,7 +87,7 @@ export default defineComponent({
         // }
 
         const extension = data.file_name.split('.').pop()
-        fileList.value.push({ file_name: data.file_name, extension: extension })
+        fileList.value.push({ file_name: data.file_name, extension: extension,account: userInfo.user_name,updateTime: data.updateTime, })
         // fileList.value.push(file)
         context.emit('update', fileList)
         return true

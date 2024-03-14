@@ -12,8 +12,8 @@
       <el-descriptions-item :span="4" label="邮箱：">
         <el-input v-model="formData.email" placeholder="默认发送到注册时的邮箱" style="width: 300px" clearable />
       </el-descriptions-item>
-      <el-descriptions-item :span="4" label="合计："><span class="price">{{ formData.us ? '$' : '￥' }}{{ formData.price }}</span></el-descriptions-item>
-      <el-descriptions-item :span="4" label="最终价格：" v-if="formData.finalPrice !== ''"><span class="price">{{ formData.us ? '$' : '￥' }}{{ formData.finalPrice }}</span></el-descriptions-item>
+      <el-descriptions-item :span="4" label="合计："><span class="price">{{ content.order.isDollar ? '$' : '￥' }}{{ formData.price }}</span></el-descriptions-item>
+      <el-descriptions-item :span="4" label="最终价格："><span class="price">{{ content.order.isDollar ? '$' : '￥' }}{{ formData.finalPrice || formData.price }}</span></el-descriptions-item>
     </el-descriptions>
     <br>
   </div>
@@ -50,6 +50,7 @@ export default defineComponent({
     const image = ref()
     const typeValue = inject('typeValue')
     const agent = inject('agent')
+    const content = inject('content')
     const state = reactive({
       formData: {} as any,
       rules: {
@@ -109,7 +110,8 @@ export default defineComponent({
       down,
       agent,
       dialogVisible,
-      image
+      image,
+      content
     }
   }
 })

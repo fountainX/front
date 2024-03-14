@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
 import NProgress from 'nprogress'
 import { Message } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
-import { getToken } from '@/utils/auth.ts'
+import { getToken, removeToken } from '@/utils/auth.ts'
 
 interface ResType<T> {
   code: number
@@ -104,6 +104,19 @@ axios.interceptors.response.use(
           break
         case 405:
           ElMessage.error('请求方法未允许')
+          break
+        case 408:
+          ElMessage.error('请求超时')
+          break
+        case 422:
+          ElMessage.error('token失效，请重新登录！')
+          localStorage.removeItem('userInfo')
+          removeToken()
+          localStorage.clear()
+          window.location.href = '#/login'
+          setTimeout(() => {
+            location.reload()
+          }, 200)
           break
         case 408:
           ElMessage.error('请求超时')

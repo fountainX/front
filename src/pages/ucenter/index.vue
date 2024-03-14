@@ -56,7 +56,7 @@
             </el-form-item> -->
 
               <el-form-item label="代理：" prop="agentId" class="label-right-align">
-                <el-select v-model="formData.agentId" @change="selectAgent" style="width: 100%">
+                <el-select disabled v-model="formData.agentId" @change="selectAgent" style="width: 100%">
                   <el-option v-for="item in agentList" :value="item.agent_id" :label="item.agent_name"></el-option>
                 </el-select>
               </el-form-item>
@@ -212,8 +212,8 @@ const statusList = [
   },
   {
     id: '12',
-    value: '发票开具',
-    desc: 'INVOICE_ISSUED'
+    value: 'INVOICE_ISSUED',
+    desc: '发票开具'
   },
   {
     id: '13',

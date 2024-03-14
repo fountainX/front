@@ -1,15 +1,15 @@
 <template>
-  <el-divider content-position="left">
+  <el-divider content-position="center">
     <h2>订单总览</h2>
   </el-divider>
-  <div class="desc">各业务节点详情内容</div>
+  <div class="desc"></div>
   <div>
-    <el-divider content-position="left">确认报价</el-divider>
+    <!-- <el-divider content-position="left">确认报价</el-divider> -->
     <div class="desc">
       <el-descriptions :title="'订单号：' + order_no" :column="2">
         <el-descriptions-item :span="2" label="所在州：">{{ order.regionText }}</el-descriptions-item>
         <el-descriptions-item :span="2" label="公司名称：">{{ props.companyName }}</el-descriptions-item>
-        <el-descriptions-item :span="2" label="公司类型：">{{ order.companyType == 1 ? 'C' : 'LLC' }}</el-descriptions-item>
+        <!-- <el-descriptions-item :span="2" label="公司类型：">{{ order.companyType == 1 ? 'C' : 'LLC' }}</el-descriptions-item> -->
         <template v-if="order.companyType == 1">
           <el-descriptions-item label="是否电商：">{{ order.is_e_commerce ? '是' : '否' }}</el-descriptions-item>
           <el-descriptions-item v-if="order.is_e_commerce" label="电商类型：">
@@ -58,21 +58,17 @@
           </el-descriptions-item>
         </template>
       </el-descriptions>
-      <div>
-        <span class="total-price">
-          <span>原价：</span>
-          <span class="price">${{ order.oldTotalPrice }}</span>
-        </span>
-      </div>
-      <div>
-        <span class="total-price">
-          <span>折扣价：</span>
-          <span class="price">${{ order.totalPrice }}</span>
-        </span>
+      <div class="total-price">
+        <span>原价：</span>
+        <span class="price">{{ order.isDollar ? '$' : '￥' }} {{ order.oldTotalPrice }}</span>
+        <span>折扣价：</span>
+        <span class="price">{{ order.isDollar ? '$' : '￥' }}{{ order.totalPrice }}</span>
       </div>
     </div>
 
-    <el-divider content-position="left">出具发票</el-divider>
+    <el-divider content-position="left">
+      <h6>出具发票</h6>
+    </el-divider>
     <div>
       <el-descriptions :column="1">
         <el-descriptions-item label="客户单位名称：">{{ companyName }}</el-descriptions-item>
@@ -80,20 +76,17 @@
         <el-descriptions-item label="服务内容：">{{ invoice.content }}</el-descriptions-item>
         <el-descriptions-item label="邮箱：">{{ invoice.email }}</el-descriptions-item>
       </el-descriptions>
-      <div>
-        <span class="total-price">
-          <span>合计：</span>
-          <span class="price">${{ invoice.price }}</span>
-        </span>
-      </div>
-      <div>
-        <span class="total-price">
-          <span>最终价格：</span>
-          <span class="price">{{ order.us === false ? '￥' : '$' }}{{ invoice.finalPrice }}</span>
-        </span>
+     
+      <div class="total-price">
+        <span>合计：</span>
+        <span class="price">{{ order.isDollar ? '$' : '￥' }}{{ invoice.price }}</span>
+        <span>最终价格：</span>
+        <span class="price">{{ order.isDollar ? '$' : '￥' }}{{ invoice.finalPrice || order.totalPrice }}</span>
       </div>
     </div>
-    <el-divider content-position="left">付款</el-divider>
+    <el-divider content-position="left">
+      <h6>付款</h6>
+    </el-divider>
     <div class="demo-image__preview">
       <FileList :list="pay.voucher" size="100" />
     </div>
@@ -103,7 +96,7 @@
       <table class="table-layout">
         <tbody>
           <tr>
-            <td class="table-cell" bgcolor="#f1f1f1" style="width: 60px">序号</td>
+            <td class="table-cell" bgcolor="#f1f1f1" style="width: 50px">序号</td>
             <td class="table-cell" bgcolor="#f1f1f1">资料名称</td>
             <td class="table-cell" bgcolor="#f1f1f1" style="width: 80px">状态</td>
             <td class="table-cell" bgcolor="#f1f1f1">备注</td>
@@ -111,9 +104,7 @@
           <tr v-for="(item, index) in upload.list">
             <td class="table-cell">{{ index + 1 }}</td>
             <td class="table-cell">
-              <div class="flex-center">
-                <FileList :list="[item]" :size="50" />
-              </div>
+              <FileList :list="[item]" :size="50" />
             </td>
             <td class="table-cell">{{ item.status == 1 ? '通过' : item.status == -1 ? '不通过' : '审核中' }}</td>
             <td class="table-cell">
@@ -123,7 +114,9 @@
         </tbody>
       </table>
     </div>
-    <el-divider content-position="left">回传签字</el-divider>
+    <el-divider content-position="left">
+      <h6>回传签字</h6>
+    </el-divider>
     <div class="table-container">
       <!-- <table class="table-layout">
         <tbody>
@@ -137,21 +130,22 @@
           </tr>
         </tbody>
       </table> -->
-      <br />
       <!-- <el-alert :title="mark" type="warning" />
       <br /> -->
 
       <FileList :list="sign.imageList" :size="50"></FileList>
       <!-- <el-image v-for="(item, index) in sign.imageList" style="width: 100px; margin: 5px" :src="item" :zoom-rate="1.2" :max-scale="7" :min-scale="0.2" :preview-src-list="sign.imageList" :initial-index="index" fit="cover" /> -->
     </div>
-    <el-divider content-position="left">签回</el-divider>
+    <el-divider content-position="left">
+      <h6>签回</h6>
+    </el-divider>
     <div>
-      <br />
-      <el-image v-for="(item, index) in backSign" style="width: 100px" :src="$filePath + item" :zoom-rate="1.2" :max-scale="7" :min-scale="0.2" :preview-src-list="getAwsList($filePath, backSign)" :initial-index="index" fit="cover" />
+      <el-image class="sgin_img" v-for="(item, index) in backSign" :src="$filePath + item" :zoom-rate="1.2" :max-scale="7" :min-scale="0.2" :preview-src-list="getAwsList($filePath, backSign)" :initial-index="index" fit="cover" />
     </div>
     <div></div>
   </div>
 </template>
+
 <script lang="ts">
 import { defineComponent, toRefs, reactive, ref, inject } from 'vue'
 import FileList from '@/components/fileList/index.vue'
@@ -233,6 +227,7 @@ export default defineComponent({
   }
 })
 </script>
+
 <style lang="scss" scoped>
 .flex-center {
   display: flex;
@@ -253,7 +248,7 @@ div.table-container {
       border: 1px solid #e1e2e3;
       text-align: left;
       font-size: 14px;
-      padding-left: 10px;
+      padding: 5px;
     }
   }
 }
@@ -279,14 +274,8 @@ div.table-container {
   margin-top: 30px;
 }
 
-.total-price {
-  font-size: 24px;
-  font-weight: bold;
-  color: #000;
-  line-height: 50px;
-
-  .price {
-    color: #67c23a;
-  }
+.sgin_img {
+  height: 100px;
+  margin: 5px;
 }
 </style>

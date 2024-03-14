@@ -1,17 +1,17 @@
 <template>
   <!-- <Header /> -->
+  <div class="txt">注：请填写咨询内容，稍后会有客服专员与您联系！</div>
   <el-form :model="formData" ref="vForm" :rules="rules" label-position="right" label-width="100px" @submit.prevent>
     <el-form-item label="业务类型：" prop="businessType" class="required label-right-align">
       {{ showTypeName(type) }}
       <!-- <el-input v-model="formData.businessType" type="text" readonly></el-input> -->
     </el-form-item>
     <el-form-item label="咨询内容：" prop="content" class="required label-right-align">
-      <el-input v-model="formData.content" :rows="4" type="textarea" clearable></el-input>
+      <el-input v-model="formData.content" :rows="4" placeholder="请填咨询内容" type="textarea" clearable></el-input>
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="submitForm()">提交</el-button>
     </el-form-item>
-
   </el-form>
   <!-- <Footer /> -->
 </template>
@@ -77,4 +77,10 @@ const submitForm = async () => {
   }
 }
 </script>
-<style scoped></style>
+<style scoped>
+.txt {
+  margin-top: -20px;
+  margin-left: 18px;
+  color: #acabab;
+}
+</style>

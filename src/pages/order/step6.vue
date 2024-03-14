@@ -7,7 +7,7 @@
     <table class="table-layout">
       <tbody>
         <tr>
-          <td class="table-cell" bgcolor="#f1f1f1" style="width: 60px">序号</td>
+          <td class="table-cell" bgcolor="#f1f1f1" style="width: 50px">序号</td>
           <td class="table-cell" bgcolor="#f1f1f1">资料</td>
           <td class="table-cell" bgcolor="#f1f1f1" style="width: 80px">状态</td>
           <td class="table-cell" bgcolor="#f1f1f1">备注</td>
@@ -15,9 +15,7 @@
         <tr v-for="(item, index) in fileList">
           <td class="table-cell">{{ index + 1 }}</td>
           <td class="table-cell">
-            <div class="flex-center">
-              <FileList :list="[item]" :size="50" />
-            </div>
+            <FileList :list="[item]" :size="50" />
           </td>
           <td class="table-cell">{{ item.status == 1 ? '通过' : item.status == -1 ? '不通过' : '审核中' }}</td>
           <td class="table-cell">

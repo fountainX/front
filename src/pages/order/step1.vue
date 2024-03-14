@@ -2,7 +2,7 @@
   <el-divider content-position="left">
     <h2>报价</h2>
   </el-divider>
-  <div class="desc">选择您想要的州和业务类型，然后选择您的附加组件以开始您的订单</div>
+  <div class="desc">选择您想要的州和业务类型，然后开始创建您的订单</div>
   <el-form :model="formData" ref="vForm" :rules="rules" label-position="right" label-width="180px" size="default" @submit.prevent>
     <el-row>
       <el-col :span="16" class="grid-cell">
@@ -68,11 +68,10 @@
       </el-col>
       <el-col :span="8" class="grid-cell">
         <div class="total-price">
-          <div>原价：${{ computedTotalPrice() }}</div>
-          <div>
-            折扣价：
-            <span class="price">${{ (computedTotalPrice() * rate) / 100 }}</span>
-          </div>
+          <span>原价</span>
+          <span class="price">${{ computedTotalPrice() }}</span><br>
+          <span>折扣价：</span>
+          <span class="price">${{ (computedTotalPrice() * rate) / 100 }}</span>
           <!-- <span class="price">${{ computedTotalPrice() }}</span> -->
         </div>
       </el-col>
@@ -435,8 +434,9 @@ export default defineComponent({
         ruleListDataLLC.value = list
       })
     }
-    const regionChange = () => {
-      // getRuleList()
+    const regionChange = (val) => {
+      console.log(val)
+      if (val == 'HK' || val == 'SG' || val == 'BVI' || val == 'CAYMAN' || val == 'XX') nonUS()
     }
     const companyTypeChange = () => {
       // order()
@@ -568,20 +568,6 @@ export default defineComponent({
 .tip {
   font-size: 12px;
   width: 100%;
-}
-
-.total-price {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  height: 80px;
-  font-weight: bold;
-  font-size: 20px;
-  margin-left: 20px;
-
-  .price {
-    font-size: 24px;
-  }
 }
 
 .desc {

@@ -1,4 +1,4 @@
-@media (min-width: 1200px) {
+/* @media (min-width: 1200px) {
   .container {
     max-width: 1140px;
   }
@@ -16,6 +16,27 @@
   padding-left: 15px;
   padding-right: 15px;
   min-height: 800px;
+} */
+
+.total-price {
+  font-size: 30px;
+  font-weight: bold;
+  color: #000;
+  text-align: right;
+  line-height: 60px;
+}
+.total-price span:nth-child(1),
+.total-price span:nth-child(2) {
+  font-size: 18px;
+  opacity: 0.8;
+  text-decoration: line-through;
+}
+.total-price span:nth-child(3) {
+  font-size: 18px;
+  margin-left: 20px;
+}
+.price {
+  color: #67c23a;
 }
 /* 
 .search {

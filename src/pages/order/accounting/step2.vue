@@ -5,7 +5,7 @@
   <div class="desc">
     <el-descriptions :title="'订单号：' + order_no" :column="2">
       <el-descriptions-item :span="2" label="所在州：">{{ order.regionText }}</el-descriptions-item>
-      <el-descriptions-item :span="2" label="公司类型：">{{ order.companyType == 1 ? 'C' : 'LLC' }}</el-descriptions-item>
+      <!-- <el-descriptions-item :span="2" label="公司类型：">{{ order.companyType == 1 ? 'C' : 'LLC' }}</el-descriptions-item> -->
 
       <template v-if="order.companyType == 1">
         <el-descriptions-item label="是否电商：">{{ order.is_e_commerce ? '是' : '否' }}</el-descriptions-item>
@@ -55,15 +55,11 @@
         </el-descriptions-item>
       </template>
     </el-descriptions>
-    <div>
-      <div class="total-price">
-        <span>原价：</span>
-        <span class="price">${{ order.oldTotalPrice }}</span>
-      </div>
-      <div class="total-price">
-        <span>折扣价：</span>
-        <span class="price">${{ order.totalPrice }}</span>
-      </div>
+    <div class="total-price">
+      <span>原价：</span>
+      <span class="price">{{ order.isDollar ? "$" : "￥" }}{{ order.oldTotalPrice }}</span>
+      <span>折扣价：</span>
+      <span class="price">{{ order.isDollar ? "$" : "￥" }}{{ order.totalPrice }}</span>
     </div>
   </div>
 </template>
@@ -122,16 +118,6 @@ export default defineComponent({
   font-size: 14px;
   color: #ccc;
   line-height: 50px;
-}
-
-.total-price {
-  font-size: 24px;
-  font-weight: bold;
-  color: #000;
-
-  .price {
-    color: #67c23a;
-  }
 }
 
 .el-input-number.full-width-input,

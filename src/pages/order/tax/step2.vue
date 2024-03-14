@@ -28,41 +28,37 @@
               <el-descriptions-item v-if="item.field_name == 'apply_individual' && order.taxType == 'apply_individual'" label="申请税号类型：">个人股东</el-descriptions-item>
               <el-descriptions-item v-if="item.field_name == 'apply_individual' && order.taxType == 'apply_individual'" label="费用：">{{ item.price }}</el-descriptions-item>
               <el-descriptions-item v-if="item.field_name == 'apply_company' && order.taxType == 'apply_company'" label="申请税号类型：">公司股东</el-descriptions-item>
-              <el-descriptions-item v-if="item.field_name == 'apply_company' && order.taxType == 'apply_company'" label="费用：">{{ item.price }}美元</el-descriptions-item>
+              <el-descriptions-item v-if="item.field_name == 'apply_company' && order.taxType == 'apply_company'" label="费用：">{{ item.price }}</el-descriptions-item>
             </template>
           </template>
         </template>
       </template>
 
       <el-descriptions-item label="主营业务收入：">{{ order.companyMainIncome.rule_content }}万美元</el-descriptions-item>
-      <el-descriptions-item label="费用：">{{ order.companyMainIncome.price || 0 }}美元</el-descriptions-item>
+      <el-descriptions-item label="费用：">{{ order.companyMainIncome.price || 0 }}</el-descriptions-item>
 
       <el-descriptions-item :span="2" label="主营业务类型：">{{ order.main_business_type }}</el-descriptions-item>
       <el-descriptions-item :span="2" label="公司资产总额：">{{ order.total_asset }}</el-descriptions-item>
 
       <template v-for="item in ruleListDataC" :key="item.field_name">
         <el-descriptions-item v-if="item.field_name == 'amount_fixed_asset'" label="固定资产金额：">{{ order.amount_fixed_asset || 0 }}万美元</el-descriptions-item>
-        <el-descriptions-item v-if="item.field_name == 'amount_fixed_asset'" label="费用：">{{ order.amount_fixed_asset > 0 ? item.price : 0 }}美元</el-descriptions-item>
+        <el-descriptions-item v-if="item.field_name == 'amount_fixed_asset'" label="费用：">{{ order.amount_fixed_asset > 0 ? item.price : 0 }}</el-descriptions-item>
 
         <el-descriptions-item v-if="item.field_name == 'exchange_fund_com_number'" label="资金往来公司数：">{{ order.exchange_fund_com_number }}</el-descriptions-item>
-        <el-descriptions-item v-if="item.field_name == 'exchange_fund_com_number'" label="费用：">{{ (order.exchange_fund_com_number || 0) * item.price }}美元</el-descriptions-item>
+        <el-descriptions-item v-if="item.field_name == 'exchange_fund_com_number'" label="费用：">{{ (order.exchange_fund_com_number || 0) * item.price }}</el-descriptions-item>
 
         <el-descriptions-item v-if="item.field_name == 'subsidiary_us'" label="在美子公司数：">{{ order.subsidiary_us }}</el-descriptions-item>
-        <el-descriptions-item v-if="item.field_name == 'subsidiary_us'" label="费用：">{{ (order.subsidiary_us || 0) * item.price || 0 }}美元</el-descriptions-item>
+        <el-descriptions-item v-if="item.field_name == 'subsidiary_us'" label="费用：">{{ (order.subsidiary_us || 0) * item.price || 0 }}</el-descriptions-item>
 
         <el-descriptions-item v-if="item.field_name == 'subsidiary_non_us_number'" label="非美子公司：">{{ order.subsidiary_non_us_number }}</el-descriptions-item>
-        <el-descriptions-item v-if="item.field_name == 'subsidiary_non_us_number'" label="费用：">{{ (order.subsidiary_non_us_number || 0) * item.price || 0 }}美元</el-descriptions-item>
+        <el-descriptions-item v-if="item.field_name == 'subsidiary_non_us_number'" label="费用：">{{ (order.subsidiary_non_us_number || 0) * item.price || 0 }}</el-descriptions-item>
       </template>
     </el-descriptions>
-    <div style="margin-top:30px">
-      <div class="total-price">
-        <span>原价：</span>
-        <span class="price">${{ order.oldTotalPrice }}</span>
-      </div>
-      <div class="total-price">
-        <span>折扣价：</span>
-        <span class="price">${{ order.totalPrice }}</span>
-      </div>
+    <div class="total-price">
+      <span>原价：</span>
+      <span class="price">{{ order.isDollar ? "$" : "￥" }}{{ order.oldTotalPrice }}</span>
+      <span>折扣价：</span>
+      <span class="price">{{ order.isDollar ? "$" : "￥" }}{{ order.totalPrice }}</span>
     </div>
   </div>
 </template>
@@ -99,16 +95,6 @@ export default defineComponent({
   font-size: 14px;
   color: #ccc;
   line-height: 50px;
-}
-
-.total-price {
-  font-size: 24px;
-  font-weight: bold;
-  color: #000;
-
-  .price {
-    color: #67c23a;
-  }
 }
 
 .el-input-number.full-width-input,

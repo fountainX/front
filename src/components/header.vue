@@ -47,7 +47,7 @@
           <div class="col-lg-3 col-md-3 col-12">
             <!-- Start Logo -->
             <div class="logo">
-              <a href="/"><img src="/src/assets/img/logo.png" style="height: 47px;"></a>
+              <a href="#/"><img src="/src/assets/img/logo.png" style="height: 47px;"></a>
             </div>
             <!-- End Logo -->
             <!-- Mobile Nav -->

@@ -54,15 +54,11 @@
         <el-descriptions-item v-if="item.field_name == 'subsidiary_non_us_number'" label="费用：">{{ (order.subsidiary_non_us_number || 0) * item.price || 0 }}美元</el-descriptions-item>
       </template>
     </el-descriptions>
-    <div>
-      <div class="total-price">
-        <span>原价：</span>
-        <span class="price">${{ order.oldTotalPrice }}</span>
-      </div>
-      <div class="total-price">
-        <span>折扣价：</span>
-        <span class="price">${{ order.totalPrice }}</span>
-      </div>
+    <div class="total-price">
+      <span>原价：</span>
+      <span class="price">${{ order.oldTotalPrice }}</span>
+      <span>折扣价：</span>
+      <span class="price">${{ order.totalPrice }}</span>
     </div>
   </div>
 </template>
@@ -99,16 +95,6 @@ export default defineComponent({
   font-size: 14px;
   color: #ccc;
   line-height: 50px;
-}
-
-.total-price {
-  font-size: 24px;
-  font-weight: bold;
-  color: #000;
-
-  .price {
-    color: #67c23a;
-  }
 }
 
 .el-input-number.full-width-input,

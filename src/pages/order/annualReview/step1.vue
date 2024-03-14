@@ -2,7 +2,7 @@
   <el-divider content-position="left">
     <h2>年审-报价</h2>
   </el-divider>
-  <div class="desc">选择您想要的州和业务类型，然后选择您的附加组件以开始您的订单</div>
+  <div class="desc">选择您想要的州和业务类型，然后开始创建您的订单</div>
   <el-form :model="formData" ref="vForm" :rules="rules" label-position="right" label-width="180px" size="default" @submit.prevent>
     <el-row>
       <el-col :span="16" class="grid-cell">
@@ -16,8 +16,8 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6" style="margin-left: 40px">
-                <el-button plain @click="nonUS()">非美国</el-button>
+              <el-col :span="6" style="margin-left: 40px" v-if="currentRegion.name == '其他'">
+                <el-button plain @click="nonUS()">联系客服</el-button>
               </el-col>
             </el-row>
           </el-col>
@@ -50,11 +50,10 @@
       </el-col>
       <el-col :span="8" class="grid-cell">
         <div class="total-price">
-          <div>原价：{{ currentRegion.us === false ? '￥' : '$' }}{{ computedTotalPrice() }}</div>
-          <div>
-            折扣价：
-            <span class="price">{{ currentRegion.us === false ? '￥' : '$' }}{{ (computedTotalPrice() * rate) / 100 }}</span>
-          </div>
+          <span>原价：</span>
+          <span class="price">{{ isDollar() ? '$' : '￥' }} {{ computedTotalPrice() }}</span>
+          <span>折扣价：</span>
+          <span class="price">{{ isDollar() ? '$' : '￥' }}{{ (computedTotalPrice() * rate) / 100 }}</span>
           <!-- <span class="price">${{ computedTotalPrice() }}</span> -->
         </div>
       </el-col>
@@ -138,7 +137,7 @@
     </div>
   </el-form>
 
-  <el-dialog v-model="dialogFormVisible" title="非美国">
+  <el-dialog v-model="dialogFormVisible" title="联系客服">
     <SeekAdvice :params="query"></SeekAdvice>
   </el-dialog>
 </template>
@@ -175,6 +174,20 @@ export default defineComponent({
     const company_name = ref(props.companyName)
     const ruleListDataC = inject('ruleListDataC')
     const ruleListDataLLC = inject('ruleListDataLLC')
+    const isDollar = () => {
+      let rule = null
+      let res = true
+      if (state.formData.companyType == 1) {
+        rule = ruleListDataC.value[0]
+      } else if (state.formData.companyType == 2) {
+        rule = ruleListDataLLC.value[0]
+      }
+      if (rule) {
+        res = rule.dollar
+      }
+      state.formData.isDollar = res;
+      return res
+    }
     const state = reactive({
       formData: {
         selectRegion: '',
@@ -311,11 +324,12 @@ export default defineComponent({
     })
     const companyMainIncome = ref({ price: 0 })
     // 初始化父组件数据
-    state.formData = props.order;
-    state.formData.agentAddress = props.order.agentAddress || 0;
+    state.formData = props.order
+    state.formData.agentAddress = props.order.agentAddress || 0
     const saveOrder = () => {
       context.emit('update', state.formData)
     }
+
     const changeCompanyName = () => {
       context.emit('updateCompanyName', company_name.value)
     }
@@ -365,8 +379,9 @@ export default defineComponent({
         ruleListDataLLC.value = list
       })
     }
-    const regionChange = () => {
-      // getRuleList()
+    const regionChange = (val) => {
+      // console.log(val)
+      // if (val == 'HK' || val == 'SG' || val == 'BVI' || val == 'CAYMAN' || val == 'XX') nonUS()
     }
     const companyTypeChange = () => {
       // order()
@@ -501,6 +516,7 @@ export default defineComponent({
       computedTotalPrice,
       nonUS,
       changeCompanyName,
+      isDollar,
       dialogFormVisible,
       query
     }
@@ -514,30 +530,10 @@ export default defineComponent({
   width: 100%;
 }
 
-.total-price {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  height: 80px;
-  font-weight: bold;
-  font-size: 20px;
-  margin-left: 20px;
-
-  .price {
-    font-size: 24px;
-  }
-}
-
 .desc {
   font-size: 14px;
   color: #ccc;
   line-height: 50px;
-}
-
-.price {
-  font-size: 20px;
-  font-weight: bold;
-  color: #67c23a;
 }
 
 .el-input-number.full-width-input,

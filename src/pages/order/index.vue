@@ -116,7 +116,7 @@ const userInfo = ref(JSON.parse(localStorage.getItem('userInfo') as any))
 const isLogin = () => {
   if (userInfo.value == null) {
     userInfo.value = { agent: '' }
-    router.push("/login")
+    router.push('/login')
     return
   }
 }
@@ -151,23 +151,35 @@ const getRuleList = (data) => {
   // TAX   ANNUAL_REVIEW  ACCOUNTING    REGISTER_COMPANY  SALE_TAX
   let region = data.selectRegion
   ruleList({ page: 1, count: 20, businessType: typeValue, region: region, company_type: 'C' }).then((res: any) => {
-    const list = res.data.toSorted((a, b) => {
-      if (a.order > b.order) {
-        return 1
-      } else {
-        return -1
-      }
-    })
+    const list = res.data
+      .filter((item) => {
+        if (item) {
+          return item
+        }
+      })
+      .toSorted((a, b) => {
+        if (a.order > b.order) {
+          return 1
+        } else {
+          return -1
+        }
+      })
     ruleListDataC.value = list
   })
   ruleList({ page: 1, count: 20, businessType: typeValue, region: region, company_type: 'LLC' }).then((res: any) => {
-    const list = res.data.toSorted((a, b) => {
-      if (a.order > b.order) {
-        return 1
-      } else {
-        return -1
-      }
-    })
+    const list = res.data
+      .filter((item) => {
+        if (item) {
+          return item
+        }
+      })
+      .toSorted((a, b) => {
+        if (a.order > b.order) {
+          return 1
+        } else {
+          return -1
+        }
+      })
     ruleListDataLLC.value = list
   })
 }
@@ -291,7 +303,22 @@ const updateOrderStatusHandle = async (status) => {
   // }, 300);
 }
 const createOrder = () => {
-  console.log(agent.value);
+  // console.log(agent.value);
+  console.log(param.order.selectRegion)
+  if (!companyName.value) {
+    ElMessage.error('请收入公司名称')
+    return
+  }
+
+  if (!param.order.selectRegion) {
+    ElMessage.error('请选择所在区域')
+    return
+  }
+
+  if (!param.order.companyType) {
+    ElMessage.error('请选择公司类型')
+    return
+  }
   orderCreate({ order_status: 10, businessType: typeValue, creator: userInfo.value.uid, companyName: companyName.value, content: { ...param, ...agent.value } })
     .then((res: any) => {
       orderId.value = res.data.order_id
@@ -322,6 +349,7 @@ const saveOrder = () => {
     })
 }
 const updateOrder = (val: any) => {
+  console.log(val)
   param.order = { ...param.order, ...val }
 }
 const updateCompanyName = (val: any) => {
@@ -369,6 +397,7 @@ const initOrder = () => {
       console.log(err)
     })
 }
+provide('content', param)
 onMounted(() => {
   if (orderId.value !== undefined) {
     initOrder()
@@ -413,5 +442,6 @@ onMounted(() => {
   /* background: #f1f1f1; */
 }
 
-:deep(.el-descriptions__content) {}
+:deep(.el-descriptions__content) {
+}
 </style>

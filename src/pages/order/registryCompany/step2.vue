@@ -42,52 +42,49 @@
           </template>
 
           <template v-if="item.field_name == 'shareholders'">
-            <el-descriptions-item label="股东数大于5的个数：">{{ order.shareholders  }}</el-descriptions-item>
+            <el-descriptions-item label="股东数大于5的个数：">{{ order.shareholders }}</el-descriptions-item>
             <el-descriptions-item label="费用：">
-              {{ order.shareholders * item.price}}
+              {{ order.shareholders * item.price }}
             </el-descriptions-item>
           </template>
 
           <template v-if="item.field_name == 'certificate_of_incumbency'">
-            <el-descriptions-item :label="item.rule_content + '：'">{{ order.certificate_of_incumbency?'是':'否'  }}</el-descriptions-item>
+            <el-descriptions-item :label="item.rule_content + '：'">{{ order.certificate_of_incumbency ? '是' : '否' }}</el-descriptions-item>
             <el-descriptions-item label="费用：">
               {{ order.certificate_of_incumbency ? item.price : 0 }}
             </el-descriptions-item>
           </template>
 
           <template v-if="item.field_name == 'certificate_of_incumbency_num'">
-            <el-descriptions-item :label="item.rule_content + '：'">{{ order.certificate_of_incumbency_num  }}</el-descriptions-item>
+            <el-descriptions-item :label="item.rule_content + '：'">{{ order.certificate_of_incumbency_num }}</el-descriptions-item>
             <el-descriptions-item label="费用：">
-              {{ order.certificate_of_incumbency_num  *  item.price}}
+              {{ order.certificate_of_incumbency_num * item.price }}
             </el-descriptions-item>
           </template>
 
           <template v-if="item.field_name == 'certificate_of_good_standing'">
-            <el-descriptions-item :label="item.rule_content + '：'">{{ order.certificate_of_good_standing?'是':'否'  }}</el-descriptions-item>
+            <el-descriptions-item :label="item.rule_content + '：'">{{ order.certificate_of_good_standing ? '是' : '否' }}</el-descriptions-item>
             <el-descriptions-item label="费用：">
               {{ order.certificate_of_good_standing ? item.price : 0 }}
             </el-descriptions-item>
           </template>
 
           <template v-if="item.field_name == 'express_service'">
-            <el-descriptions-item :label="item.rule_content + '：'">{{ order.express_service?'是':'否'  }}</el-descriptions-item>
+            <el-descriptions-item :label="item.rule_content + '：'">{{ order.express_service ? '是' : '否' }}</el-descriptions-item>
             <el-descriptions-item label="费用：">
               {{ order.express_service ? item.price : 0 }}
             </el-descriptions-item>
           </template>
-          
+
         </template>
       </template>
     </el-descriptions>
-    <div>
-      <div class="total-price">
-        <span>原价：</span>
-        <span class="price">{{ order.us === false ? '￥' : '$' }}{{ order.oldTotalPrice }}</span>
-      </div>
-      <div class="total-price">
-        <span>折扣价：</span>
-        <span class="price">{{ order.us === false ? '￥' : '$' }}{{ order.totalPrice }}</span>
-      </div>
+
+    <div class="total-price">
+      <span>原价：</span>
+      <span class="price">{{ order.isDollar ? "$" : "￥" }}{{ order.oldTotalPrice }}</span>
+      <span>折扣价：</span>
+      <span class="price">{{ order.isDollar ? "$" : "￥" }}{{ order.totalPrice }}</span>
     </div>
   </div>
 </template>
@@ -124,16 +121,6 @@ export default defineComponent({
   font-size: 14px;
   color: #ccc;
   line-height: 50px;
-}
-
-.total-price {
-  font-size: 24px;
-  font-weight: bold;
-  color: #000;
-
-  .price {
-    color: #67c23a;
-  }
 }
 
 .el-input-number.full-width-input,

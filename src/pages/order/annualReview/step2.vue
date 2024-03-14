@@ -36,15 +36,11 @@
         </template>
       </template>
     </el-descriptions>
-    <div>
-      <div class="total-price">
-        <span>原价：</span>
-        <span class="price">{{ order.us === false ? '￥' : '$' }}{{ order.oldTotalPrice }}</span>
-      </div>
-      <div class="total-price">
-        <span>折扣价：</span>
-        <span class="price">{{ order.us === false ? '￥' : '$' }}{{ order.totalPrice }}</span>
-      </div>
+    <div class="total-price">
+      <span>原价：</span>
+      <span class="price">{{ order.isDollar ? "$" : "￥" }}{{ order.oldTotalPrice }}</span>
+      <span>折扣价：</span>
+      <span class="price">{{ order.isDollar ? "$" : "￥" }}{{ order.totalPrice }}</span>
     </div>
   </div>
 </template>
@@ -81,16 +77,6 @@ export default defineComponent({
   font-size: 14px;
   color: #ccc;
   line-height: 50px;
-}
-
-.total-price {
-  font-size: 24px;
-  font-weight: bold;
-  color: #000;
-
-  .price {
-    color: #67c23a;
-  }
 }
 
 .el-input-number.full-width-input,

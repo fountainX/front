@@ -2,7 +2,7 @@
   <el-divider content-position="left">
     <h2>报税-报价</h2>
   </el-divider>
-  <div class="desc">选择您想要的州和业务类型，然后选择您的附加组件以开始您的订单111</div>
+  <div class="desc">选择您想要的州和业务类型，然后开始创建您的订单</div>
   <el-form :model="formData" ref="vForm" :rules="rules" label-position="right" label-width="180px" size="default" @submit.prevent>
     <el-row>
       <el-col :span="16" class="grid-cell">
@@ -17,7 +17,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="6" style="margin-left: 40px">
-                <el-button plain @click="nonUS()">非美国</el-button>
+                <el-button plain @click="nonUS()" v-if="currentRegion.name == '其他'">联系客服</el-button>
                 <!-- <el-link to="/customerService">非美国</el-link> -->
                 <!--<el-form-item label="" prop="noUSA">
                   <el-radio-group v-model="formData.noUSA">
@@ -68,11 +68,10 @@
       </el-col>
       <el-col :span="8" class="grid-cell">
         <div class="total-price">
-          <div>原价：${{ computedTotalPrice() }}</div>
-          <div>
-            折扣价：
-            <span class="price">${{ (computedTotalPrice() * rate) / 100 }}</span>
-          </div>
+          <span>原价：</span>
+          <span class="price">{{ isDollar() ? '$' : '￥' }} {{ computedTotalPrice() }}</span><br>
+          <span>折扣价：</span>
+          <span class="price">{{ isDollar() ? '$' : '￥' }}{{ (computedTotalPrice() * rate) / 100 }}</span>
           <!-- <span class="price">${{ computedTotalPrice() }}</span> -->
         </div>
       </el-col>
@@ -193,7 +192,7 @@
     </el-row>
   </el-form>
 
-  <el-dialog v-model="dialogFormVisible" title="非美国">
+  <el-dialog v-model="dialogFormVisible" title="联系客服">
     <SeekAdvice :params="query"></SeekAdvice>
     <!-- <el-form :model="form">
       <el-form-item label="业务类型：" :label-width="formLabelWidth">
@@ -243,6 +242,20 @@ export default defineComponent({
     const company_name = ref(props.companyName)
     const ruleListDataC = inject('ruleListDataC')
     const ruleListDataLLC = inject('ruleListDataLLC')
+    const isDollar = () => {
+      let rule = null
+      let res = true
+      if (state.formData.companyType == 1) {
+        rule = ruleListDataC.value[0]
+      } else if (state.formData.companyType == 2) {
+        rule = ruleListDataLLC.value[0]
+      }
+      if (rule) {
+        res = rule.dollar
+      }
+      state.formData.isDollar = res;
+      return res
+    }
     const state = reactive({
       formData: {
         selectRegion: '',
@@ -268,7 +281,9 @@ export default defineComponent({
         subsidiary_us: 0,
         subsidiary_non_us_number: 0
       } as any,
-
+      currentRegion: {
+        us: true
+      },
       selectAreaOptions: [],
       rules: {
         mainBusinessType: [
@@ -397,6 +412,7 @@ export default defineComponent({
     // 初始化父组件数据
     state.formData = props.order
     const saveOrder = () => {
+      state.formData.isDollar = isDollar()
       context.emit('update', state.formData)
     }
     const changeCompanyName = () => {
@@ -497,8 +513,8 @@ export default defineComponent({
           }
         }
       }
-      state.formData.totalPrice = (price1 + state.formData.companyMainIncome.price) * rate / 100;
-      state.formData.oldTotalPrice = price1 + state.formData.companyMainIncome.price;
+      state.formData.totalPrice = ((price1 + state.formData.companyMainIncome.price) * rate) / 100
+      state.formData.oldTotalPrice = price1 + state.formData.companyMainIncome.price
       props.invoice.price = state.formData.totalPrice
       return price1 + state.formData.companyMainIncome.price
     }
@@ -531,6 +547,7 @@ export default defineComponent({
           state.selectAreaOptions.find((item) => {
             return item.code == newVal
           }) || {}
+        state.currentRegion = region
         state.formData.regionText = region.name
       }
     )
@@ -576,6 +593,7 @@ export default defineComponent({
       computedTotalPrice,
       nonUS,
       changeCompanyName,
+      isDollar,
       dialogFormVisible,
       query
     }
@@ -590,30 +608,10 @@ export default defineComponent({
   color: #ccc;
 }
 
-.total-price {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  height: 80px;
-  font-weight: bold;
-  font-size: 20px;
-  margin-left: 20px;
-
-  .price {
-    font-size: 24px;
-  }
-}
-
 .desc {
   font-size: 14px;
   color: #ccc;
   line-height: 50px;
-}
-
-.price {
-  font-size: 20px;
-  font-weight: bold;
-  color: #67c23a;
 }
 
 .el-input-number.full-width-input,
