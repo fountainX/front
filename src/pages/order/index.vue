@@ -38,6 +38,47 @@
               <RegistryCompanyStep2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no" @update="updatePrice"></RegistryCompanyStep2>
               <RegistryCompanyStep9 v-if="active == 8" :detail="param" :companyName="companyName" :order_no="order_no" :orderId="orderId"></RegistryCompanyStep9>
             </template>
+
+            <template v-if="typeValue == 51">
+              <TaxLAStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder" @updateCompanyName="updateCompanyName"></TaxLAStep1>
+              <TaxLAStep2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no" @update="updatePrice"></TaxLAStep2>
+              <TaxLAStep9 v-if="active == 8" :detail="param" :companyName="companyName" :order_no="order_no" :orderId="orderId"></TaxLAStep9>
+            </template>
+            <template v-if="typeValue == 52">
+              <TaxRStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder" @updateCompanyName="updateCompanyName"></TaxRStep1>
+              <TaxRStep2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no" @update="updatePrice"></TaxRStep2>
+              <TaxRStep9 v-if="active == 8" :detail="param" :companyName="companyName" :order_no="order_no" :orderId="orderId"></TaxRStep9>
+            </template>
+            <template v-if="typeValue == 91">
+              <ODIStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder" @updateCompanyName="updateCompanyName"></ODIStep1>
+              <ODIStep2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no" @update="updatePrice"></ODIStep2>
+              <ODIStep9 v-if="active == 8" :detail="param" :companyName="companyName" :order_no="order_no" :orderId="orderId"></ODIStep9>
+            </template>
+            <template v-if="typeValue == 92">
+              <BAOStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder" @updateCompanyName="updateCompanyName"></BAOStep1>
+              <BAOStep2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no" @update="updatePrice"></BAOStep2>
+              <BAOStep9 v-if="active == 8" :detail="param" :companyName="companyName" :order_no="order_no" :orderId="orderId"></BAOStep9>
+            </template>
+
+            <template v-if="typeValue == 93">
+              <LVisaStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder" @updateCompanyName="updateCompanyName"></LVisaStep1>
+            </template>
+
+            <template v-if="typeValue == 94">
+              <EB2Step1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder" @updateCompanyName="updateCompanyName"></EB2Step1>
+            </template>
+
+            <template v-if="typeValue == 95">
+              <MGCStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder" @updateCompanyName="updateCompanyName"></MGCStep1>
+            </template>
+
+            <template v-if="typeValue == 96">
+              <MBVStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder" @updateCompanyName="updateCompanyName"></MBVStep1>
+            </template>
+
+            <template v-if="typeValue == 97">
+              <USIStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder" @updateCompanyName="updateCompanyName"></USIStep1>
+            </template>
             <!-- <Step2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no" @update="updatePrice"></Step2> -->
             <Step3 ref="step" v-if="active == 2" :agentName="param.agent_name" :companyName="companyName" :invoice="param.invoice" :order_no="order_no" @update="updateInvoice"></Step3>
             <Step4 ref="step" v-if="active == 3" :pay="param.pay" @update="updatePayInfo" :orderId="orderId"></Step4>
@@ -47,10 +88,12 @@
             <Step8 ref="step" v-if="active == 7" :backSign="param.backSign"></Step8>
             <Step9 v-if="active == 8" :detail="param" :companyName="companyName" :order_no="order_no" :orderId="orderId"></Step9>
           </el-card>
-          <div style="margin-top: 15px">
-            <el-button v-if="active == 1" @click="prev">上一步</el-button>
-            <el-button @click="saveOrder()">确认</el-button>
-            <el-button v-if="active == 0" @click="next">{{ active == 1 && orderId == undefined ? '创建订单' : '下一步' }}</el-button>
+          <div v-if="param.order.selectRegion != 'XX' && typeValue < 93">
+            <div style="margin-top: 15px" v-if="!param.order.is_operate_in_us">
+              <el-button v-if="active == 1" @click="prev">上一步</el-button>
+              <el-button @click="saveOrder()">确认</el-button>
+              <el-button v-if="active == 0" @click="next">{{ active == 1 && orderId == undefined ? '创建订单' : '下一步' }}</el-button>
+            </div>
           </div>
         </div>
       </el-col>
@@ -61,11 +104,11 @@
   <Footer></Footer>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted, provide } from 'vue'
+import { ref, reactive, onMounted, provide, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import Header from '../../components/header.vue'
 import Footer from '../../components/footer.vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import TaxStep1 from './tax/step1.vue'
 import TaxStep2 from './tax/step2.vue'
 import TaxStep9 from './tax/step9.vue'
@@ -78,6 +121,23 @@ import AccountingStep9 from './accounting/step9.vue'
 import RegistryCompanyStep1 from './registryCompany/step1.vue'
 import RegistryCompanyStep2 from './registryCompany/step2.vue'
 import RegistryCompanyStep9 from './registryCompany/step9.vue'
+import TaxLAStep1 from './taxLA/step1.vue'
+import TaxLAStep2 from './taxLA/step2.vue'
+import TaxLAStep9 from './taxLA/step9.vue'
+import TaxRStep1 from './taxR/step1.vue'
+import TaxRStep2 from './taxR/step2.vue'
+import TaxRStep9 from './taxR/step9.vue'
+import ODIStep1 from './ODI/step1.vue'
+import ODIStep2 from './ODI/step2.vue'
+import ODIStep9 from './ODI/step9.vue'
+import BAOStep1 from './bankAccountOpening/step1.vue'
+import BAOStep2 from './bankAccountOpening/step2.vue'
+import BAOStep9 from './bankAccountOpening/step9.vue'
+import LVisaStep1 from './lVisa/step1.vue'
+import EB2Step1 from './EB2/step1.vue'
+import MGCStep1 from './MGC/step1.vue'
+import MBVStep1 from './MBV/step1.vue'
+import USIStep1 from './USI/step1.vue'
 import Step2 from './step2.vue'
 import Step3 from './step3.vue'
 import Step4 from './step4.vue'
@@ -90,29 +150,62 @@ import { orderCreate, orderUpdate, orderShow, updateOrderStatus } from '@/http/a
 import { ruleList, agentShow } from '@/http/api/pub.ts'
 import { getToken } from '@/utils/auth.ts'
 const router = useRouter()
-
+const route = useRoute();
 let type = router.currentRoute.value.query.type
 let typeValue
-switch (type) {
-  case 'TAX':
-    typeValue = 10
-    break
-  case 'ANNUAL_REVIEW':
-    typeValue = 20
-    break
-  case 'ACCOUNTING':
-    typeValue = 30
-    break
-  case 'REGISTER_COMPANY':
-    typeValue = 40
-    break
-  default:
-    break
+
+const setTypeValue = (type) => {
+  switch (type) {
+    case 'TAX':
+      typeValue = 10
+      break
+    case 'ANNUAL_REVIEW':
+      typeValue = 20
+      break
+    case 'ACCOUNTING':
+      typeValue = 30
+      break
+    case 'REGISTER_COMPANY':
+      typeValue = 40
+      break
+    case 'SALE_TAX_LICENSE_APPLICATION':
+      typeValue = 51
+      break
+    case 'SALE_TAX_REPORT':
+      typeValue = 52
+      break
+    case 'ODI_CHECKIN':
+      typeValue = 91
+      break
+    case 'BANK_ACCOUNT_OPENING':
+      typeValue = 92
+      break
+    case 'L_VISA':
+      typeValue = 93
+      break
+    case 'US_EB2_IMMIGRATION':
+      typeValue = 94
+      break
+    case 'MEXICAN_GREEN_CARD':
+      typeValue = 95
+      break
+    case 'MEXICAN_BUSINESS_VISA':
+      typeValue = 96
+      break
+    case 'US_INSURANCE':
+      typeValue = 97
+      break
+    default:
+      break
+  }
 }
+setTypeValue(type)
+
 const agent = ref({})
 const orderId = ref(router.currentRoute.value.query.orderId)
 const userInfo = ref(JSON.parse(localStorage.getItem('userInfo') as any))
 // console.log(11, getToken())
+
 const isLogin = () => {
   if (userInfo.value == null) {
     userInfo.value = { agent: '' }
@@ -138,8 +231,10 @@ const stage = reactive([
 ])
 const ruleListDataC = ref([])
 const ruleListDataLLC = ref([])
+const ruleListDataLP = ref([])
 provide('ruleListDataC', ruleListDataC)
 provide('ruleListDataLLC', ruleListDataLLC)
+provide('ruleListDataLP', ruleListDataLP)
 provide('typeValue', typeValue)
 provide('agent', agent)
 const getAgent = () => {
@@ -181,6 +276,23 @@ const getRuleList = (data) => {
         }
       })
     ruleListDataLLC.value = list
+  })
+
+  ruleList({ page: 1, count: 20, businessType: typeValue, region: region, company_type: 'LP' }).then((res: any) => {
+    const list = res.data
+      .filter((item) => {
+        if (item) {
+          return item
+        }
+      })
+      .toSorted((a, b) => {
+        if (a.order > b.order) {
+          return 1
+        } else {
+          return -1
+        }
+      })
+    ruleListDataLP.value = list
   })
 }
 // 业务订单
@@ -398,6 +510,15 @@ const initOrder = () => {
     })
 }
 provide('content', param)
+
+watch(() => route.query.type, (newValue) => {
+  setTypeValue(type)
+  console.log(newValue)
+  setTimeout(() => {
+    window.location.reload()
+  }, 100);
+  // window.location.reload()
+});
 onMounted(() => {
   if (orderId.value !== undefined) {
     initOrder()
@@ -437,11 +558,12 @@ onMounted(() => {
 
 :deep(.el-descriptions__label) {
   display: inline-block;
-  width: 140px;
+  min-width: 120px;
+  padding-left: 20px;
+  /* width: 180px; */
   text-align: right;
   /* background: #f1f1f1; */
 }
 
-:deep(.el-descriptions__content) {
-}
+:deep(.el-descriptions__content) {}
 </style>

@@ -45,3 +45,8 @@ export function invoiceCreate(data) {
 export async function invoiceUpdate(data: { invoice_id: any }) {
   return http.post(`/invoice/update/${data.invoice_id}`, data)
 }
+
+// 发送邮件
+export async function snedEmail(data: any) {
+  return http.post(`/order/send_email/`, data)
+}

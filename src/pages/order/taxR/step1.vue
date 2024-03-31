@@ -1,6 +1,6 @@
 <template>
   <el-divider content-position="left">
-    <h2>做账-报价</h2>
+    <h2>销售税-申报</h2>
   </el-divider>
   <div class="desc">选择您想要的州和业务类型，然后开始创建您的订单</div>
   <el-form :model="formData" ref="vForm" :rules="rules" label-position="right" label-width="180px" size="default" @submit.prevent>
@@ -16,14 +16,14 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="6" style="margin-left: 40px" v-if="currentRegion.name == '其他'">
-                <el-button plain @click="nonUS()">联系客服</el-button>
+              <el-col :span="6" style="margin-left: 40px">
+                <el-button plain @click="nonUS()" v-if="currentRegion.name == '其他'">联系客服</el-button>
               </el-col>
             </el-row>
           </el-col>
 
           <el-col :span="24">
-            <!-- <el-form-item label="公司类型：" prop="companyType" class="label-right-align">
+            <el-form-item label="公司类型：" prop="companyType" class="label-right-align">
               <el-radio-group @change="companyChange" v-model="formData.companyType">
                 <el-radio
                   v-for="(item, index) in incTypeOptions"
@@ -35,11 +35,12 @@
                       display: inline;
                     }
                   "
-                  @change="companyTypeChange(item.value)">
+                  @change="companyTypeChange(item.value)"
+                >
                   {{ item.label }}
                 </el-radio>
               </el-radio-group>
-            </el-form-item> -->
+            </el-form-item>
           </el-col>
           <el-col :span="24">
             <el-form-item label="公司名称：" class="label-right-align">
@@ -51,127 +52,25 @@
       <el-col :span="8" class="grid-cell">
         <div class="total-price">
           <span>原价：</span>
-          <span class="price">{{ isDollar() ? '$' : '￥' }} {{ computedTotalPrice() }}</span><br>
+          <span class="price">{{ isDollar() ? '$' : '￥' }} {{ computedTotalPrice() }}</span>
+          <br />
           <span>折扣价：</span>
           <span class="price">{{ isDollar() ? '$' : '￥' }}{{ (computedTotalPrice() * rate) / 100 }}</span>
           <!-- <span class="price">${{ computedTotalPrice() }}</span> -->
         </div>
       </el-col>
     </el-row>
-    <div>
-      <el-row v-for="item in ruleListDataC" :key="item.field_name">
+    <el-row>
+      <template v-for="(item, index) in ruleListDataC">
         <el-col :span="24" class="grid-cell">
-          <template v-if="item.field_name == 'is_operate_in_us'">
-            <el-form-item :label="item.rule_content + '：'" class="label-right-align">
-              <el-switch v-model="formData.is_operate_in_us" />
-              <el-button style="margin-left: 20px;" plain v-if="formData.is_operate_in_us" @click="cs">联系客服</el-button>
-            </el-form-item>
-          </template>
-        </el-col>
-      </el-row>
-
-      <el-row v-if="!formData.is_operate_in_us" v-for="item in ruleListDataC" :key="item.field_name">
-        <template v-if="item.field_name == 'is_e_commerce'">
-          <el-col :span="24" class="grid-cell">
-            <el-form-item :label="item.rule_content + '：'" class="label-right-align">
-              <el-switch v-model="formData.is_e_commerce" />
-            </el-form-item>
-          </el-col>
-          <el-col v-if="formData.is_e_commerce" :span="24" class="grid-cell">
-            <el-form-item label="电商类型：" class="label-right-align">
-              <el-radio-group v-model="formData.e_type">
-                <el-radio label="1">有固定资产/存货</el-radio>
-                <el-radio label="2">无固定资产/存货</el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </el-col>
-          <!-- 有 -->
-          <template v-if="formData.is_e_commerce && formData.e_type == 1">
-            <!-- 获取列表 -->
-            <el-form-item label="报价类型：" class="label-right-align">
-              <el-radio-group v-model="formData.e_price_type">
-                <el-radio v-for="item2 in getPiceFromC('is_inventory_or_fixed_assets')" :label="item2.id">{{ item2.rule_content }}</el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </template>
-
-          <!-- 无 -->
-          <template v-if="formData.is_e_commerce && formData.e_type == 2">
-            <el-form-item label="报价类型：" class="label-right-align">
-              <!-- 获取列表 -->
-              <el-radio-group v-model="formData.e_price_type">
-                <el-radio v-for="item2 in getPiceFromC('no_fixed_assets_inventory')" :label="item2.id">{{ item2.rule_content }}</el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </template>
-        </template>
-
-        <!-- 非电商 -->
-        <template v-if="!formData.is_e_commerce && item.field_name == 'no_e_commerce'">
-          <el-form-item label="银行流水笔数：" class="label-right-align">
-            <!-- 获取列表 -->
-            <el-radio-group v-model="formData.bank_count">
-              <el-radio v-for="item2 in getPiceFromC('bank_accounts_number')" :label="item2.id">{{ item2.rule_content }}</el-radio>
-            </el-radio-group>
+          <el-form-item label="费用：" prop="sale_tax_license_apply" class="required label-right-align">
+            <span>{{ item.price }}</span>
           </el-form-item>
-        </template>
-      </el-row>
-    </div>
-
-    <!-- <div v-else-if="formData.companyType == 2">
-      <el-row v-for="item in ruleListDataLLC" :key="item.field_name">
-        <el-col :span="24" class="grid-cell">
-          <template v-if="item.field_name == 'is_operate_in_us'">
-            <el-form-item :label="item.rule_content + '：'" class="label-right-align">
-              <el-switch v-model="formData.is_operate_in_us" />
-              <span style="margin-left: 10px" v-if="formData.is_operate_in_us" @click="cs">联系客服</span>
-            </el-form-item>
-          </template>
         </el-col>
-      </el-row>
-
-      <el-row v-if="!formData.is_operate_in_us" v-for="item in ruleListDataC" :key="item.field_name">
-        <template v-if="item.field_name == 'is_e_commerce'">
-          <el-col :span="24" class="grid-cell">
-            <el-form-item :label="item.rule_content + '：'" class="label-right-align">
-              <el-switch v-model="formData.is_e_commerce" />
-            </el-form-item>
-          </el-col>
-          <el-col v-if="formData.is_e_commerce" :span="24" class="grid-cell">
-            <el-form-item label="电商类型：" class="label-right-align">
-              <el-radio-group v-model="formData.e_type">
-                <el-radio label="1">有固定资产/存货</el-radio>
-                <el-radio label="2">无固定资产/存货</el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </el-col>
-          <template v-if="formData.is_e_commerce && formData.e_type == 1">
-            <el-form-item label="报价类型：" class="label-right-align">
-              <el-radio-group>
-                <el-radio v-for="item2 in getPiceFromLLC('is_inventory_or_fixed_assets')">{{ item2.rule_content }}</el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </template>
-
-          <template v-if="formData.is_e_commerce && formData.e_type == 2">
-            <el-form-item label="报价类型：" class="label-right-align">
-              <el-radio-group>
-                <el-radio v-for="item2 in getPiceFromLLC('no_fixed_assets_inventory')">{{ item2.rule_content }}</el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </template>
-        </template>
-
-        <template v-if="!formData.is_e_commerce && item.field_name == 'no_e_commerce'">
-          <el-form-item label="银行流水笔数：" class="label-right-align">
-            <el-radio-group>
-              <el-radio v-for="item2 in getPiceFromLLC(' bank_accounts_number')">{{ item2.rule_content }}</el-radio>
-            </el-radio-group>
-          </el-form-item>
-        </template>
-      </el-row>
-    </div> -->
+      </template>
+    </el-row>
   </el-form>
+
   <el-dialog v-model="dialogFormVisible" title="联系客服">
     <SeekAdvice :params="query"></SeekAdvice>
   </el-dialog>
@@ -181,8 +80,6 @@
 import { defineComponent, toRefs, reactive, getCurrentInstance, onMounted, ref, watch, inject } from 'vue'
 import { regionList, ruleList } from '@/http/api/pub.ts'
 import SeekAdvice from '@/pages/customerService/index.vue'
-// import { ruleList, agentList, invoiceList } from '@/http/api/pub.ts'
-
 import { useRouter, useRoute } from 'vue-router'
 
 export default defineComponent({
@@ -209,14 +106,48 @@ export default defineComponent({
     const company_name = ref(props.companyName)
     const ruleListDataC = inject('ruleListDataC')
     const ruleListDataLLC = inject('ruleListDataLLC')
-    const us = ref(true)
+    const isDollar = () => {
+      let rule = null
+      let res = true
+      if (state.formData.companyType == 1) {
+        rule = ruleListDataC.value[0]
+      } else if (state.formData.companyType == 2) {
+        rule = ruleListDataLLC.value[0]
+      }
+      if (rule) {
+        res = rule.dollar
+      }
+      state.formData.isDollar = res
+      return res
+    }
     const state = reactive({
       formData: {
         selectRegion: '',
         regionText: '',
-        companyType: '1'
+        companyType: '',
+        companyMainIncome: {
+          price: 0
+        },
+        mainBusinessIncome: {
+          // type: { income: 0, price: 260, mark: "0资产运营", area: "佛罗里达" },
+          type: '',
+          inUSchildCompany: 2,
+          noUSchildCompany: 1
+        },
+        mainBusinessType: '',
+        totalCompanyAssets: '',
+        fixedAssetAmount: '',
+        isMoneyTrading: true,
+        isChildCompany: true,
+        isConfirm: true,
+        amount_fixed_asset: 0,
+        exchange_fund_com_number: 0,
+        subsidiary_us: 0,
+        subsidiary_non_us_number: 0
       } as any,
-      currentRegion: {},
+      currentRegion: {
+        us: true
+      },
       selectAreaOptions: [],
       rules: {
         mainBusinessType: [
@@ -264,10 +195,6 @@ export default defineComponent({
         {
           label: 'C公司',
           value: 1
-        },
-        {
-          label: 'LLC',
-          value: 2
         }
       ],
       businessTypeOptions: [
@@ -344,9 +271,8 @@ export default defineComponent({
     const companyMainIncome = ref({ price: 0 })
     // 初始化父组件数据
     state.formData = props.order
-    state.formData.companyType = '1'
-    state.formData.is_operate_in_us = props.order.is_operate_in_us
     const saveOrder = () => {
+      state.formData.isDollar = isDollar()
       context.emit('update', state.formData)
     }
     const changeCompanyName = () => {
@@ -377,36 +303,24 @@ export default defineComponent({
     const getRuleList = () => {
       // TAX   ANNUAL_REVIEW  ACCOUNTING    REGISTER_COMPANY  SALE_TAX
       let region = state.formData.selectRegion
-      ruleList({ page: 1, count: 200, businessType: 30, region: region, company_type: 'C' }).then((res: any) => {
-        const list = res.data
-          .filter((item) => {
-            if (item) {
-              return item
-            }
-          })
-          .toSorted((a, b) => {
-            if (a.order > b.order) {
-              return 1
-            } else {
-              return -1
-            }
-          })
+      ruleList({ page: 1, count: 20, businessType: 52, region: region, company_type: 'C' }).then((res: any) => {
+        const list = res.data.toSorted((a, b) => {
+          if (a.order > b.order) {
+            return 1
+          } else {
+            return -1
+          }
+        })
         ruleListDataC.value = list
       })
-      ruleList({ page: 1, count: 200, businessType: 30, region: region, company_type: 'LLC' }).then((res: any) => {
-        const list = res.data
-          .filter((item) => {
-            if (item) {
-              return item
-            }
-          })
-          .toSorted((a, b) => {
-            if (a.order > b.order) {
-              return 1
-            } else {
-              return -1
-            }
-          })
+      ruleList({ page: 1, count: 20, businessType: 52, region: region, company_type: 'LLC' }).then((res: any) => {
+        const list = res.data.toSorted((a, b) => {
+          if (a.order > b.order) {
+            return 1
+          } else {
+            return -1
+          }
+        })
         ruleListDataLLC.value = list
       })
     }
@@ -427,66 +341,19 @@ export default defineComponent({
     }
     const computedTotalPrice = () => {
       let price1 = 0
-      // 做账都走C规则
-      if (state.formData.companyType == 1) {
-        //如果是电商
-        if (state.formData.is_e_commerce) {
-          let id = state.formData.e_price_type
-          let res = ruleListDataC.value.find((item) => {
-            return item.id == id
-          })
-          if (res) {
-            price1 = res.price
-          }
-        } else {
-          let id = state.formData.bank_count
-          let res = ruleListDataC.value.find((item) => {
-            return item.id == id
-          })
-          if (res) {
-            price1 = res.price
-          }
-        }
-      } // 如果是LLC
-      else if (state.formData.companyType == 2) {
-      }
+      ruleListDataC.value.map((item) => {
+        price1 += item.price
+      })
       state.formData.totalPrice = (price1 * rate) / 100
       state.formData.oldTotalPrice = price1
       props.invoice.price = state.formData.totalPrice
       return price1
     }
-    const cs = () => {
-      let query = {
-        type: 30,
-        desc: '做账'
-      }
-      if (props.orderId) {
-        query.orderId = props.orderId
-      }
-      if (props.orderStatus) {
-        query.orderStatus = props.orderStatus
-      }
-      dialogFormVisible.value = true
-    }
-    const getPiceFromC = (field) => {
-      let list = ruleListDataC.value.filter((item) => {
-        return item.field_name == field
-      })
-
-      console.log(list.length)
-      return list
-    }
-    const getPiceFromLLC = (field) => {
-      let list = ruleListDataLLC.value.filter((item) => {
-        return item.field_name == field
-      })
-      return list
-    }
 
     let dialogFormVisible = ref(false)
     let query = reactive({
-      type: 30,
-      desc: '做账'
+      type: 10,
+      desc: '报税'
     })
     const nonUS = () => {
       dialogFormVisible.value = true
@@ -498,20 +365,6 @@ export default defineComponent({
       }
 
       // router.push({ name: 'customerService', query: query })
-    }
-    const isDollar = () => {
-      let rule = null
-      let res = true
-      if (state.formData.companyType == 1) {
-        rule = ruleListDataC.value[0]
-      } else if (state.formData.companyType == 2) {
-        rule = ruleListDataLLC.value[0]
-      }
-      if (rule) {
-        res = rule.dollar
-      }
-      state.formData.isDollar = res
-      return res
     }
     onMounted(() => {
       // state.formData = order
@@ -571,13 +424,9 @@ export default defineComponent({
       computedTotalPrice,
       nonUS,
       changeCompanyName,
-      dialogFormVisible,
-      query,
-      getPiceFromC,
-      getPiceFromLLC,
-      cs,
       isDollar,
-      us
+      dialogFormVisible,
+      query
     }
   }
 })
@@ -587,8 +436,8 @@ export default defineComponent({
 .tip {
   font-size: 12px;
   width: 100%;
+  color: #ccc;
 }
-
 
 .desc {
   font-size: 14px;
@@ -663,7 +512,8 @@ div.table-container {
   }
 }
 
-div.tab-container {}
+div.tab-container {
+}
 
 .label-left-align :deep(.el-form-item__label) {
   text-align: left;
@@ -677,7 +527,8 @@ div.tab-container {}
   text-align: right;
 }
 
-.custom-label {}
+.custom-label {
+}
 
 .static-content-item {
   min-height: 20px;
@@ -703,7 +554,8 @@ div.table-container {
   }
 }
 
-div.tab-container {}
+div.tab-container {
+}
 
 .label-left-align :deep(.el-form-item__label) {
   text-align: left;
@@ -717,7 +569,8 @@ div.tab-container {}
   text-align: right;
 }
 
-.custom-label {}
+.custom-label {
+}
 
 .static-content-item {
   min-height: 20px;

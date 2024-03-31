@@ -90,7 +90,9 @@
       <FileList :list="pay.voucher" size="100" />
     </div>
 
-    <el-divider content-position="left">材料审核</el-divider>
+    <el-divider content-position="left">
+      <h6>材料审核</h6>
+    </el-divider>
     <div class="table-container">
       <table class="table-layout">
         <tbody>

@@ -144,7 +144,7 @@ const businessTypeList = [
   },
   {
     id: 52,
-    value: 'SALE_TAX_LICENSE_APPLICATION',
+    value: 'SALE_TAX_REPORT',
     desc: '销售税-申报'
   },
   {

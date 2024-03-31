@@ -50,23 +50,54 @@ const showTypeName = (type) => {
   switch (type) {
     case 'TAX':
       formData.value.businessType = 10
-      return '报税';
-      break;
+      return '报税'
+      break
     case 'ANNUAL_REVIEW':
       formData.value.businessType = 20
-      return '年审';
-      break;
+      return '年审'
+      break
     case 'ACCOUNTING':
       formData.value.businessType = 30
-      return '做账';
-      break;
+      return '做账'
+      break
     case 'REGISTER_COMPANY':
       formData.value.businessType = 40
-      return '注册公司';
-      break;
+      return '注册公司'
+    case 'SALE_TAX_LICENSE_APPLICATION':
+      formData.value.businessType = 51
+      return '销售税-许可证申请'
+    case 'SALE_TAX_REPORT':
+      formData.value.businessType = 52
+      return '销售税-申报'
+    case 'ODI_CHECKIN':
+      formData.value.businessType = 91
+      return '其他-ODI报到'
+    case 'BANK_ACCOUNT_OPENING':
+      formData.value.businessType = 92
+      return '其他-银行开户'
+    case 'L_VISA':
+      formData.value.businessType = 93
+      return '其他-L签'
+      break
+    case 'US_EB2_IMMIGRATION':
+      formData.value.businessType = 94
+      return '其他-美国EB2移民'
+      break
+    case 'MEXICAN_GREEN_CARD':
+      formData.value.businessType = 95
+      return '其他-墨西哥绿卡'
+      break
+    case 'MEXICAN_BUSINESS_VISA':
+      formData.value.businessType = 96
+      return '其他-墨西哥商务签证'
+      break
+    case 'US_INSURANCE':
+      formData.value.businessType = 97
+      return '其他-美国保险'
+      break
     default:
       formData.value.businessType = 90
-      return '其它';
+      return '其它'
   }
 }
 const submitForm = async () => {

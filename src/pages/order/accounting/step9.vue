@@ -76,7 +76,7 @@
         <el-descriptions-item label="服务内容：">{{ invoice.content }}</el-descriptions-item>
         <el-descriptions-item label="邮箱：">{{ invoice.email }}</el-descriptions-item>
       </el-descriptions>
-     
+
       <div class="total-price">
         <span>合计：</span>
         <span class="price">{{ order.isDollar ? '$' : '￥' }}{{ invoice.price }}</span>
@@ -91,7 +91,9 @@
       <FileList :list="pay.voucher" size="100" />
     </div>
 
-    <el-divider content-position="left">材料审核</el-divider>
+    <el-divider content-position="left">
+      <h6>材料审核</h6>
+    </el-divider>
     <div class="table-container">
       <table class="table-layout">
         <tbody>

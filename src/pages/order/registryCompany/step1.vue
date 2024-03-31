@@ -27,6 +27,7 @@
               <el-radio-group @change="companyChange" v-model="formData.companyType">
                 <el-radio
                   v-for="(item, index) in incTypeOptions"
+                  v-show="!item.hidden"
                   :key="index"
                   :label="item.value"
                   :disabled="item.disabled"
@@ -35,7 +36,8 @@
                       display: inline;
                     }
                   "
-                  @change="companyTypeChange(item.value)">
+                  @change="companyTypeChange(item.value)"
+                >
                   {{ item.label }}
                 </el-radio>
               </el-radio-group>
@@ -51,7 +53,8 @@
       <el-col :span="8" class="grid-cell">
         <div class="total-price">
           <span>原价：</span>
-          <span class="price">{{ isDollar() ? '$' : '￥' }} {{ computedTotalPrice() }}</span><br>
+          <span class="price">{{ isDollar() ? '$' : '￥' }} {{ computedTotalPrice() }}</span>
+          <br />
           <span>折扣价：</span>
           <span class="price">{{ isDollar() ? '$' : '￥' }}{{ (computedTotalPrice() * rate) / 100 }}</span>
           <!-- <span class="price">${{ computedTotalPrice() }}</span> -->
@@ -79,7 +82,8 @@
                      {
                       display: inline;
                     }
-                  ">
+                  "
+                >
                   否
                 </el-radio>
                 <el-radio
@@ -89,7 +93,8 @@
                      {
                       display: inline;
                     }
-                  ">
+                  "
+                >
                   是
                 </el-radio>
               </el-radio-group>
@@ -119,7 +124,8 @@
                      {
                       display: inline;
                     }
-                  ">
+                  "
+                >
                   否
                 </el-radio>
                 <el-radio
@@ -129,7 +135,8 @@
                      {
                       display: inline;
                     }
-                  ">
+                  "
+                >
                   是
                 </el-radio>
               </el-radio-group>
@@ -146,7 +153,8 @@
                      {
                       display: inline;
                     }
-                  ">
+                  "
+                >
                   否
                 </el-radio>
                 <el-radio
@@ -156,7 +164,8 @@
                      {
                       display: inline;
                     }
-                  ">
+                  "
+                >
                   是
                 </el-radio>
               </el-radio-group>
@@ -181,7 +190,8 @@
                      {
                       display: inline;
                     }
-                  ">
+                  "
+                >
                   否
                 </el-radio>
                 <el-radio
@@ -191,7 +201,8 @@
                      {
                       display: inline;
                     }
-                  ">
+                  "
+                >
                   是
                 </el-radio>
               </el-radio-group>
@@ -212,7 +223,8 @@
                      {
                       display: inline;
                     }
-                  ">
+                  "
+                >
                   否
                 </el-radio>
                 <el-radio
@@ -222,7 +234,8 @@
                      {
                       display: inline;
                     }
-                  ">
+                  "
+                >
                   是
                 </el-radio>
               </el-radio-group>
@@ -238,7 +251,8 @@
                      {
                       display: inline;
                     }
-                  ">
+                  "
+                >
                   否
                 </el-radio>
                 <el-radio
@@ -248,7 +262,176 @@
                      {
                       display: inline;
                     }
-                  ">
+                  "
+                >
+                  是
+                </el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </template>
+        </el-col>
+      </el-row>
+    </div>
+    <div v-else-if="formData.companyType == 3">
+      <el-row v-for="item in ruleListDataLP" :key="item.field_name">
+        <el-col :span="24" class="grid-cell">
+          <template v-if="item.field_name == 'registration'">
+            <el-form-item label="费用：" class="label-right-align">
+              <span>{{ item.price }}</span>
+              &nbsp;
+              <el-text v-if="currentRegion.us == false" class="mx-1" type="info">{{ item.rule_content }}</el-text>
+            </el-form-item>
+          </template>
+          <template v-if="item.field_name == 'is_apply_ssn_ein'">
+            <el-form-item :label="item.rule_content + '：'" prop="isApplySsnEin" class="label-right-align">
+              <el-radio-group v-model="formData.isApplySsnEin">
+                <el-radio
+                  :value="0"
+                  :label="0"
+                  style="
+                     {
+                      display: inline;
+                    }
+                  "
+                >
+                  否
+                </el-radio>
+                <el-radio
+                  :label="1"
+                  :value="1"
+                  style="
+                     {
+                      display: inline;
+                    }
+                  "
+                >
+                  是
+                </el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </template>
+
+          <template v-if="item.field_name == 'is_chinese_name'">
+            <el-form-item :label="item.rule_content + '：'" prop="is_chinese_name" class="label-right-align">
+              <el-radio-group v-model="formData.is_chinese_name">
+                <el-radio
+                  :value="0"
+                  :label="0"
+                  style="
+                     {
+                      display: inline;
+                    }
+                  "
+                >
+                  否
+                </el-radio>
+                <el-radio
+                  :label="1"
+                  :value="1"
+                  style="
+                     {
+                      display: inline;
+                    }
+                  "
+                >
+                  是
+                </el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </template>
+
+          <template v-if="item.field_name == 'shareholders'">
+            <el-form-item label="股东数大于5个的个数：" prop="shareholders" class="label-right-align">
+              <el-input-number :min="0" v-model="formData.shareholders"></el-input-number>
+              &nbsp;
+              <el-text v-if="currentRegion.us == false" class="mx-1" type="info">{{ item.rule_content }}</el-text>
+            </el-form-item>
+          </template>
+
+          <template v-if="item.field_name == 'certificate_of_incumbency'">
+            <el-form-item :label="item.rule_content + '：'" prop="certificate_of_incumbency" class="label-right-align">
+              <el-radio-group v-model="formData.certificate_of_incumbency">
+                <el-radio
+                  :value="0"
+                  :label="0"
+                  style="
+                     {
+                      display: inline;
+                    }
+                  "
+                >
+                  否
+                </el-radio>
+                <el-radio
+                  :label="1"
+                  :value="1"
+                  style="
+                     {
+                      display: inline;
+                    }
+                  "
+                >
+                  是
+                </el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </template>
+          <template v-if="item.field_name == 'certificate_of_incumbency_num'">
+            <el-form-item :label="item.rule_content + '：'" prop="certificate_of_incumbency_num" class="label-right-align">
+              <el-input-number :min="0" v-model="formData.certificate_of_incumbency_num"></el-input-number>
+            </el-form-item>
+          </template>
+          <template v-if="item.field_name == 'certificate_of_good_standing'">
+            <el-form-item :label="item.rule_content + '：'" prop="certificate_of_good_standing" class="label-right-align">
+              <el-radio-group v-model="formData.certificate_of_good_standing">
+                <el-radio
+                  :value="0"
+                  :label="0"
+                  style="
+                     {
+                      display: inline;
+                    }
+                  "
+                >
+                  否
+                </el-radio>
+                <el-radio
+                  :label="1"
+                  :value="1"
+                  style="
+                     {
+                      display: inline;
+                    }
+                  "
+                >
+                  是
+                </el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </template>
+          <template v-if="item.field_name == 'express_service'">
+            <el-form-item :label="item.rule_content + '：'" prop="express_service" class="label-right-align">
+              <el-radio-group v-model="formData.express_service">
+                <el-radio
+                  :value="0"
+                  :label="0"
+                  style="
+                     {
+                      display: inline;
+                    }
+                  "
+                >
+                  否
+                </el-radio>
+                <el-radio
+                  :label="1"
+                  :value="1"
+                  style="
+                     {
+                      display: inline;
+                    }
+                  "
+                >
                   是
                 </el-radio>
               </el-radio-group>
@@ -296,6 +479,7 @@ export default defineComponent({
     const company_name = ref(props.companyName)
     const ruleListDataC = inject('ruleListDataC')
     const ruleListDataLLC = inject('ruleListDataLLC')
+    const ruleListDataLP = inject('ruleListDataLP')
     const state = reactive({
       formData: {
         selectRegion: '',
@@ -358,6 +542,11 @@ export default defineComponent({
         {
           label: 'LLC',
           value: 2
+        },
+        {
+          label: 'LP',
+          value: 3,
+          hidden: true
         }
       ],
       businessTypeOptions: [
@@ -451,11 +640,13 @@ export default defineComponent({
         rule = ruleListDataC.value[0]
       } else if (state.formData.companyType == 2) {
         rule = ruleListDataLLC.value[0]
+      } else if (state.formData.companyType == 3) {
+        rule = ruleListDataLP.value[0]
       }
       if (rule) {
         res = rule.dollar
       }
-      state.formData.isDollar = res;
+      state.formData.isDollar = res
       return res
     }
     const changeCompanyName = () => {
@@ -506,6 +697,16 @@ export default defineComponent({
         })
         ruleListDataLLC.value = list
       })
+      ruleList({ page: 1, count: 20, businessType: 40, region: region, company_type: 'LP' }).then((res: any) => {
+        const list = res.data.toSorted((a, b) => {
+          if (a.order > b.order) {
+            return 1
+          } else {
+            return -1
+          }
+        })
+        ruleListDataLP.value = list
+      })
     }
     const regionChange = () => {
       // getRuleList()
@@ -540,6 +741,22 @@ export default defineComponent({
       } // 如果是LLC
       else if (state.formData.companyType == 2) {
         ruleListDataLLC.value.map((item) => {
+          if (item.field_name == 'registration') {
+            price1 += item.price
+          } else if (item.field_name == 'is_apply_ssn_ein') {
+            if (state.formData.isApplySsnEin) {
+              price1 += item.price
+            }
+          } else if (item.vale_type == 'BOOL') {
+            if (state.formData[item.field_name]) {
+              price1 += item.price
+            }
+          } else if (item.vale_type == 'TEXT_MULTIPLY') {
+            price1 += item.price * state.formData[item.field_name]
+          }
+        })
+      } else if (state.formData.companyType == 3) {
+        ruleListDataLP.value.map((item) => {
           if (item.field_name == 'registration') {
             price1 += item.price
           } else if (item.field_name == 'is_apply_ssn_ein') {
@@ -603,6 +820,11 @@ export default defineComponent({
           }) || {}
         state.currentRegion = region
         state.formData.regionText = region.name
+        if (region.code == 'BVI' || region.code == 'CAYMAN') {
+          state.incTypeOptions[2].hidden = false
+        } else {
+          state.incTypeOptions[2].hidden = true
+        }
       }
     )
     // watch(
@@ -630,11 +852,11 @@ export default defineComponent({
       }
     )
 
-
     return {
       ...toRefs(state),
       companyMainIncome,
       ruleListDataLLC,
+      ruleListDataLP,
       ruleListDataC,
       company_name,
       rate,
@@ -735,7 +957,8 @@ div.table-container {
   }
 }
 
-div.tab-container {}
+div.tab-container {
+}
 
 .label-left-align :deep(.el-form-item__label) {
   text-align: left;
@@ -749,7 +972,8 @@ div.tab-container {}
   text-align: right;
 }
 
-.custom-label {}
+.custom-label {
+}
 
 .static-content-item {
   min-height: 20px;
@@ -775,7 +999,8 @@ div.table-container {
   }
 }
 
-div.tab-container {}
+div.tab-container {
+}
 
 .label-left-align :deep(.el-form-item__label) {
   text-align: left;
@@ -789,7 +1014,8 @@ div.tab-container {}
   text-align: right;
 }
 
-.custom-label {}
+.custom-label {
+}
 
 .static-content-item {
   min-height: 20px;

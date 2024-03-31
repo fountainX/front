@@ -9,17 +9,23 @@
       <el-descriptions-item :span="4" label="客户单位名称：">{{ companyName }}</el-descriptions-item>
       <el-descriptions-item :span="4" label="服务公司名称：">{{ agent.agent_name }}</el-descriptions-item>
       <el-descriptions-item :span="4" label="服务内容：">{{ formData.content }}</el-descriptions-item>
-      <el-descriptions-item :span="4" label="邮箱：">
+      <!-- <el-descriptions-item :span="4" label="邮箱：">
         <el-input v-model="formData.email" placeholder="默认发送到注册时的邮箱" style="width: 300px" clearable />
-      </el-descriptions-item>
+      </el-descriptions-item> -->
       <el-descriptions-item :span="4" label="合计："><span class="price">{{ content.order.isDollar ? '$' : '￥' }}{{ formData.price }}</span></el-descriptions-item>
       <el-descriptions-item :span="4" label="最终价格："><span class="price">{{ content.order.isDollar ? '$' : '￥' }}{{ formData.finalPrice || formData.price }}</span></el-descriptions-item>
     </el-descriptions>
     <br>
   </div>
-  <div>
-    <el-button @click="generateImage">预览</el-button>
-    <el-button @click="down">下载</el-button>
+  <div style="display: flex; justify-content: space-between;">
+    <div>
+      <el-button @click="generateImage">预览</el-button>
+      <el-button @click="down">下载</el-button>
+    </div>
+    <div style="display: flex; align-items: center;">
+      发送到我的邮箱：<el-input v-model="formData.email" placeholder="请输入邮箱" style="width: 200px; margin-right: 5px;" clearable />
+      <el-button @click="send()" :loading="isSend">发送</el-button>
+    </div>
   </div>
   <el-dialog v-model="dialogVisible" title="预览">
     <el-image :src="image" height="100%" width="100%"></el-image>
@@ -28,12 +34,14 @@
 
 <script lang="ts">
 import { defineComponent, toRefs, reactive, getCurrentInstance, ref, inject } from 'vue'
+import { snedEmail } from '@/http/api/pub.ts'
+import { ElMessage } from 'element-plus'
 import html2canvas from 'html2canvas'
 export default defineComponent({
   components: {},
   props: {
-    agentName:{
-      type:String
+    agentName: {
+      type: String
     },
     invoice: {
       type: Object
@@ -100,6 +108,31 @@ export default defineComponent({
       document.body.removeChild(a)
       // 现在您可以使用生成的图像数据进行其他操作，比如展示在页面上或者发送到服务器
     }
+    let isSend = ref(false)
+    const send = async () => {
+      isSend.value = true
+      const element = instance.proxy.$refs['targetElement']
+      const canvas = await html2canvas(element)
+      const tempImage = canvas.toDataURL('image/png')
+      console.log(tempImage)
+
+      let params = {
+        to: state.formData.email,
+        subject: "出具发票——longview LK",
+        content: "<img src=" + tempImage + " style='width:100%' />",
+        isHtml:true
+      }
+      snedEmail(params).then(async (res: any) => {
+        console.log('e', res)
+        if (res.code == 200) {
+          ElMessage.success('发送成功')
+          isSend.value = false
+        }
+      })
+        .catch((e: any) => {
+          console.log(e)
+        })
+    }
     const dialogVisible = ref(false)
     return {
       ...toRefs(state),
@@ -111,7 +144,9 @@ export default defineComponent({
       agent,
       dialogVisible,
       image,
-      content
+      content,
+      send,
+      isSend
     }
   }
 })

@@ -5,7 +5,7 @@
   <div class="desc">
     <el-descriptions :title="'订单号：' + order_no" :column="2">
       <el-descriptions-item :span="2" label="所在地区：">{{ order.regionText }}</el-descriptions-item>
-      <el-descriptions-item :span="2" label="公司类型：">{{ order.companyType == 1 ? 'C' : 'LLC' }}</el-descriptions-item>
+      <el-descriptions-item :span="2" label="公司类型：">{{ order.companyType == 1 ? 'C' : order.companyType == 2 ? 'LLC' : 'LP' }}</el-descriptions-item>
 
       <template v-if="order.companyType == 1">
         <template v-for="item in ruleListDataC" :key="item.field_name">
@@ -75,16 +75,71 @@
               {{ order.express_service ? item.price : 0 }}
             </el-descriptions-item>
           </template>
+        </template>
+      </template>
+      <template v-if="order.companyType == 3">
+        <template v-for="item in ruleListDataLP" :key="item.field_name">
+          <template v-if="item.field_name == 'registration'">
+            <el-descriptions-item :span="2" label="注册费用：">{{ item.price }}</el-descriptions-item>
+          </template>
 
+          <template v-if="item.field_name == 'is_apply_ssn_ein'">
+            <el-descriptions-item :label="item.rule_content + '：'">{{ order.isApplySsnEin ? '是' : '否' }}</el-descriptions-item>
+            <el-descriptions-item label="费用：">
+              {{ order.isApplySsnEin ? item.price : 0 }}
+            </el-descriptions-item>
+          </template>
+
+          <template v-if="item.field_name == 'is_chinese_name'">
+            <el-descriptions-item :label="item.rule_content + '：'">{{ order.is_chinese_name ? '是' : '否' }}</el-descriptions-item>
+            <el-descriptions-item label="费用：">
+              {{ order.is_chinese_name ? item.price : 0 }}
+            </el-descriptions-item>
+          </template>
+
+          <template v-if="item.field_name == 'shareholders'">
+            <el-descriptions-item label="股东数大于5的个数：">{{ order.shareholders }}</el-descriptions-item>
+            <el-descriptions-item label="费用：">
+              {{ order.shareholders * item.price }}
+            </el-descriptions-item>
+          </template>
+
+          <template v-if="item.field_name == 'certificate_of_incumbency'">
+            <el-descriptions-item :label="item.rule_content + '：'">{{ order.certificate_of_incumbency ? '是' : '否' }}</el-descriptions-item>
+            <el-descriptions-item label="费用：">
+              {{ order.certificate_of_incumbency ? item.price : 0 }}
+            </el-descriptions-item>
+          </template>
+
+          <template v-if="item.field_name == 'certificate_of_incumbency_num'">
+            <el-descriptions-item :label="item.rule_content + '：'">{{ order.certificate_of_incumbency_num }}</el-descriptions-item>
+            <el-descriptions-item label="费用：">
+              {{ order.certificate_of_incumbency_num * item.price }}
+            </el-descriptions-item>
+          </template>
+
+          <template v-if="item.field_name == 'certificate_of_good_standing'">
+            <el-descriptions-item :label="item.rule_content + '：'">{{ order.certificate_of_good_standing ? '是' : '否' }}</el-descriptions-item>
+            <el-descriptions-item label="费用：">
+              {{ order.certificate_of_good_standing ? item.price : 0 }}
+            </el-descriptions-item>
+          </template>
+
+          <template v-if="item.field_name == 'express_service'">
+            <el-descriptions-item :label="item.rule_content + '：'">{{ order.express_service ? '是' : '否' }}</el-descriptions-item>
+            <el-descriptions-item label="费用：">
+              {{ order.express_service ? item.price : 0 }}
+            </el-descriptions-item>
+          </template>
         </template>
       </template>
     </el-descriptions>
 
     <div class="total-price">
       <span>原价：</span>
-      <span class="price">{{ order.isDollar ? "$" : "￥" }}{{ order.oldTotalPrice }}</span>
+      <span class="price">{{ order.isDollar ? '$' : '￥' }}{{ order.oldTotalPrice }}</span>
       <span>折扣价：</span>
-      <span class="price">{{ order.isDollar ? "$" : "￥" }}{{ order.totalPrice }}</span>
+      <span class="price">{{ order.isDollar ? '$' : '￥' }}{{ order.totalPrice }}</span>
     </div>
   </div>
 </template>
@@ -105,12 +160,14 @@ export default defineComponent({
   setup(props, context) {
     const ruleListDataC = inject('ruleListDataC')
     const ruleListDataLLC = inject('ruleListDataLLC')
+    const ruleListDataLP = inject('ruleListDataLP')
     const order = ref(props.order)
     return {
       order,
       order_no: props.order_no,
       ruleListDataC,
-      ruleListDataLLC
+      ruleListDataLLC,
+      ruleListDataLP
     }
   }
 })
@@ -190,7 +247,8 @@ div.table-container {
   }
 }
 
-div.tab-container {}
+div.tab-container {
+}
 
 .label-left-align :deep(.el-form-item__label) {
   text-align: left;
@@ -204,7 +262,8 @@ div.tab-container {}
   text-align: right;
 }
 
-.custom-label {}
+.custom-label {
+}
 
 .static-content-item {
   min-height: 20px;
@@ -230,7 +289,8 @@ div.table-container {
   }
 }
 
-div.tab-container {}
+div.tab-container {
+}
 
 .label-left-align :deep(.el-form-item__label) {
   text-align: left;
@@ -244,7 +304,8 @@ div.tab-container {}
   text-align: right;
 }
 
-.custom-label {}
+.custom-label {
+}
 
 .static-content-item {
   min-height: 20px;
