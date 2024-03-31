@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, toRefs, reactive, onMounted, ref, onMounted } from 'vue'
+import { defineComponent, toRefs, reactive, onMounted, ref } from 'vue'
 // import { ruleList, agentList, invoiceList } from '@/http/api/pub.ts'
 import SeekAdvice from '@/pages/customerService/index.vue'
 import { ruleList } from '@/http/api/pub.ts'
