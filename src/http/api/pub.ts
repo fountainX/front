@@ -50,3 +50,11 @@ export async function invoiceUpdate(data: { invoice_id: any }) {
 export async function snedEmail(data: any) {
   return http.post(`/order/send_email/`, data)
 }
+// 个人消息
+export function messageList(data: { page: any }) {
+  return http.get(`/msg/list/page/${data.page}?is_read=0`)
+}
+// 标记已读
+export function isMsgRead(data: any) {
+  return http.post(`/msg/read/${data.msgId}`, data)
+}

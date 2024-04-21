@@ -26,7 +26,20 @@ import SeekAdvice from '@/pages/customerService/index.vue'
 import { ruleList } from '@/http/api/pub.ts'
 
 export default defineComponent({
-  components: { SeekAdvice },
+  components: { SeekAdvice },  
+  props: {
+    orderId: 0,
+    orderStatus: null,
+    order: {
+      type: Object
+    },
+    invoice: {
+      type: Object
+    },
+    companyName: {
+      type: String
+    }
+  },
   setup(props, context) {
     let dialogFormVisible = ref(false)
     let query = reactive({
@@ -59,6 +72,10 @@ export default defineComponent({
           }
         })
         ruleListDataC.value = list
+        let price = list[0].price;
+        props.order.totalPrice = (price * rate) / 100
+        props.order.oldTotalPrice = price
+        props.invoice.price = (price * rate) / 100
       })
     }
     onMounted(() => {

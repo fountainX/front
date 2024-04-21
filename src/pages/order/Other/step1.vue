@@ -1,14 +1,14 @@
 <template>
   <el-divider content-position="left">
-    <h2>其他-美国EB2移民</h2>
+    <h2>其他-其他</h2>
   </el-divider>
   <div style="margin-left: 50px; margin-top: 20px">
     <div class="total-price" style="text-align: left">
       <span>原价：</span>
-      <span class="price">{{ ruleListDataC[0].price }}</span>
+      <span class="price">{{ ruleListDataC[0].price || 0}}</span>
       <br />
       <span>折扣价：</span>
-      <span class="price">{{ (ruleListDataC[0].price * rate) / 100 }}</span>
+      <span class="price">{{ ((ruleListDataC[0].price || 0) * rate) / 100 }}</span>
     </div>
 
     <el-button plain @click="nonUS()">联系客服</el-button>
@@ -74,7 +74,7 @@
         ruleList({
           page: 1,
           count: 20,
-          businessType: 94,
+          businessType: 120,
           region: region,
           company_type: 'C'
         }).then((res: any) => {
@@ -87,9 +87,9 @@
           })
           ruleListDataC.value = list
           let price = list[0].price;
-          props.order.totalPrice = (price * rate) / 100
-          props.order.oldTotalPrice = price
-          props.invoice.price = (price * rate) / 100
+          props.order.totalPrice = (price * rate) / 100;
+          props.order.oldTotalPrice = price;
+          props.invoice.price = (price * rate) / 100;
         })
       }
       onMounted(() => {

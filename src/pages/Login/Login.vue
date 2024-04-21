@@ -178,6 +178,16 @@ const getAccount = async (uid: any) => {
               // }, 200)
             }, 200)
           })
+      } else {
+        localStorage.setItem('couponInfo', JSON.stringify({
+          "coupon_id": "lk100",
+          "coupon_name": "无折扣",
+          "rate": 100,
+          "valid": true
+        }))
+        setTimeout(() => {
+          router.push('/')
+        }, 200)
       }
     })
     .catch((e: any) => {

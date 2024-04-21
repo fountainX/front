@@ -2,12 +2,12 @@
   <el-divider content-position="left">
     <h2>其他-ODI报到</h2>
   </el-divider>
-  <div class="desc">选择您想要的州和业务类型，然后开始创建您的订单</div>
+  <div class="desc">选择您想要的业务类型，然后开始创建您的订单</div>
   <el-form :model="formData" ref="vForm" :rules="rules" label-position="right" label-width="180px" size="default" @submit.prevent>
     <el-row>
       <el-col :span="16" class="grid-cell">
         <el-row>
-          <el-col :span="24">
+          <!-- <el-col :span="24">
             <el-row>
               <el-col :span="15">
                 <el-form-item label="选择区域：" prop="selectRegion" class="label-right-align">
@@ -20,7 +20,7 @@
                 <el-button plain @click="nonUS()" v-if="currentRegion.name == '其他'">联系客服</el-button>
               </el-col>
             </el-row>
-          </el-col>
+          </el-col> -->
 
           <el-col :span="24">
             <el-form-item label="公司类型：" prop="companyType" class="label-right-align">
@@ -77,13 +77,30 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, toRefs, reactive, getCurrentInstance, onMounted, ref, watch, inject } from 'vue'
-import { regionList, ruleList } from '@/http/api/pub.ts'
+import {
+  defineComponent,
+  toRefs,
+  reactive,
+  getCurrentInstance,
+  onMounted,
+  ref,
+  watch,
+  inject
+} from 'vue'
+import {
+  regionList,
+  ruleList
+} from '@/http/api/pub.ts'
 import SeekAdvice from '@/pages/customerService/index.vue'
-import { useRouter, useRoute } from 'vue-router'
+import {
+  useRouter,
+  useRoute
+} from 'vue-router'
 
 export default defineComponent({
-  components: { SeekAdvice },
+  components: {
+    SeekAdvice
+  },
   // props: ['order'],
   props: {
     orderId: 0,
@@ -144,14 +161,14 @@ export default defineComponent({
         exchange_fund_com_number: 0,
         subsidiary_us: 0,
         subsidiary_non_us_number: 0
-      } as any,
+      }as any,
+      
       currentRegion: {
         us: true
       },
       selectAreaOptions: [],
       rules: {
-        mainBusinessType: [
-          {
+        mainBusinessType: [{
             required: true,
             message: '字段值不可为空'
           },
@@ -161,8 +178,7 @@ export default defineComponent({
             message: ''
           }
         ],
-        totalAsset: [
-          {
+        totalAsset: [{
             required: true,
             message: '字段值不可为空'
           },
@@ -172,8 +188,7 @@ export default defineComponent({
             message: ''
           }
         ],
-        fixedAssetAmount: [
-          {
+        fixedAssetAmount: [{
             required: true,
             message: '字段值不可为空'
           },
@@ -185,20 +200,15 @@ export default defineComponent({
         ]
       },
 
-      noUSAOptions: [
-        {
-          label: '非美国',
-          value: 1
-        }
-      ],
-      incTypeOptions: [
-        {
-          label: 'C公司',
-          value: 1
-        }
-      ],
-      businessTypeOptions: [
-        {
+      noUSAOptions: [{
+        label: '非美国',
+        value: 1
+      }],
+      incTypeOptions: [{
+        label: 'C公司',
+        value: 1
+      }],
+      businessTypeOptions: [{
           label: '选择',
           value: 1,
           income: '0',
@@ -247,8 +257,7 @@ export default defineComponent({
           area: ''
         }
       ],
-      isFlowOptions: [
-        {
+      isFlowOptions: [{
           label: '是',
           value: 1
         },
@@ -257,8 +266,7 @@ export default defineComponent({
           value: 0
         }
       ],
-      isChildOptions: [
-        {
+      isChildOptions: [{
           label: '是',
           value: 1
         },
@@ -268,9 +276,13 @@ export default defineComponent({
         }
       ]
     })
-    const companyMainIncome = ref({ price: 0 })
+    const companyMainIncome = ref({
+      price: 0
+    })
     // 初始化父组件数据
     state.formData = props.order
+    state.formData.selectRegion = 'us';
+    state.formData.regionText = 'us';
     const saveOrder = () => {
       state.formData.isDollar = isDollar()
       context.emit('update', state.formData)
@@ -303,7 +315,13 @@ export default defineComponent({
     const getRuleList = () => {
       // TAX   ANNUAL_REVIEW  ACCOUNTING    REGISTER_COMPANY  SALE_TAX
       let region = state.formData.selectRegion
-      ruleList({ page: 1, count: 20, businessType: 91, region: region, company_type: 'C' }).then((res: any) => {
+      ruleList({
+        page: 1,
+        count: 20,
+        businessType: 91,
+        region: region,
+        company_type: 'C'
+      }).then((res: any) => {
         const list = res.data.toSorted((a, b) => {
           if (a.order > b.order) {
             return 1
@@ -313,7 +331,13 @@ export default defineComponent({
         })
         ruleListDataC.value = list
       })
-      ruleList({ page: 1, count: 20, businessType: 91, region: region, company_type: 'LLC' }).then((res: any) => {
+      ruleList({
+        page: 1,
+        count: 20,
+        businessType: 91,
+        region: region,
+        company_type: 'LLC'
+      }).then((res: any) => {
         const list = res.data.toSorted((a, b) => {
           if (a.order > b.order) {
             return 1

@@ -1,22 +1,20 @@
 <template>
   <el-divider content-position="left">
-    <h2>其他-美国EB2移民</h2>
+    <h2>确认报价</h2>
   </el-divider>
-  <div style="margin-left: 50px; margin-top: 20px">
-    <div class="total-price" style="text-align: left">
+  <div class="desc">
+
+    <span style="color:#000">
+      订单号：{{order_no}}
+    </span>
+
+    <div class="total-price">
       <span>原价：</span>
-      <span class="price">{{ ruleListDataC[0].price }}</span>
-      <br />
+      <span class="price">${{ order.oldTotalPrice }}</span>
       <span>折扣价：</span>
-      <span class="price">{{ (ruleListDataC[0].price * rate) / 100 }}</span>
+      <span class="price">${{ order.totalPrice }}</span>
     </div>
-
-    <el-button plain @click="nonUS()">联系客服</el-button>
   </div>
-
-  <el-dialog v-model="dialogFormVisible" title="联系客服">
-    <SeekAdvice :params="query"></SeekAdvice>
-  </el-dialog>
 </template>
 
 <script lang="ts">
@@ -24,97 +22,31 @@
     defineComponent,
     toRefs,
     reactive,
-    onMounted,
     ref,
-    onMounted
+    inject
   } from 'vue'
-  // import { ruleList, agentList, invoiceList } from '@/http/api/pub.ts'
-  import SeekAdvice from '@/pages/customerService/index.vue'
-  import {
-    ruleList
-  } from '@/http/api/pub.ts'
-
   export default defineComponent({
-    components: {
-      SeekAdvice
-    },
+    components: {},
     props: {
-      orderId: 0,
-      orderStatus: null,
       order: {
         type: Object
       },
-      invoice: {
-        type: Object
-      },
-      companyName: {
+      order_no: {
         type: String
       }
     },
+    emits: ['update'],
     setup(props, context) {
-      let dialogFormVisible = ref(false)
-      let query = reactive({})
-      const nonUS = () => {
-        dialogFormVisible.value = true
-        if (props.orderId) {
-          query.orderId = props.orderId
-        }
-        if (props.orderStatus) {
-          query.orderStatus = props.orderStatus
-        }
-
-        // router.push({ name: 'customerService', query: query })
-      }
-      const couponInfo = JSON.parse(localStorage.getItem('couponInfo') || '{}')
-      const rate = couponInfo.rate || 100
-      const ruleListDataC = ref([{}])
-      const getRuleList = () => {
-        // TAX   ANNUAL_REVIEW  ACCOUNTING    REGISTER_COMPANY  SALE_TAX
-        let region = 'US'
-        ruleList({
-          page: 1,
-          count: 20,
-          businessType: 94,
-          region: region,
-          company_type: 'C'
-        }).then((res: any) => {
-          const list = res.data.toSorted((a, b) => {
-            if (a.order > b.order) {
-              return 1
-            } else {
-              return -1
-            }
-          })
-          ruleListDataC.value = list
-          let price = list[0].price;
-          props.order.totalPrice = (price * rate) / 100
-          props.order.oldTotalPrice = price
-          props.invoice.price = (price * rate) / 100
-        })
-      }
-      onMounted(() => {
-
-        getRuleList()
-      })
+      const order = ref(props.order)
       return {
-        nonUS,
-        dialogFormVisible,
-        query,
-        rate,
-        ruleListDataC,
-        getRuleList
+        order,
+        order_no: props.order_no
       }
     }
   })
 </script>
 
 <style lang="scss" scoped>
-  .tip {
-    font-size: 12px;
-    width: 100%;
-    color: #ccc;
-  }
-
   .desc {
     font-size: 14px;
     color: #ccc;
@@ -252,5 +184,10 @@
     :deep(.el-divider--horizontal) {
       margin: 0;
     }
+  }
+
+  .box {
+    display: inline-block;
+    width: 290px;
   }
 </style>

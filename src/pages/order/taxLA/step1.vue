@@ -2,12 +2,12 @@
   <el-divider content-position="left">
     <h2>销售税-许可证申请</h2>
   </el-divider>
-  <div class="desc">选择您想要的州和业务类型，然后开始创建您的订单</div>
+  <div class="desc">选择您想要的业务类型，然后开始创建您的订单</div>
   <el-form :model="formData" ref="vForm" :rules="rules" label-position="right" label-width="180px" size="default" @submit.prevent>
     <el-row>
       <el-col :span="16" class="grid-cell">
         <el-row>
-          <el-col :span="24">
+          <!-- <el-col :span="24">
             <el-row>
               <el-col :span="15">
                 <el-form-item label="选择区域：" prop="selectRegion" class="label-right-align">
@@ -20,7 +20,7 @@
                 <el-button plain @click="nonUS()" v-if="currentRegion.name == '其他'">联系客服</el-button>
               </el-col>
             </el-row>
-          </el-col>
+          </el-col> -->
 
           <el-col :span="24">
             <el-form-item label="公司类型：" prop="companyType" class="label-right-align">
@@ -271,6 +271,9 @@ export default defineComponent({
     const companyMainIncome = ref({ price: 0 })
     // 初始化父组件数据
     state.formData = props.order
+    state.formData.selectRegion = 'us';
+    state.formData.regionText = 'us';
+    
     const saveOrder = () => {
       state.formData.isDollar = isDollar()
       context.emit('update', state.formData)

@@ -35,8 +35,8 @@ const formData = ref({
   orderId: orderId || 0,
   orderStatus: orderStatus || null,
   businessType: 0,
-  // desc: desc,
-  content: ''
+  content: '',
+  isCustomer: true,
 })
 const rules = {
   content: [

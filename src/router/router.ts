@@ -75,6 +75,11 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/pages/ucenter/index.vue')
   },
   {
+    path: '/message',
+    name: 'message',
+    component: () => import('@/pages/ucenter/msg.vue')
+  },
+  {
     path: '/customerService',
     name: 'customerService',
     component: () => import('@/pages/customerService/index.vue')

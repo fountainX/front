@@ -7,7 +7,7 @@
     <!-- <el-divider content-position="left">确认报价</el-divider> -->
     <div class="desc">
       <el-descriptions :title="'订单号：' + order_no" :column="2">
-        <el-descriptions-item :span="2" label="所在州：">{{ order.regionText }}</el-descriptions-item>
+        <!-- <el-descriptions-item :span="2" label="所在州：">{{ order.regionText }}</el-descriptions-item> -->
         <el-descriptions-item :span="2" label="公司名称：">{{ props.companyName }}</el-descriptions-item>
         <el-descriptions-item :span="2" label="公司类型：">{{ order.companyType == 1 ? 'C' : 'LLC' }}</el-descriptions-item>
         <template v-for="item in ruleListDataC" :key="item.field_name">

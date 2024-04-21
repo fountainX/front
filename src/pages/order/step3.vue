@@ -119,8 +119,8 @@ export default defineComponent({
       let params = {
         to: state.formData.email,
         subject: "出具发票——longview LK",
-        content: "<img src=" + tempImage + " style='width:100%' />",
-        isHtml:true
+        content: tempImage.split('base64,')[1],
+        isHtml: true
       }
       snedEmail(params).then(async (res: any) => {
         console.log('e', res)

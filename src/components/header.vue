@@ -29,6 +29,7 @@
               </li>
               <li>
                 <router-link :to="'/ucenter?uid=' + userInfo.uid">{{ userInfo.user_name }}</router-link>
+                <router-link :to="'/message?uid=' + userInfo.uid" v-if="userInfo.user_name && userInfo.uid" style="margin-left: 10px;">消息</router-link>
                 <el-button v-if="!userInfo.uid" @click="login()">{{ $t('lang.login') }}</el-button>
                 <el-button v-if="!userInfo.uid" @click="registry()">{{ $t('lang.register') }}</el-button>
                 <el-button v-else @click="logout()" style="margin-left:15px" link>退出</el-button>
@@ -99,10 +100,27 @@
                         <li><a href="#/order?type=ANNUAL_REVIEW">年审</a></li>
                         <li><a href="#/order?type=ACCOUNTING">做账</a></li>
                         <li><a href="#/order?type=REGISTER_COMPANY">注册公司</a></li>
-                        <li><a href="#/order?type=SALE_TAX_LICENSE_APPLICATION">销售税-许可证申请</a></li>
-                        <li><a href="#/order?type=SALE_TAX_REPORT">销售税-申报</a></li>
-                        <li><a href="#/order?type=ODI_CHECKIN">其他-ODI报到</a></li>
-                        <li><a href="#/order?type=BANK_ACCOUNT_OPENING">其他-银行开户</a></li>
+                        <li class="dropdown-submenu">
+                          <a class="dropdown-item dropdown-toggle" href="#">销售税</a>
+                          <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#/order?type=SALE_TAX_LICENSE_APPLICATION">许可证申请</a></li>
+                            <li><a class="dropdown-item" href="#/order?type=SALE_TAX_REPORT">申报</a></li>
+                          </ul>
+                        </li>
+                        <li class="dropdown-submenu">
+                          <a class="dropdown-item dropdown-toggle" href="#">其他</a>
+                          <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#/order?type=ODI_CHECKIN">ODI报到</a></li>
+                            <li><a class="dropdown-item" href="#/order?type=BANK_ACCOUNT_OPENING">银行开户</a></li>
+                            <li><a class="dropdown-item" href="#/order?type=L_VISA">L签</a></li>
+                            <li><a class="dropdown-item" href="#/order?type=US_EB2_IMMIGRATION">美国EB2移民</a></li>
+                            <li><a class="dropdown-item" href="#/order?type=MEXICAN_GREEN_CARD">墨西哥绿卡</a></li>
+                            <li><a class="dropdown-item" href="#/order?type=MEXICAN_BUSINESS_VISA">墨西哥商务签证</a></li>
+                            <li><a class="dropdown-item" href="#/order?type=US_INSURANCE">美国保险</a></li>
+                          </ul>
+                        </li>
+
+                        <li><a href="#/order?type=OTHER_OTHER">其他-其他</a></li>
                       </ul>
                     </li>
                     <!-- <li><a href="#">Pages <i class="icofont-rounded-down"></i></a>
@@ -203,6 +221,12 @@ export default defineComponent({
     const refData = toRefs(data)
     onMounted(() => {
       data.init()
+
+      $('.dropdown-submenu a.dropdown-toggle').on("click", function (e) {
+        $(this).next('.dropdown-menu').toggle();
+        e.stopPropagation();
+        e.preventDefault();
+      });
     })
     return {
       ...refData,
@@ -214,5 +238,21 @@ export default defineComponent({
 <style scoped>
 .box {
   min-height: 600px;
+}
+
+.dropdown-submenu {
+  position: relative;
+}
+
+.dropdown-submenu .dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -1px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px;
+}
+
+.dropdown-toggle::after {
+  transform: rotate(270deg);
 }
 </style>

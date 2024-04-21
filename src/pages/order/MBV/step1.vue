@@ -19,205 +19,236 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, toRefs, reactive, onMounted, ref } from 'vue'
-import { ruleList, agentList, invoiceList } from '@/http/api/pub.ts'
-import SeekAdvice from '@/pages/customerService/index.vue'
+  import {
+    defineComponent,
+    toRefs,
+    reactive,
+    onMounted,
+    ref
+  } from 'vue'
+  import {
+    ruleList,
+    agentList,
+    invoiceList
+  } from '@/http/api/pub.ts'
+  import SeekAdvice from '@/pages/customerService/index.vue'
 
-export default defineComponent({
-  components: { SeekAdvice },
-  setup(props, context) {
-    let dialogFormVisible = ref(false)
-    let query = reactive({})
-    const nonUS = () => {
-      dialogFormVisible.value = true
-      if (props.orderId) {
-        query.orderId = props.orderId
+  export default defineComponent({
+    components: {
+      SeekAdvice
+    },
+    props: {
+      orderId: 0,
+      orderStatus: null,
+      order: {
+        type: Object
+      },
+      invoice: {
+        type: Object
+      },
+      companyName: {
+        type: String
       }
-      if (props.orderStatus) {
-        query.orderStatus = props.orderStatus
-      }
+    },
+    setup(props, context) {
+      let dialogFormVisible = ref(false)
+      let query = reactive({})
+      const nonUS = () => {
+        dialogFormVisible.value = true
+        if (props.orderId) {
+          query.orderId = props.orderId
+        }
+        if (props.orderStatus) {
+          query.orderStatus = props.orderStatus
+        }
 
-      // router.push({ name: 'customerService', query: query })
-    }
-    const couponInfo = JSON.parse(localStorage.getItem('couponInfo') || '{}')
-    const rate = couponInfo.rate || 100
-    const ruleListDataC = ref([{}])
-    const getRuleList = () => {
-      // TAX   ANNUAL_REVIEW  ACCOUNTING    REGISTER_COMPANY  SALE_TAX
-      let region = 'US'
-      ruleList({ page: 1, count: 20, businessType: 93, region: region, company_type: 'C' }).then((res: any) => {
-        const list = res.data.toSorted((a, b) => {
-          if (a.order > b.order) {
-            return 1
-          } else {
-            return -1
-          }
+        // router.push({ name: 'customerService', query: query })
+      }
+      const couponInfo = JSON.parse(localStorage.getItem('couponInfo') || '{}')
+      const rate = couponInfo.rate || 100
+      const ruleListDataC = ref([{}])
+      const getRuleList = () => {
+        // TAX   ANNUAL_REVIEW  ACCOUNTING    REGISTER_COMPANY  SALE_TAX
+        let region = 'US'
+        ruleList({
+          page: 1,
+          count: 20,
+          businessType: 93,
+          region: region,
+          company_type: 'C'
+        }).then((res: any) => {
+          const list = res.data.toSorted((a, b) => {
+            if (a.order > b.order) {
+              return 1
+            } else {
+              return -1
+            }
+          })
+          ruleListDataC.value = list;
+          let price = list[0].price;
+          props.order.totalPrice = (price * rate) / 100;
+          props.order.oldTotalPrice = price;
+          props.invoice.price = (price * rate) / 100;
         })
-        ruleListDataC.value = list
+      }
+      onMounted(() => {
+        getRuleList()
       })
+      return {
+        nonUS,
+        dialogFormVisible,
+        query,
+        rate,
+        ruleListDataC,
+        getRuleList
+      }
     }
-    onMounted(() => {
-      getRuleList()
-    })
-    return {
-      nonUS,
-      dialogFormVisible,
-      query,
-      rate,
-      ruleListDataC,
-      getRuleList
-    }
-  }
-})
+  })
 </script>
 
 <style lang="scss" scoped>
-.tip {
-  font-size: 12px;
-  width: 100%;
-  color: #ccc;
-}
-
-.desc {
-  font-size: 14px;
-  color: #ccc;
-  line-height: 50px;
-}
-
-.el-input-number.full-width-input,
-.el-cascader.full-width-input {
-  width: 100% !important;
-}
-
-.el-form-item--medium {
-  .el-radio {
-    line-height: 36px !important;
+  .tip {
+    font-size: 12px;
+    width: 100%;
+    color: #ccc;
   }
 
-  .el-rate {
-    margin-top: 8px;
-  }
-}
-
-.el-form-item--small {
-  .el-radio {
-    line-height: 32px !important;
+  .desc {
+    font-size: 14px;
+    color: #ccc;
+    line-height: 50px;
   }
 
-  .el-rate {
-    margin-top: 6px;
-  }
-}
-
-.el-form-item--mini {
-  .el-radio {
-    line-height: 28px !important;
+  .el-input-number.full-width-input,
+  .el-cascader.full-width-input {
+    width: 100% !important;
   }
 
-  .el-rate {
-    margin-top: 4px;
+  .el-form-item--medium {
+    .el-radio {
+      line-height: 36px !important;
+    }
+
+    .el-rate {
+      margin-top: 8px;
+    }
   }
-}
 
-.clear-fix:before,
-.clear-fix:after {
-  display: table;
-  content: '';
-}
+  .el-form-item--small {
+    .el-radio {
+      line-height: 32px !important;
+    }
 
-.clear-fix:after {
-  clear: both;
-}
+    .el-rate {
+      margin-top: 6px;
+    }
+  }
 
-.float-right {
-  float: right;
-}
+  .el-form-item--mini {
+    .el-radio {
+      line-height: 28px !important;
+    }
+
+    .el-rate {
+      margin-top: 4px;
+    }
+  }
+
+  .clear-fix:before,
+  .clear-fix:after {
+    display: table;
+    content: '';
+  }
+
+  .clear-fix:after {
+    clear: both;
+  }
+
+  .float-right {
+    float: right;
+  }
 </style>
 
 <style lang="scss" scoped>
-div.table-container {
-  table.table-layout {
-    width: 100%;
-    table-layout: fixed;
-    border-collapse: collapse;
+  div.table-container {
+    table.table-layout {
+      width: 100%;
+      table-layout: fixed;
+      border-collapse: collapse;
 
-    td.table-cell {
-      display: table-cell;
-      height: 36px;
-      border: 1px solid #e1e2e3;
-      text-align: center;
-      font-size: 14px;
+      td.table-cell {
+        display: table-cell;
+        height: 36px;
+        border: 1px solid #e1e2e3;
+        text-align: center;
+        font-size: 14px;
+      }
     }
   }
-}
 
-div.tab-container {
-}
+  div.tab-container {}
 
-.label-left-align :deep(.el-form-item__label) {
-  text-align: left;
-}
-
-.label-center-align :deep(.el-form-item__label) {
-  text-align: center;
-}
-
-.label-right-align :deep(.el-form-item__label) {
-  text-align: right;
-}
-
-.custom-label {
-}
-
-.static-content-item {
-  min-height: 20px;
-  display: flex;
-  align-items: center;
-
-  :deep(.el-divider--horizontal) {
-    margin: 0;
+  .label-left-align :deep(.el-form-item__label) {
+    text-align: left;
   }
-}
 
-div.table-container {
-  table.table-layout {
-    width: 100%;
-    table-layout: fixed;
-    border-collapse: collapse;
+  .label-center-align :deep(.el-form-item__label) {
+    text-align: center;
+  }
 
-    td.table-cell {
-      display: table-cell;
-      height: 36px;
-      border: 1px solid #e1e2e3;
+  .label-right-align :deep(.el-form-item__label) {
+    text-align: right;
+  }
+
+  .custom-label {}
+
+  .static-content-item {
+    min-height: 20px;
+    display: flex;
+    align-items: center;
+
+    :deep(.el-divider--horizontal) {
+      margin: 0;
     }
   }
-}
 
-div.tab-container {
-}
+  div.table-container {
+    table.table-layout {
+      width: 100%;
+      table-layout: fixed;
+      border-collapse: collapse;
 
-.label-left-align :deep(.el-form-item__label) {
-  text-align: left;
-}
-
-.label-center-align :deep(.el-form-item__label) {
-  text-align: center;
-}
-
-.label-right-align :deep(.el-form-item__label) {
-  text-align: right;
-}
-
-.custom-label {
-}
-
-.static-content-item {
-  min-height: 20px;
-  display: flex;
-  align-items: center;
-
-  :deep(.el-divider--horizontal) {
-    margin: 0;
+      td.table-cell {
+        display: table-cell;
+        height: 36px;
+        border: 1px solid #e1e2e3;
+      }
+    }
   }
-}
+
+  div.tab-container {}
+
+  .label-left-align :deep(.el-form-item__label) {
+    text-align: left;
+  }
+
+  .label-center-align :deep(.el-form-item__label) {
+    text-align: center;
+  }
+
+  .label-right-align :deep(.el-form-item__label) {
+    text-align: right;
+  }
+
+  .custom-label {}
+
+  .static-content-item {
+    min-height: 20px;
+    display: flex;
+    align-items: center;
+
+    :deep(.el-divider--horizontal) {
+      margin: 0;
+    }
+  }
 </style>
