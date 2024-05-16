@@ -54,13 +54,13 @@
       </el-divider>
       <el-descriptions title="" :column="1">
         <el-descriptions-item label="客户单位名称：">{{ companyName }}</el-descriptions-item>
-        <el-descriptions-item label="服务公司名称：">{{ agent.agent_name }}</el-descriptions-item>
+        <el-descriptions-item label="服务公司名称：">{{ agent !== null ? agent.agent_name : '无' }}</el-descriptions-item>
         <el-descriptions-item label="服务内容：">{{ invoice.content }}</el-descriptions-item>
         <el-descriptions-item label="邮箱：">{{ invoice.email }}</el-descriptions-item>
       </el-descriptions>
 
-    
-      <div  class="total-price">
+
+      <div class="total-price">
         <span>合计：</span>
         <span class="price">{{ order.isDollar ? '$' : '￥' }}{{ invoice.price }}</span>
         <span>最终价格：</span>

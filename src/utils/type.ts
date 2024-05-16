@@ -81,6 +81,49 @@ export const businessTypeList = [
   }
 ]
 
+export const orderStatus = [
+  {
+    status: 10,
+    desc: '报价开始'
+  },
+  {
+    status: 11,
+    desc: '报价确认'
+  },
+  {
+    status: 12,
+    desc: '出具发票'
+  },
+  {
+    status: 13,
+    desc: '付款'
+  },
+  {
+    status: 14,
+    desc: '未付款-继续流程'
+  },
+  {
+    status: 15,
+    desc: '上传资料'
+  },
+  {
+    status: 16,
+    desc: '资料审核'
+  },
+  {
+    status: 17,
+    desc: '回传签字'
+  },
+  {
+    status: 18,
+    desc: '签回'
+  },
+  {
+    status: 20,
+    desc: '完结'
+  }
+]
+
 export function getType(id: number) {
   if (!id) {
     return

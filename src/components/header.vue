@@ -136,7 +136,7 @@
                       </ul>
                     </li> -->
                     <li><a href="#/faq">FAQ</a></li>
-                    <li><a href="#/blog">博客</a></li>
+                    <li><a href="/blog/index.html" target="_blank">博客</a></li>
                     <li><a href="#/contact">联系我们</a></li>
                   </ul>
                 </nav>

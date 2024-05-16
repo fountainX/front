@@ -8,17 +8,9 @@
           <div class="box">
             <el-table :data="order" :loading="loading" stripe border>
               <el-table-column prop="order_id" label="订单编号" width="90" />
-              <el-table-column prop="order_status" label="订单状态" width="160">
+              <el-table-column prop="order_status" label="订单状态">
                 <template #default="{ row }">
-                  {{ row.order_status == 10 ? '报价开始' : '' }}
-                  {{ row.order_status == 11 ? '报价确认' : '' }}
-                  {{ row.order_status == 12 ? '出具发票' : '' }}
-                  {{ row.order_status == 13 ? '付款' : '' }}
-                  {{ row.order_status == 14 ? '未付款-继续流程' : '' }}
-                  {{ row.order_status == 15 ? '上传资料' : '' }}
-                  {{ row.order_status == 16 ? '资料审核' : '' }}
-                  {{ row.order_status == 17 ? '回传签字' : '' }}
-                  {{ row.order_status == 18 ? '签回' : '' }}
+                  {{ getStatus(orderStatus, row.order_status) }}
                 </template>
               </el-table-column>
               <el-table-column prop="business_type" label="业务类型">
@@ -26,7 +18,11 @@
                   {{ getType(row.business_type) }}
                 </template>
               </el-table-column>
-              <el-table-column prop="content" label="内容" />
+              <el-table-column label="内容">
+                <template #default="{ row }">
+                  {{ row.order_status == 14 ? '未付款可以继续流程，请查收' : '已确认' + getStatus(orderStatus, row.order_status) + '，请查收' }}
+                </template>
+              </el-table-column>
               <el-table-column prop="create_at" label="创建时间" width="180">
                 <template #default="{ row }">
                   {{ formatDate(row.create_at) }}
@@ -46,13 +42,7 @@
             </el-table>
 
             <div class="page">
-              <el-pagination
-                background
-                layout="prev, pager, next"
-                v-model:current-page="pagination.current"
-                :page-size="pagination.pageSize"
-                :total="pagination.total"
-                @current-change="() => { getMessageList(); }">
+              <el-pagination background layout="prev, pager, next" v-model:current-page="pagination.current" :page-size="pagination.pageSize" :total="pagination.total" @current-change="() => { getMessageList(); }">
               </el-pagination>
             </div>
           </div>
@@ -70,8 +60,7 @@ import { useRouter } from 'vue-router'
 import { ref, reactive, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import { messageList, isMsgRead } from '@/http/api/pub.ts'
-import { getType, businessTypeList } from '@/utils/type.ts'
-import { vi } from 'element-plus/es/locale'
+import { getType, businessTypeList, orderStatus } from '@/utils/type.ts'
 
 const router = useRouter()
 const loading = ref(true);
@@ -134,6 +123,11 @@ const setIsRead = (id: number) => {
       console.log(e)
     })
 }
+const getStatus = (arr: any[], status: any) => {
+  const obj = arr.find(item => item.status === status);
+  return obj ? obj.desc : null;
+}
+
 const getValueById = (arr: any[], id: any) => {
   const obj = arr.find(item => item.id === id);
   return obj ? obj.value : null;

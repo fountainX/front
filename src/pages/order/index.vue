@@ -19,138 +19,90 @@
         <div class="formArea">
           <el-card>
             <template v-if="typeValue == 10">
-              <TaxStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId"
-                :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder"
-                @updateCompanyName="updateCompanyName"></TaxStep1>
-              <TaxStep2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no" @update="updatePrice">
-              </TaxStep2>
-              <TaxStep9 v-if="active == 8" :detail="param" :companyName="companyName" :order_no="order_no"
-                :orderId="orderId"></TaxStep9>
+              <TaxStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder" @updateCompanyName="updateCompanyName"></TaxStep1>
+              <TaxStep2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no" @update="updatePrice"></TaxStep2>
+              <TaxStep9 v-if="active == 8" :detail="param" :companyName="companyName" :order_no="order_no" :orderId="orderId"></TaxStep9>
             </template>
             <template v-if="typeValue == 20">
-              <AnnualReviewStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order"
-                :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder"
-                @updateCompanyName="updateCompanyName"></AnnualReviewStep1>
-              <AnnualReviewStep2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no"
-                @update="updatePrice"></AnnualReviewStep2>
-              <AnnualReviewStep9 v-if="active == 8" :detail="param" :companyName="companyName" :order_no="order_no"
-                :orderId="orderId"></AnnualReviewStep9>
+              <AnnualReviewStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder" @updateCompanyName="updateCompanyName"></AnnualReviewStep1>
+              <AnnualReviewStep2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no" @update="updatePrice"></AnnualReviewStep2>
+              <AnnualReviewStep9 v-if="active == 8" :detail="param" :companyName="companyName" :order_no="order_no" :orderId="orderId"></AnnualReviewStep9>
             </template>
             <template v-if="typeValue == 30">
-              <AccountingStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order"
-                :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder"
-                @updateCompanyName="updateCompanyName"></AccountingStep1>
-              <AccountingStep2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no"
-                @update="updatePrice"></AccountingStep2>
-              <AccountingStep9 v-if="active == 8" :detail="param" :companyName="companyName" :order_no="order_no"
-                :orderId="orderId"></AccountingStep9>
+              <AccountingStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder" @updateCompanyName="updateCompanyName"></AccountingStep1>
+              <AccountingStep2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no" @update="updatePrice"></AccountingStep2>
+              <AccountingStep9 v-if="active == 8" :detail="param" :companyName="companyName" :order_no="order_no" :orderId="orderId"></AccountingStep9>
             </template>
             <template v-if="typeValue == 40">
-              <RegistryCompanyStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order"
-                :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder"
-                @updateCompanyName="updateCompanyName"></RegistryCompanyStep1>
-              <RegistryCompanyStep2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no"
-                @update="updatePrice"></RegistryCompanyStep2>
-              <RegistryCompanyStep9 v-if="active == 8" :detail="param" :companyName="companyName" :order_no="order_no"
-                :orderId="orderId"></RegistryCompanyStep9>
+              <RegistryCompanyStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder" @updateCompanyName="updateCompanyName"></RegistryCompanyStep1>
+              <RegistryCompanyStep2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no" @update="updatePrice"></RegistryCompanyStep2>
+              <RegistryCompanyStep9 v-if="active == 8" :detail="param" :companyName="companyName" :order_no="order_no" :orderId="orderId"></RegistryCompanyStep9>
             </template>
 
             <template v-if="typeValue == 51">
-              <TaxLAStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order"
-                :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder"
-                @updateCompanyName="updateCompanyName"></TaxLAStep1>
-              <TaxLAStep2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no" @update="updatePrice">
-              </TaxLAStep2>
-              <TaxLAStep9 v-if="active == 8" :detail="param" :companyName="companyName" :order_no="order_no"
-                :orderId="orderId"></TaxLAStep9>
+              <TaxLAStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder" @updateCompanyName="updateCompanyName"></TaxLAStep1>
+              <TaxLAStep2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no" @update="updatePrice"></TaxLAStep2>
+              <TaxLAStep9 v-if="active == 8" :detail="param" :companyName="companyName" :order_no="order_no" :orderId="orderId"></TaxLAStep9>
             </template>
             <template v-if="typeValue == 52">
-              <TaxRStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order"
-                :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder"
-                @updateCompanyName="updateCompanyName"></TaxRStep1>
-              <TaxRStep2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no" @update="updatePrice">
-              </TaxRStep2>
-              <TaxRStep9 v-if="active == 8" :detail="param" :companyName="companyName" :order_no="order_no"
-                :orderId="orderId"></TaxRStep9>
+              <TaxRStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder" @updateCompanyName="updateCompanyName"></TaxRStep1>
+              <TaxRStep2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no" @update="updatePrice"></TaxRStep2>
+              <TaxRStep9 v-if="active == 8" :detail="param" :companyName="companyName" :order_no="order_no" :orderId="orderId"></TaxRStep9>
             </template>
             <template v-if="typeValue == 91">
-              <ODIStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId"
-                :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder"
-                @updateCompanyName="updateCompanyName"></ODIStep1>
-              <ODIStep2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no" @update="updatePrice">
-              </ODIStep2>
-              <ODIStep9 v-if="active == 8" :detail="param" :companyName="companyName" :order_no="order_no"
-                :orderId="orderId"></ODIStep9>
+              <ODIStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder" @updateCompanyName="updateCompanyName"></ODIStep1>
+              <ODIStep2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no" @update="updatePrice"></ODIStep2>
+              <ODIStep9 v-if="active == 8" :detail="param" :companyName="companyName" :order_no="order_no" :orderId="orderId"></ODIStep9>
             </template>
             <template v-if="typeValue == 92">
-              <BAOStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId"
-                :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder"
-                @updateCompanyName="updateCompanyName"></BAOStep1>
-              <BAOStep2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no" @update="updatePrice">
-              </BAOStep2>
-              <BAOStep9 v-if="active == 8" :detail="param" :companyName="companyName" :order_no="order_no"
-                :orderId="orderId"></BAOStep9>
+              <BAOStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder" @updateCompanyName="updateCompanyName"></BAOStep1>
+              <BAOStep2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no" @update="updatePrice"></BAOStep2>
+              <BAOStep9 v-if="active == 8" :detail="param" :companyName="companyName" :order_no="order_no" :orderId="orderId"></BAOStep9>
             </template>
 
             <template v-if="typeValue == 93">
-              <LVisaStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order"
-                :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder"
-                @updateCompanyName="updateCompanyName"></LVisaStep1>
+              <LVisaStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder" @updateCompanyName="updateCompanyName"></LVisaStep1>
               <LVisaStep2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no"></LVisaStep2>
             </template>
 
             <template v-if="typeValue == 94">
-              <EB2Step1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId"
-                :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder"
-                @updateCompanyName="updateCompanyName"></EB2Step1>
+              <EB2Step1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder" @updateCompanyName="updateCompanyName"></EB2Step1>
               <LVisaStep2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no"></LVisaStep2>
             </template>
 
             <template v-if="typeValue == 95">
-              <MGCStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId"
-                :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder"
-                @updateCompanyName="updateCompanyName"></MGCStep1>
+              <MGCStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder" @updateCompanyName="updateCompanyName"></MGCStep1>
               <LVisaStep2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no"></LVisaStep2>
             </template>
 
             <template v-if="typeValue == 96">
-              <MBVStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId"
-                :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder"
-                @updateCompanyName="updateCompanyName"></MBVStep1>
+              <MBVStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder" @updateCompanyName="updateCompanyName"></MBVStep1>
               <LVisaStep2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no"></LVisaStep2>
             </template>
 
             <template v-if="typeValue == 97">
-              <USIStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId"
-                :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder"
-                @updateCompanyName="updateCompanyName"></USIStep1>
+              <USIStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder" @updateCompanyName="updateCompanyName"></USIStep1>
               <LVisaStep2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no"></LVisaStep2>
             </template>
             <template v-if="typeValue == 120">
-              <OtherStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId"
-                :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder"
-                @updateCompanyName="updateCompanyName"></OtherStep1>
+              <OtherStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder" @updateCompanyName="updateCompanyName"></OtherStep1>
               <LVisaStep2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no"></LVisaStep2>
             </template>
             <!-- <Step2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no" @update="updatePrice"></Step2> -->
 
-            <Step3 ref="step" v-if="active == 2" :agentName="param.agent_name" :companyName="companyName"
-              :invoice="param.invoice" :order_no="order_no" @update="updateInvoice"></Step3>
+            <Step3 ref="step" v-if="active == 2" :agentName="param.agent_name" :companyName="companyName" :invoice="param.invoice" :order_no="order_no" @update="updateInvoice"></Step3>
             <Step4 ref="step" v-if="active == 3" :pay="param.pay" @update="updatePayInfo" :orderId="orderId"></Step4>
-            <Step5 ref="step" v-if="active == 4" :upload="param.upload" @update="updateUploadList" :orderId="orderId">
-            </Step5>
+            <Step5 ref="step" v-if="active == 4" :upload="param.upload" @update="updateUploadList" :orderId="orderId"></Step5>
             <Step6 ref="step" v-if="active == 5" :upload="param.upload"></Step6>
             <Step7 ref="step" v-if="active == 6" :orderId="orderId" :sign="param.sign" @update="updateSign"></Step7>
             <Step8 ref="step" v-if="active == 7" :backSign="param.backSign"></Step8>
-            <Step9 v-if="active == 8" :detail="param" :companyName="companyName" :order_no="order_no"
-              :orderId="orderId"></Step9>
+            <Step9 v-if="active == 8" :detail="param" :companyName="companyName" :order_no="order_no" :orderId="orderId"></Step9>
           </el-card>
           <div v-if="param.order.selectRegion != 'XX'">
             <div style="margin-top: 15px" v-if="!param.order.is_operate_in_us">
               <el-button v-if="active == 1" @click="prev">上一步</el-button>
               <el-button @click="saveOrder()">确认</el-button>
-              <el-button v-if="active == 0" @click="next">{{ active == 1 && orderId == undefined ? '创建订单' : '下一步' }}
-              </el-button>
+              <el-button v-if="active == 0" @click="next">{{ active == 1 && orderId == undefined ? '创建订单' : '下一步' }}</el-button>
             </div>
           </div>
         </div>
@@ -162,22 +114,11 @@
   <Footer></Footer>
 </template>
 <script lang="ts" setup>
-import {
-  ref,
-  reactive,
-  onMounted,
-  provide,
-  watch
-} from 'vue'
-import {
-  ElMessage
-} from 'element-plus'
+import { ref, reactive, onMounted, provide, watch } from 'vue'
+import { ElMessage } from 'element-plus'
 import Header from '../../components/header.vue'
 import Footer from '../../components/footer.vue'
-import {
-  useRouter,
-  useRoute
-} from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import TaxStep1 from './tax/step1.vue'
 import TaxStep2 from './tax/step2.vue'
 import TaxStep9 from './tax/step9.vue'
@@ -217,22 +158,11 @@ import Step6 from './step6.vue'
 import Step7 from './step7.vue'
 import Step8 from './step8.vue'
 // import Step9 from './step9.vue'
-import {
-  createMsg,
-  orderCreate,
-  orderUpdate,
-  orderShow,
-  updateOrderStatus
-} from '@/http/api/order.ts'
-import {
-  ruleList,
-  agentShow
-} from '@/http/api/pub.ts'
-import {
-  getToken
-} from '@/utils/auth.ts'
+import { createMsg, orderCreate, orderUpdate, orderShow, updateOrderStatus } from '@/http/api/order.ts'
+import { ruleList, agentShow } from '@/http/api/pub.ts'
+import { getToken } from '@/utils/auth.ts'
 const router = useRouter()
-const route = useRoute();
+const route = useRoute()
 let type = router.currentRoute.value.query.type
 let typeValue
 
@@ -290,7 +220,6 @@ const agent = ref({})
 const orderId = ref(router.currentRoute.value.query.orderId)
 const userInfo = ref(JSON.parse(localStorage.getItem('userInfo') as any))
 
-
 const isLogin = () => {
   if (userInfo.value == null) {
     userInfo.value = {
@@ -303,50 +232,51 @@ const isLogin = () => {
 isLogin()
 
 // 阶段状态
-const stage = reactive([{
-  name: 'QUOTATION_STARTED',
-  val: 10
-}, // 已付款
-{
-  name: 'QUOTATION_CONFIRMED',
-  val: 11
-}, // 已付款
-{
-  name: 'INVOICE_ISSUED',
-  val: 12
-}, // 发票开具
-{
-  name: 'PAID',
-  val: 13
-}, // 已付款
-{
-  name: 'NO_PAID_CONTINUE',
-  val: 14
-}, //未付款可以继续流程
-{
-  name: 'DOCUMENT_UPLOADED',
-  val: 15
-}, //资料上传
-{
-  name: 'DOCUMENT_REVIEWED',
-  val: 16
-}, // 资料审核
-{
-  name: 'SIGNATURE_RETURNED',
-  val: 16
-}, // 签字回传
-{
-  name: 'SIGNATURE_RETURNED_BACK',
-  val: 17
-}, // 签回
-{
-  name: 'FINISHED',
-  val: 18
-}, // 完结
-{
-  name: 'DELETED',
-  val: 99
-} // 删除
+const stage = reactive([
+  {
+    name: 'QUOTATION_STARTED',
+    val: 10
+  }, // 已付款
+  {
+    name: 'QUOTATION_CONFIRMED',
+    val: 11
+  }, // 已付款
+  {
+    name: 'INVOICE_ISSUED',
+    val: 12
+  }, // 发票开具
+  {
+    name: 'PAID',
+    val: 13
+  }, // 已付款
+  {
+    name: 'NO_PAID_CONTINUE',
+    val: 14
+  }, //未付款可以继续流程
+  {
+    name: 'DOCUMENT_UPLOADED',
+    val: 15
+  }, //资料上传
+  {
+    name: 'DOCUMENT_REVIEWED',
+    val: 16
+  }, // 资料审核
+  {
+    name: 'SIGNATURE_RETURNED',
+    val: 16
+  }, // 签字回传
+  {
+    name: 'SIGNATURE_RETURNED_BACK',
+    val: 17
+  }, // 签回
+  {
+    name: 'FINISHED',
+    val: 18
+  }, // 完结
+  {
+    name: 'DELETED',
+    val: 99
+  } // 删除
 ])
 const ruleListDataC = ref([])
 const ruleListDataLLC = ref([])
@@ -473,14 +403,15 @@ let param: any = reactive({
   },
   sign: {
     pdfPath: '',
-    mark: [{
-      page: '22',
-      desc: '右下方签名'
-    },
-    {
-      page: '23',
-      desc: '左下方签名'
-    }
+    mark: [
+      {
+        page: '22',
+        desc: '右下方签名'
+      },
+      {
+        page: '23',
+        desc: '左下方签名'
+      }
     ],
     imageList: [],
     isSign: true
@@ -571,8 +502,8 @@ const createOrder = () => {
       return
     }
   } else {
-    companyName.value = "个人业务(非公司)";
-    param.order.companyType = 1;
+    companyName.value = '个人业务(非公司)'
+    param.order.companyType = 1
     // oldTotalPrice
     // 计算价格
   }
@@ -593,6 +524,7 @@ const createOrder = () => {
       param.order.id = res.data.order_id
       order_no.value = res.data.order_no
       updateOrderStatusHandle(10)
+      submitMsg(res.data)
     })
     .catch((err: any) => {
       console.log(err)
@@ -601,7 +533,6 @@ const createOrder = () => {
 const saveOrder = () => {
   if (active.value == 0 && orderId.value == undefined) {
     createOrder()
-    submitMsg()
     return
   }
   orderUpdate({
@@ -615,7 +546,7 @@ const saveOrder = () => {
     .then((res: any) => {
       ElMessage.success('已提交，请联系专员')
       console.log('update order', res)
-      submitMsg()
+      submitMsg(res.data)
       if (active.value == 1) {
         updateOrderStatusHandle(11)
       }
@@ -695,33 +626,34 @@ const initOrder = () => {
 }
 provide('content', param)
 
-const msgData = ref({
-  creator: userInfo.value.uid,
-  orderId: orderId.value,
-  orderStatus: null,
-  businessType: typeValue,
-  content: '',
-  isCustomer: false,
-})
-const submitMsg = () => {
-  setTimeout(async () => {
-    msgData.value.orderStatus = orderStatus.value
-    console.log('sms param', msgData.value)
-    let res = await createMsg(msgData.value)
-    if (res.code == 200) {
-      ElMessage.success('消息提交成功')
-    }
-  }, 500);
+const submitMsg = async (data: any) => {
+  const params = {
+    creator: data.creator,
+    orderId: data.order_id,
+    orderStatus: data.order_status,
+    businessType: typeValue,
+    content: '',
+    isCustomer: false
+  }
+
+  console.log('sms param', params)
+  let res = await createMsg(params)
+  if (res.code == 200) {
+    ElMessage.success('消息提交成功')
+  }
 }
 
-watch(() => route.query.type, (newValue) => {
-  setTypeValue(type)
-  console.log(newValue)
-  setTimeout(() => {
-    window.location.reload()
-  }, 100);
-  // window.location.reload()
-});
+watch(
+  () => route.query.type,
+  (newValue) => {
+    setTypeValue(type)
+    console.log(newValue)
+    setTimeout(() => {
+      window.location.reload()
+    }, 100)
+    // window.location.reload()
+  }
+)
 onMounted(() => {
   if (orderId.value !== undefined) {
     initOrder()

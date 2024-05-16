@@ -109,17 +109,16 @@ axios.interceptors.response.use(
           ElMessage.error('请求超时')
           break
         case 422:
-          ElMessage.error('token失效，请重新登录！')
-          localStorage.removeItem('userInfo')
-          removeToken()
-          localStorage.clear()
-          window.location.href = '#/login'
-          setTimeout(() => {
-            location.reload()
-          }, 200)
-          break
-        case 408:
-          ElMessage.error('请求超时')
+          // ElMessage.error('token失效，请重新登录！')
+          console.log('442 token失效，请重新登录！/ 无代理')
+          // return
+          // localStorage.removeItem('userInfo')
+          // removeToken()
+          // localStorage.clear()
+          // window.location.href = '#/login'
+          // setTimeout(() => {
+          //   location.reload()
+          // }, 200)
           break
         case 500:
           // ElMessage.error('服务器端出错')
