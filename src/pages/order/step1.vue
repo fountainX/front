@@ -182,9 +182,9 @@
               <template #append>万美元</template>
             </el-input>
           </el-form-item>
-          <el-form-item v-if="item.field_name == 'exchange_fund_com_number'" label="资金往来公司数：" prop="exchange_fund_com_number" class="required label-right-align">
+          <el-form-item v-if="item.field_name == 'exchange_fund_com_number'" label="有资金往来的关联公司数量：" prop="exchange_fund_com_number" class="required label-right-align">
             <el-input-number @change="computedTotalPrice" style="width: 250px" min="0" v-model="formData.exchange_fund_com_number" type="text" clearable :placeholder="'注：费用为公司数 x ' + item.price"></el-input-number>
-            <div class="tip">关联方包括母公司、子公司或同一控制人下的其他兄弟公司</div>
+            <div class="tip">关联公司包括母公司、子公司或同一控制人下的其他兄弟公司</div>
           </el-form-item>
           <el-form-item v-if="item.field_name == 'subsidiary_us'" label="在美子公司数：" prop="subsidiary_us" class="required label-right-align">
             <el-input-number @change="computedTotalPrice" style="width: 250px" min="0" v-model="formData.subsidiary_us" type="text" clearable :placeholder="'注：费用为公司数 x ' + item.price"></el-input-number>

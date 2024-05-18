@@ -20,10 +20,8 @@
           <!-- <el-form-item label="公司名称：" prop="userName" class="required label-right-align">
               <el-input v-model="formData.companyName" type="text" clearable></el-input>
             </el-form-item> -->
-          <el-form-item label="代理：" prop="agentId" class="label-right-align">
-            <el-select v-model="formData.agentId" @change="selectAgent" placeholder="请选择代理" style="width: 100%">
-              <el-option v-for="item in agentList" :value="item.agent_id" :label="item.agent_name"></el-option>
-            </el-select>
+          <el-form-item label="渠道：" prop="channel" class="label-right-align">
+            <el-input v-model="formData.channel" type="text" placeholder="请填写渠道" clearable></el-input>
           </el-form-item>
           <el-form-item label="邮箱：" prop="email" class="required label-right-align">
             <el-input v-model="formData.email" type="text" placeholder="请填写邮箱" clearable></el-input>
@@ -74,8 +72,8 @@ const formData = reactive({
   userName: '',
   fullName: '',
   password: '',
-  agentId: '',
   companyName: '',
+  channel:'',
   email: '',
   mobile: '',
   wechat: ''

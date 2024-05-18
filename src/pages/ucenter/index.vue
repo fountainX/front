@@ -55,10 +55,8 @@
               <el-input v-model="formData.agentId" type="text" clearable></el-input>
             </el-form-item> -->
 
-              <el-form-item label="代理：" prop="agentId" class="label-right-align">
-                <el-select disabled v-model="formData.agentId" @change="selectAgent" style="width: 100%">
-                  <el-option v-for="item in agentList" :value="item.agent_id" :label="item.agent_name"></el-option>
-                </el-select>
+              <el-form-item label="渠道：" prop="channel" class="label-right-align">
+                <el-input v-model="formData.channel" type="text" clearable></el-input>
               </el-form-item>
 
               <el-form-item label="邮箱：" prop="email" class="required label-right-align">
@@ -252,7 +250,7 @@ const getAccount = (id) => {
       formData.email = res.data.email
       formData.mobile = res.data.mobile
       formData.wechat = res.data.wechat
-      formData.agentId = res.data.agent_id
+      formData.channel = res.data.channel
     })
     .catch((e) => {
       console.log(e)

@@ -48,7 +48,7 @@
           <el-descriptions-item v-if="item.field_name == 'amount_fixed_asset'" label="固定资产金额：">{{ order.amount_fixed_asset || 0 }}万美元</el-descriptions-item>
           <el-descriptions-item v-if="item.field_name == 'amount_fixed_asset'" label="费用：">{{ order.amount_fixed_asset > 0 ? item.price : 0 }}</el-descriptions-item>
 
-          <el-descriptions-item v-if="item.field_name == 'exchange_fund_com_number'" label="资金往来公司数：">{{ order.exchange_fund_com_number }}</el-descriptions-item>
+          <el-descriptions-item v-if="item.field_name == 'exchange_fund_com_number'" label="有资金往来的关联公司数量：">{{ order.exchange_fund_com_number }}</el-descriptions-item>
           <el-descriptions-item v-if="item.field_name == 'exchange_fund_com_number'" label="费用：">{{ (order.exchange_fund_com_number || 0) * item.price }}</el-descriptions-item>
 
           <el-descriptions-item v-if="item.field_name == 'subsidiary_us'" label="在美子公司数：">{{ order.subsidiary_us }}</el-descriptions-item>
