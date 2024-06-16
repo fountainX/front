@@ -96,7 +96,13 @@
                     </li>
                     <li><a href="#">业务 <i class="icofont-rounded-down"></i></a>
                       <ul class="dropdown">
-                        <li><a href="#/order?type=TAX">报税</a></li>
+                        <li class="dropdown-submenu">
+                          <a class="dropdown-item dropdown-toggle" href="#">报税</a>
+                          <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#/order?type=TAX">公司报税</a></li>
+                            <li><a class="dropdown-item" href="#/order?type=TAX_PERSONAL">个人报税</a></li>
+                          </ul>
+                        </li>
                         <li><a href="#/order?type=ANNUAL_REVIEW">年审</a></li>
                         <li><a href="#/order?type=ACCOUNTING">做账</a></li>
                         <li><a href="#/order?type=REGISTER_COMPANY">注册公司</a></li>
@@ -119,8 +125,6 @@
                             <li><a class="dropdown-item" href="#/order?type=US_INSURANCE">美国保险</a></li>
                           </ul>
                         </li>
-
-                        <li><a href="#/order?type=OTHER_OTHER">其他-其他</a></li>
                       </ul>
                     </li>
                     <!-- <li><a href="#">Pages <i class="icofont-rounded-down"></i></a>

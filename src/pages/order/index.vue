@@ -84,10 +84,10 @@
               <USIStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder" @updateCompanyName="updateCompanyName"></USIStep1>
               <LVisaStep2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no"></LVisaStep2>
             </template>
-            <template v-if="typeValue == 120">
-              <OtherStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder" @updateCompanyName="updateCompanyName"></OtherStep1>
-              <LVisaStep2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no"></LVisaStep2>
-            </template>
+<!--            <template v-if="typeValue == 120">-->
+<!--              <OtherStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder" @updateCompanyName="updateCompanyName"></OtherStep1>-->
+<!--              <LVisaStep2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no"></LVisaStep2>-->
+<!--            </template>-->
             <!-- <Step2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no" @update="updatePrice"></Step2> -->
 
             <Step3 ref="step" v-if="active == 2" :agentName="param.agent_name" :companyName="companyName" :invoice="param.invoice" :order_no="order_no" @update="updateInvoice"></Step3>
