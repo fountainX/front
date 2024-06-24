@@ -39,9 +39,9 @@ import { uploadSingleFile, getTemplate, uploadMultipleFile, downloadZip } from '
 import FileList from '@/components/fileList/index.vue'
 import { useRouter, useRoute } from 'vue-router'
 import type { UploadProps, UploadUserFile } from 'element-plus'
-import { saveAs } from 'file-saver'
-import FileDownload from 'js-file-download'
-import { debug } from 'console'
+// import { saveAs } from 'file-saver'
+// import FileDownload from 'js-file-download'
+// import { debug } from 'console'
 export default defineComponent({
   components: { FileList },
   props: {
@@ -87,7 +87,7 @@ export default defineComponent({
         // }
 
         const extension = data.file_name.split('.').pop()
-        fileList.value.push({ file_name: data.file_name, extension: extension,account: userInfo.user_name,updateTime: data.updateTime, })
+        fileList.value.push({ file_name: data.file_name, extension: extension, account: userInfo.user_name, updateTime: data.updateTime })
         // fileList.value.push(file)
         context.emit('update', fileList)
         return true
@@ -115,19 +115,19 @@ export default defineComponent({
           let fileName = ''
           switch (type) {
             case 'TAX':
-              fileName = '报税_';
-              break;
+              fileName = '报税_'
+              break
             case 'ANNUAL_REVIEW':
-              fileName = '年审_';
-              break;
+              fileName = '年审_'
+              break
             case 'ACCOUNTING':
-              fileName = '做账_';
-              break;
+              fileName = '做账_'
+              break
             case 'REGISTER_COMPANY':
-              fileName = '注册公司_';
-              break;
+              fileName = '注册公司_'
+              break
             default:
-              fileName = '其它';
+              fileName = '其它'
           }
 
           // 创建一个下载链接

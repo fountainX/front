@@ -5,12 +5,17 @@
     <div class="topbar">
       <div class="container">
         <div class="row">
-
           <div class="col-12">
             <!-- Top Contact -->
             <ul class="top-contact">
-              <li><i class="fa fa-phone"></i>626-632-2608</li>
-              <li><i class="fa fa-envelope"></i><a href="mailto:admin@longviewlk.com">admin@longviewlk.com</a></li>
+              <li>
+                <i class="fa fa-phone"></i>
+                626-632-2608
+              </li>
+              <li>
+                <i class="fa fa-envelope"></i>
+                <a href="mailto:admin@longviewlk.com">admin@longviewlk.com</a>
+              </li>
               <li>
                 <el-dropdown style="margin: 5px">
                   <span class="el-dropdown-link">
@@ -29,10 +34,10 @@
               </li>
               <li>
                 <router-link :to="'/ucenter?uid=' + userInfo.uid">{{ userInfo.user_name }}</router-link>
-                <router-link :to="'/message?uid=' + userInfo.uid" v-if="userInfo.user_name && userInfo.uid" style="margin-left: 10px;">消息</router-link>
+                <router-link :to="'/message?uid=' + userInfo.uid" v-if="userInfo.user_name && userInfo.uid" style="margin-left: 10px">消息</router-link>
                 <el-button v-if="!userInfo.uid" @click="login()">{{ $t('lang.login') }}</el-button>
                 <el-button v-if="!userInfo.uid" @click="registry()">{{ $t('lang.register') }}</el-button>
-                <el-button v-else @click="logout()" style="margin-left:15px" link>退出</el-button>
+                <el-button v-else @click="logout()" style="margin-left: 15px" link>退出</el-button>
               </li>
             </ul>
             <!-- End Top Contact -->
@@ -48,7 +53,7 @@
           <div class="col-lg-3 col-md-3 col-12">
             <!-- Start Logo -->
             <div class="logo">
-              <a href="#/"><img src="/src/assets/img/logo.png" style="height: 47px;"></a>
+              <a href="#/"><img src="/src/assets/img/logo.png" style="height: 47px" /></a>
             </div>
             <!-- End Logo -->
             <!-- Mobile Nav -->
@@ -71,7 +76,6 @@
                 <h4>周一至周五: 9am - 5pm</h4>
               </div>
               <!--/ End Single Widget -->
-
             </div>
           </div>
         </div>
@@ -88,13 +92,21 @@
               <div class="main-menu">
                 <nav class="navigation">
                   <ul class="nav menu">
-                    <li class="active"><a href="#">首页 <i class="icofont-rounded-down"></i></a>
+                    <li class="active">
+                      <a href="#">
+                        首页
+                        <i class="icofont-rounded-down"></i>
+                      </a>
                       <ul class="dropdown">
                         <li><a href="#/about">关于我们</a></li>
                         <li><a href="#/team">团队介绍</a></li>
                       </ul>
                     </li>
-                    <li><a href="#">业务 <i class="icofont-rounded-down"></i></a>
+                    <li>
+                      <a href="#">
+                        业务
+                        <i class="icofont-rounded-down"></i>
+                      </a>
                       <ul class="dropdown">
                         <li class="dropdown-submenu">
                           <a class="dropdown-item dropdown-toggle" href="#">报税</a>
@@ -175,7 +187,6 @@ import { removeToken } from '@/utils/auth.ts'
 import { accountLogout } from '@/http/api/account.ts'
 import { ElMessage } from 'element-plus'
 
-
 export default defineComponent({
   name: 'top',
   components: {},
@@ -183,7 +194,7 @@ export default defineComponent({
     const { t, locale } = useI18n()
     const router = useRouter()
     const goHome = () => {
-      router.push("/");
+      router.push('/')
     }
     const data = reactive({
       store: useStore(),
@@ -203,22 +214,22 @@ export default defineComponent({
         router.push('/registry')
       },
       logout: () => {
-        accountLogout({}).then((res: any) => {
-          console.log(res)
-          localStorage.removeItem('userInfo')
-          removeToken()
-          localStorage.clear()
-          ElMessage.success('退出成功')
-          router.push('/')
-          setTimeout(() => {
-            location.reload()
-          }, 200)
-          // location.replace('/')
-        })
+        accountLogout({})
+          .then((res: any) => {
+            console.log(res)
+            localStorage.removeItem('userInfo')
+            removeToken()
+            localStorage.clear()
+            ElMessage.success('退出成功')
+            router.push('/')
+            setTimeout(() => {
+              location.reload()
+            }, 200)
+            // location.replace('/')
+          })
           .catch((err: any) => {
             console.log(err)
           })
-
       }
     })
 
@@ -226,11 +237,18 @@ export default defineComponent({
     onMounted(() => {
       data.init()
 
-      $('.dropdown-submenu a.dropdown-toggle').on("click", function (e) {
-        $(this).next('.dropdown-menu').toggle();
-        e.stopPropagation();
-        e.preventDefault();
-      });
+      $('.dropdown-submenu a.dropdown-toggle').on('mouseover', function (e) {
+        console.log(e)
+        $(this).next('.dropdown-menu').toggle()
+        e.stopPropagation()
+        e.preventDefault()
+      })
+
+      $('.dropdown-menu').on('mouseout', function (e) {
+        $(this).next('.dropdown-menu').hide()
+        e.stopPropagation()
+        e.preventDefault()
+      })
     })
     return {
       ...refData,

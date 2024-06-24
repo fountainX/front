@@ -17,9 +17,6 @@
           <el-form-item label="密码：" prop="password" class="required label-right-align">
             <el-input v-model="formData.password" type="password" placeholder="请填写密码" clearable></el-input>
           </el-form-item>
-          <!-- <el-form-item label="公司名称：" prop="userName" class="required label-right-align">
-              <el-input v-model="formData.companyName" type="text" clearable></el-input>
-            </el-form-item> -->
           <el-form-item label="渠道：" prop="channel" class="label-right-align">
             <el-input v-model="formData.channel" type="text" placeholder="请填写渠道" clearable></el-input>
           </el-form-item>

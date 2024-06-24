@@ -71,8 +71,8 @@
           <div class="single-fun wow fadeIn" data-wow-delay="1s" data-wow-duration="0.5s">
             <i class="icofont icofont-home"></i>
             <div class="content">
-              <span class="counter">3468</span>
-              <p>Hospital Rooms</p>
+              <span class="counter">800+</span>
+              <p>Service Company</p>
             </div>
           </div>
           <!-- End Single Fun -->
@@ -82,7 +82,7 @@
           <div class="single-fun wow fadeIn" data-wow-delay="0.8s" data-wow-duration="0.5s">
             <i class="icofont icofont-user-alt-3"></i>
             <div class="content">
-              <span class="counter">557</span>
+              <span class="counter">10</span>
               <p>Specialist</p>
             </div>
           </div>
@@ -93,8 +93,8 @@
           <div class="single-fun wow fadeIn" data-wow-delay="0.6s" data-wow-duration="0.5s">
             <i class="icofont-simple-smile"></i>
             <div class="content">
-              <span class="counter">4379</span>
-              <p>Happy Patients</p>
+              <span class="counter">40</span>
+              <p>Customer service</p>
             </div>
           </div>
           <!-- End Single Fun -->
@@ -104,7 +104,7 @@
           <div class="single-fun wow fadeIn" data-wow-delay="0.4s" data-wow-duration="0.5s">
             <i class="icofont icofont-table"></i>
             <div class="content">
-              <span class="counter">32</span>
+              <span class="counter">15</span>
               <p>Years of Experience</p>
             </div>
           </div>

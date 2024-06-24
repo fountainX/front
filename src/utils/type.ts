@@ -30,6 +30,11 @@ export const businessTypeList = [
     desc: '其他'
   },
   {
+    id: 11,
+    value: 'TAX_PERSONAL',
+    desc: '个人报税'
+  },
+  {
     id: 51,
     value: 'SALE_TAX_LICENSE_APPLICATION',
     desc: '销售税-许可证申请'

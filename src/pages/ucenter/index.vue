@@ -48,12 +48,6 @@
               <el-form-item label="姓名：" prop="fullName" class="required label-right-align">
                 <el-input v-model="formData.fullName" type="text" clearable></el-input>
               </el-form-item>
-              <!-- <el-form-item label="密码：" prop="password" class="required label-right-align">
-              <el-input v-model="formData.password" type="password" clearable></el-input>
-            </el-form-item> -->
-              <!-- <el-form-item label="代理：" prop="agentId" class="label-right-align">
-              <el-input v-model="formData.agentId" type="text" clearable></el-input>
-            </el-form-item> -->
 
               <el-form-item label="渠道：" prop="channel" class="label-right-align">
                 <el-input v-model="formData.channel" type="text" clearable></el-input>

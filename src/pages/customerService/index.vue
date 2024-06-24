@@ -36,7 +36,7 @@ const formData = ref({
   orderStatus: orderStatus || null,
   businessType: 0,
   content: '',
-  isCustomer: true,
+  isCustomer: true
 })
 const rules = {
   content: [
@@ -51,6 +51,10 @@ const showTypeName = (type) => {
     case 'TAX':
       formData.value.businessType = 10
       return '报税'
+      break
+    case 'TAX_PERSONAL':
+      formData.value.businessType = 11
+      return '个人报税'
       break
     case 'ANNUAL_REVIEW':
       formData.value.businessType = 20

@@ -23,6 +23,11 @@
               <TaxStep2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no" @update="updatePrice"></TaxStep2>
               <TaxStep9 v-if="active == 8" :detail="param" :companyName="companyName" :order_no="order_no" :orderId="orderId"></TaxStep9>
             </template>
+            <template v-if="typeValue == 11">
+              <taxPersonal ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder" @updateCompanyName="updateCompanyName"></taxPersonal>
+              <taxPStep2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no" @update="updatePrice"></taxPStep2>
+              <taxPStep11 v-if="active == 8" :detail="param" :companyName="companyName" :order_no="order_no" :orderId="orderId"></taxPStep11>
+            </template>
             <template v-if="typeValue == 20">
               <AnnualReviewStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder" @updateCompanyName="updateCompanyName"></AnnualReviewStep1>
               <AnnualReviewStep2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no" @update="updatePrice"></AnnualReviewStep2>
@@ -84,10 +89,10 @@
               <USIStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder" @updateCompanyName="updateCompanyName"></USIStep1>
               <LVisaStep2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no"></LVisaStep2>
             </template>
-<!--            <template v-if="typeValue == 120">-->
-<!--              <OtherStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder" @updateCompanyName="updateCompanyName"></OtherStep1>-->
-<!--              <LVisaStep2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no"></LVisaStep2>-->
-<!--            </template>-->
+            <!--            <template v-if="typeValue == 120">-->
+            <!--              <OtherStep1 ref="step" v-if="active == 0" :companyName="companyName" :order="param.order" :orderId="orderId" :orderStatus="orderStatus" :invoice="param.invoice" @update="updateOrder" @updateCompanyName="updateCompanyName"></OtherStep1>-->
+            <!--              <LVisaStep2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no"></LVisaStep2>-->
+            <!--            </template>-->
             <!-- <Step2 ref="step" v-if="active == 1" :order="param.order" :order_no="order_no" @update="updatePrice"></Step2> -->
 
             <Step3 ref="step" v-if="active == 2" :agentName="param.agent_name" :companyName="companyName" :invoice="param.invoice" :order_no="order_no" @update="updateInvoice"></Step3>
@@ -150,6 +155,9 @@ import MGCStep1 from './MGC/step1.vue'
 import MBVStep1 from './MBV/step1.vue'
 import USIStep1 from './USI/step1.vue'
 import OtherStep1 from './Other/step1.vue'
+import taxPersonal from './taxP/step1.vue'
+import taxPStep2 from './taxP/step2.vue'
+import taxPStep11 from './taxP/step9.vue'
 import Step2 from './step2.vue'
 import Step3 from './step3.vue'
 import Step4 from './step4.vue'
@@ -170,6 +178,9 @@ const setTypeValue = (type) => {
   switch (type) {
     case 'TAX':
       typeValue = 10
+      break
+    case 'TAX_PERSONAL':
+      typeValue = 11
       break
     case 'ANNUAL_REVIEW':
       typeValue = 20
@@ -485,8 +496,8 @@ const updateOrderStatusHandle = async (status) => {
 }
 const createOrder = () => {
   // console.log(agent.value);
-  console.log(param.order.selectRegion)
-  if (typeValue < 93) {
+
+  if (typeValue < 93 && typeValue != 11) {
     if (!companyName.value) {
       ElMessage.error('请收入公司名称')
       return
@@ -506,7 +517,14 @@ const createOrder = () => {
     param.order.companyType = 1
     // oldTotalPrice
     // 计算价格
+
+    if (typeValue == 11) {
+      companyName.value = '个人报税'
+      param.order.companyType = 1
+      param.order.selectRegion = 'us'
+    }
   }
+  console.log(typeValue, param.order.selectRegion)
 
   orderCreate({
     order_status: 10,
@@ -700,5 +718,6 @@ onMounted(() => {
   /* background: #f1f1f1; */
 }
 
-:deep(.el-descriptions__content) {}
+:deep(.el-descriptions__content) {
+}
 </style>
