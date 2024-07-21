@@ -19,6 +19,9 @@
           <div class="title" :title="item.file_name">{{ decodeURIComponent(item.file_name) }}</div>
           <a class="dw" v-if="props.showDownload" :href="$filePath + encodeURIComponent(item.file_name)" download>下载</a>
         </div>
+
+        <el-alert v-if="item.reason != undefined" :title="'审核未通过：' + item.reason + '，请核对资料后重新上传。'" type="error" show-icon  />
+        <el-alert v-if="item.status == 1" title="审核通过" type="success" show-icon style="width:260px" />
       </div>
     </div>
 

@@ -33,7 +33,8 @@
                 </el-dropdown>
               </li>
               <li>
-                <router-link :to="'/ucenter?uid=' + userInfo.uid">{{ userInfo.user_name }}</router-link>
+                <router-link :to="'/ucenter?uid=' + userInfo.uid + '&tab=2'">{{ userInfo.user_name }}</router-link>
+                <router-link :to="'/ucenter?uid=' + userInfo.uid + '&tab=1'" v-if="userInfo.user_name && userInfo.uid" style="margin-left: 10px">我的订单</router-link>
                 <router-link :to="'/message?uid=' + userInfo.uid" v-if="userInfo.user_name && userInfo.uid" style="margin-left: 10px">消息</router-link>
                 <el-button v-if="!userInfo.uid" @click="login()">{{ $t('lang.login') }}</el-button>
                 <el-button v-if="!userInfo.uid" @click="registry()">{{ $t('lang.register') }}</el-button>

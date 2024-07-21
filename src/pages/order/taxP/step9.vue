@@ -7,7 +7,7 @@
     <!-- <el-divider content-position="left">确认报价</el-divider> -->
     <div class="desc">
       <el-descriptions :title="'订单号：' + order_no" :column="2">
-        <el-descriptions-item :span="2" label="报税类型：">个人报税</el-descriptions-item>
+        <el-descriptions-item :span="2" label="客户名字：">{{ order.userName }}</el-descriptions-item>
         <el-descriptions-item :span="2" label="持有公司股权超过50%公司的个数：">{{ order.number }}</el-descriptions-item>
         <el-descriptions-item :span="2" label="每年股票交易（包括中国大陆 香港 美国等）笔数（>10）:">{{ order.transactions }}</el-descriptions-item>
         <el-descriptions-item :span="2" label="费用：">{{ order.oldTotalPrice }}美元</el-descriptions-item>

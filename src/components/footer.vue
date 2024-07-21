@@ -10,13 +10,6 @@
               <h2>关于我们</h2>
               <p>在过去的10年里，我们的家族账户服务一直为社区服务。我们的团队已经发展壮大，包括经验丰富的注册会计师和专门的支持，以提供个人和专业的金融服务。</p>
               <!-- Social -->
-              <ul class="social">
-                <li><a href="#"><i class="icofont-facebook"></i></a></li>
-                <li><a href="#"><i class="icofont-google-plus"></i></a></li>
-                <li><a href="#"><i class="icofont-twitter"></i></a></li>
-                <li><a href="#"><i class="icofont-vimeo"></i></a></li>
-                <li><a href="#"><i class="icofont-pinterest"></i></a></li>
-              </ul>
               <!-- End Social -->
             </div>
           </div>

@@ -38,7 +38,7 @@ import { ref, defineProps, defineComponent, defineEmits, reactive, inject } from
 import { uploadSingleFile, getTemplate, uploadMultipleFile, downloadZip } from '@/http/api/order.ts'
 import FileList from '@/components/fileList/index.vue'
 import { useRouter, useRoute } from 'vue-router'
-import type { UploadProps, UploadUserFile } from 'element-plus'
+import type { ElMessage, UploadProps, UploadUserFile } from 'element-plus'
 // import { saveAs } from 'file-saver'
 // import FileDownload from 'js-file-download'
 // import { debug } from 'console'

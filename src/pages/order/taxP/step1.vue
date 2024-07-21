@@ -9,10 +9,10 @@
         <el-input v-if="item.vale_type == 'BOOL'" v-model="item.price" disabled type="text" style="width: 200px" clearable>
           <template #append>美元</template>
         </el-input>
-        <el-input-number v-if="item.vale_type == 'TEXT_MULTIPLY'" :placeholder="'公司数量 x ' + item.price" style="width: 200px" v-model="num" :min="0" :max="100" @change="changeNumber1" />
+        <el-input-number v-if="item.vale_type == 'TEXT_MULTIPLY'" :placeholder="'公司数量'" style="width: 200px" v-model="num" :min="0" :max="100" @change="changeNumber1" />
         <div v-if="item.vale_type == 'NUMBER'">
-          <el-input-number :placeholder="'笔数 x ' + item.price" v-model="transactions" :min="0" :max="100" style="width: 200px" @change="changeNumber2" />
-          <div class="tip">笔数（1-10）+ 300，笔数（>10）+ 1000</div>
+          <el-input-number :placeholder="'笔数'" v-model="transactions" :min="0" :max="100" style="width: 200px" @change="changeNumber2" />
+          <!-- <div class="tip">笔数（1-10）+ 300，笔数（>10）+ 1000</div> -->
         </div>
       </el-form-item>
     </el-form>
@@ -95,6 +95,7 @@ export default defineComponent({
     const num = ref()
     const transactions = ref()
     const couponInfo = JSON.parse(localStorage.getItem('couponInfo') || '{}')
+    const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}')
     const rate = couponInfo.rate || 100
     const ruleListDataC = ref([{}])
     const getRuleList = () => {
@@ -159,6 +160,7 @@ export default defineComponent({
       console.log(priceCompany, priceStock)
       price.value = priceBase + priceCompany + priceStock
 
+      props.order.userName = userInfo.user_name
       props.order.number = num.value
       props.order.transactions = transactions.value
       props.order.valeType = valueType.value
@@ -176,6 +178,7 @@ export default defineComponent({
       if (val == 0) priceStock = 0
       price.value = priceBase + priceCompany + priceStock
 
+      props.order.userName = userInfo.user_name
       props.order.number = num.value
       props.order.transactions = transactions.value
       props.order.valeType = valueType.value
@@ -218,6 +221,7 @@ export default defineComponent({
   height: 32px;
   margin-top: -1px;
 }
+
 :deep(.el-radio-group) {
   display: block;
 }

@@ -28,13 +28,7 @@
             </el-table>
 
             <div class="page">
-              <el-pagination
-                background
-                layout="prev, pager, next"
-                v-model:current-page="pagination.current"
-                :page-size="pagination.pageSize"
-                :total="pagination.total"
-                @current-change="() => { getOrderList(); }">
+              <el-pagination background layout="prev, pager, next" v-model:current-page="pagination.current" :page-size="pagination.pageSize" :total="pagination.total" @current-change="() => { getOrderList(); }">
               </el-pagination>
             </div>
           </div>
@@ -166,7 +160,13 @@ const getStatus = (id) => {
   return res.desc
 }
 // tab 切换
-const activeName = ref('1')
+const activeName: any = ref('1')
+// 监听url中tab参数变化
+router.beforeEach((to, from, next) => {
+  activeName.value = to.query.tab
+  next()
+})
+
 const handleClick = (tab: TabsPaneContext, event: Event) => {
   console.log(tab, event)
   if (tab.uid == 13) {
