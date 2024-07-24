@@ -3,22 +3,25 @@
     <h2>上传资料</h2>
   </el-divider>
   <div class="table-container">
+    <br />
     <FileList :key="templateList.length" :showDownload="true" :list="transferFile(templateList)" :size="100" />
-
-    <!-- <table class="table-layout">
+    <br />
+    <br />
+    <table class="table-layout" v-if="uploadTempFile != undefined">
       <tbody>
-        <tr v-for="(item, index) in templateList">
+        <tr v-for="(item, index) in uploadTempFile">
           <td class="table-cell">
             <Document style="width: 1.3em; color: #999; vertical-align: sub; margin-right: 8px" />
-            {{ item.file_name }}
-            <el-button size="small" @click="downFile(item, item.file_name)">下载</el-button>
+            {{ item.file }}
+            <el-button size="small" @click="downFile(item, item.file)">下载</el-button>
           </td>
         </tr>
       </tbody>
-    </table> -->
-    <br />
-    <el-button type="primary" plain @click="down">下载全部资料</el-button>
+    </table>
+    <!-- <el-button v-if="uploadTempFile != undefined" type="primary" plain @click="downScecial">下载专项资料</el-button> -->
   </div>
+  <br />
+  <el-button type="primary" plain @click="down">下载全部资料</el-button>
   <br />
   <br />
   <!-- <el-upload class="upload-demo" :file-list="fileList" :http-request="subUploadFile" multiple action="" accept="" :on-remove="handleRemove">
@@ -34,7 +37,7 @@
   <FileList :list="fileList" :size="150" :showRemove="true" @remove="remove" />
 </template>
 <script lang="ts">
-import { ref, defineProps, defineComponent, defineEmits, reactive, inject } from 'vue'
+import { ref, defineProps, defineComponent, defineEmits, reactive, getCurrentInstance, inject } from 'vue'
 import { uploadSingleFile, getTemplate, uploadMultipleFile, downloadZip } from '@/http/api/order.ts'
 import FileList from '@/components/fileList/index.vue'
 import { useRouter, useRoute } from 'vue-router'
@@ -52,11 +55,13 @@ export default defineComponent({
   },
   emits: ['update'],
   setup(props, context) {
+    const instance = getCurrentInstance()
     const router = useRouter()
     const route = useRoute()
     const typeValue = inject('typeValue')
     const userInfo = JSON.parse(localStorage.getItem('userInfo')) || {}
     const fileList = ref<UploadUserFile[]>([...props.upload.list])
+    const uploadTempFile = ref<UploadUserFile[]>(props.upload.templateFile)
     const templateList = ref<any[]>([])
     const handleRemove: UploadProps['onRemove'] = (uploadFile, uploadFiles) => {
       fileList.value = uploadFiles
@@ -104,6 +109,9 @@ export default defineComponent({
       let list = templateList.value.map((item) => {
         filenames += '&fileNames=' + encodeURIComponent(item.file_name)
       })
+      uploadTempFile.value.map((item) => {
+        filenames += '&fileNames=' + encodeURIComponent(item.file)
+      })
 
       downloadZip(props.orderId, filenames)
         .then((response) => {
@@ -138,12 +146,16 @@ export default defineComponent({
           document.body.appendChild(a)
           a.click()
           window.URL.revokeObjectURL(url)
+
+          if (uploadTempFile != undefined) {
+            downScecial()
+          }
         })
     }
     const downFile = (url, fileName) => {
       const link = document.createElement('a')
-      link.href = url
-      link.download = 'download'
+      link.href = instance.appContext.config.globalProperties.$filePath + fileName
+      link.download = fileName
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
@@ -158,9 +170,21 @@ export default defineComponent({
         }
       })
     }
+
+    const downScecial = async () => {
+      uploadTempFile.value.forEach((item, index) => {
+        setTimeout(() => {
+          downFile(instance.appContext.config.globalProperties.$filePath + item.file, item.file)
+        }, 1000);
+
+      })
+
+    }
     getTemplateList()
     return {
       fileList,
+      downScecial,
+      uploadTempFile,
       handleRemove,
       templateList,
       subUploadFile,
