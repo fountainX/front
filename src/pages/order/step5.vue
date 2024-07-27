@@ -12,7 +12,7 @@
         <tr v-for="(item, index) in uploadTempFile">
           <td class="table-cell">
             <Document style="width: 1.3em; color: #999; vertical-align: sub; margin-right: 8px" />
-            {{ item.file }}
+            {{ decodeURIComponent(item.file) }}
             <el-button size="small" @click="downFile(item, item.file)">下载</el-button>
           </td>
         </tr>
@@ -146,15 +146,11 @@ export default defineComponent({
           document.body.appendChild(a)
           a.click()
           window.URL.revokeObjectURL(url)
-
-          if (uploadTempFile != undefined) {
-            downScecial()
-          }
         })
     }
     const downFile = (url, fileName) => {
       const link = document.createElement('a')
-      link.href = instance.appContext.config.globalProperties.$filePath + fileName
+      link.href = instance.appContext.config.globalProperties.$filePath + encodeURIComponent(fileName)
       link.download = fileName
       document.body.appendChild(link)
       link.click()
