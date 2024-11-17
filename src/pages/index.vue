@@ -82,7 +82,7 @@
           <div class="single-fun wow fadeIn" data-wow-delay="0.8s" data-wow-duration="0.5s">
             <i class="icofont icofont-user-alt-3"></i>
             <div class="content">
-              <span class="counter">10</span>
+              <span class="counter">50+</span>
               <p>Specialist</p>
             </div>
           </div>
@@ -93,7 +93,7 @@
           <div class="single-fun wow fadeIn" data-wow-delay="0.6s" data-wow-duration="0.5s">
             <i class="icofont-simple-smile"></i>
             <div class="content">
-              <span class="counter">40</span>
+              <span class="counter">40+</span>
               <p>Customer service</p>
             </div>
           </div>
@@ -104,7 +104,7 @@
           <div class="single-fun wow fadeIn" data-wow-delay="0.4s" data-wow-duration="0.5s">
             <i class="icofont icofont-table"></i>
             <div class="content">
-              <span class="counter">15</span>
+              <span class="counter">20+</span>
               <p>Years of Experience</p>
             </div>
           </div>
@@ -122,8 +122,8 @@
         <div class="col-lg-6 col-12">
           <!-- Start Choose Left -->
           <div class="choose-left">
-            <h3>服务社区</h3>
-            <p>在过去的10年里，我们的家族账户服务一直为社区服务。我们的团队已经发展壮大，包括经验丰富的注册会计师和专门的支持，以提供个人和专业的金融服务。</p>
+            <h3>我们的服务</h3>
+            <p>本公司前身为Longview Service LLC，一直致力于服务美国本地个人、公司客户，包括C- Corp， LLC， S-Corp， Partership以及非营利组织。行业覆盖一般贸易，网络电商，仓储，教育，科研等各领域。我们尤其在跨国公司在美国本地的落地经营，以及新移民税务规划方面有着丰富的经验。</p>
             <div class="row">
 
               <div class="col-lg-12">
@@ -144,18 +144,18 @@
         <div class="col-lg-6 col-12">
           <!-- Start Choose Rights -->
           <div class="choose-right">
-            <div class="video-image">
-              <!-- Video Animation -->
-              <div class="promo-video">
-                <div class="waves-block">
-                  <div class="waves wave-1"></div>
-                  <div class="waves wave-2"></div>
-                  <div class="waves wave-3"></div>
-                </div>
-              </div>
-              <!--/ End Video Animation -->
-              <a href="https://www.youku.com/watch?v=RFVXy6CRVR4" class="video video-popup mfp-iframe"><i class="fa fa-play"></i></a>
-            </div>
+<!--            <div class="video-image">-->
+<!--              &lt;!&ndash; Video Animation &ndash;&gt;-->
+<!--              <div class="promo-video">-->
+<!--                <div class="waves-block">-->
+<!--                  <div class="waves wave-1"></div>-->
+<!--                  <div class="waves wave-2"></div>-->
+<!--                  <div class="waves wave-3"></div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              &lt;!&ndash;/ End Video Animation &ndash;&gt;-->
+<!--              <a href="https://www.youku.com/watch?v=RFVXy6CRVR4" class="video video-popup mfp-iframe"><i class="fa fa-play"></i></a>-->
+<!--            </div>-->
           </div>
           <!-- End Choose Rights -->
         </div>
@@ -236,7 +236,7 @@
         <div class="col-lg-12">
           <div class="section-title">
             <h2>最新动态</h2>
-            <p>年检代办营业执照提供个体户注册内资代办营业执照等服务</p>
+            <p>业务：所得税申报、工资税申报、销售税申报、税务咨询、身份规划、保险理财</p>
           </div>
         </div>
       </div>
