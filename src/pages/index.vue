@@ -71,7 +71,7 @@
           <div class="single-fun wow fadeIn" data-wow-delay="1s" data-wow-duration="0.5s">
             <i class="icofont icofont-home"></i>
             <div class="content">
-              <span class="counter">800+</span>
+              <span>800+</span>
               <p>Service Company</p>
             </div>
           </div>
@@ -82,7 +82,7 @@
           <div class="single-fun wow fadeIn" data-wow-delay="0.8s" data-wow-duration="0.5s">
             <i class="icofont icofont-user-alt-3"></i>
             <div class="content">
-              <span class="counter">50+</span>
+              <span>50+</span>
               <p>Specialist</p>
             </div>
           </div>
@@ -93,7 +93,7 @@
           <div class="single-fun wow fadeIn" data-wow-delay="0.6s" data-wow-duration="0.5s">
             <i class="icofont-simple-smile"></i>
             <div class="content">
-              <span class="counter">40+</span>
+              <span>40+</span>
               <p>Customer service</p>
             </div>
           </div>
@@ -104,7 +104,7 @@
           <div class="single-fun wow fadeIn" data-wow-delay="0.4s" data-wow-duration="0.5s">
             <i class="icofont icofont-table"></i>
             <div class="content">
-              <span class="counter">20+</span>
+              <span>20+</span>
               <p>Years of Experience</p>
             </div>
           </div>
