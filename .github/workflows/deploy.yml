@@ -18,13 +18,35 @@ jobs:
         with:
           node-version: '14'  # 指定Node.js版本
 
+      # Caching dependencies to speed up workflows. (GitHub will remove any cache entries that have not been accessed in over 7 days.)
+      - name: Cache node modules
+        uses: actions/cache@v1
+        id: cache
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
       - name: Install Dependencies
         run: npm install --no-optional
+
+      # Deploy hexo blog website.
+      - name: Deploy blog
+        id: deploy
+        uses: sma11black/hexo-action@v1.0.4
+        with:
+          deploy_key: ${{ secrets.DEPLOY_KEY }}
+          commit_msg: ${{ github.event.head_commit.message }}  # (or delete this input setting to use hexo default settings)
+      # Use the output from the `deploy` step(use for test action)
+      - name: Get the output
+        run: |
+          echo "${{ steps.deploy.outputs.notify }}"
 
       - name: Build
         run: npm run build  # 运行你的构建脚本，比如 `npm run build`
 
-      - name: Deploy
+      - name: Deploy web
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages  # GitHub Pages部署到的分支
