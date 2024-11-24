@@ -79,10 +79,3 @@ comments: false
 - 纳税人填写的 W-2 表格
 - 纳税人填写的 W-2 表格
 
-### Create a new post
-
-```bash
-$ hexo new "My New Post"
-```
-
-More info: [Writing](https://hexo.io/docs/writing.html)
