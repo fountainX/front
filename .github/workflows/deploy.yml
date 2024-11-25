@@ -29,12 +29,13 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Install Dependencies
-        run: npm install --no-optional
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
 
       # Deploy hexo blog website.
       - name: Deploy blog
         id: deploy
-        uses: sma11black/hexo-action@v1.0.3
+        uses: sma11black/hexo-action@v1.0.4
         with:
           deploy_key: ${{ secrets.DEPLOY_KEY }}
           user_name: 'fountainX'
