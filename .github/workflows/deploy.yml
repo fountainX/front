@@ -11,41 +11,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Install Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: '14'  # 指定Node.js版本
+          node-version: '20'  # 指定Node.js版本
 
       # Caching dependencies to speed up workflows. (GitHub will remove any cache entries that have not been accessed in over 7 days.)
-      - name: Cache node modules
-        uses: actions/cache@v1
-        id: cache
+      - name: Cache NPM dependencies
+        uses: actions/cache@v4
         with:
           path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.OS }}-npm-cache
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.OS }}-npm-cache
 
       - name: Install Dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci
-
-      # Deploy hexo blog website.
-      - name: Deploy blog
-        id: deploy
-        uses: sma11black/hexo-action@v1.0.4
-        with:
-          deploy_key: ${{ secrets.DEPLOY_KEY }}
-          user_name: 'fountainX'
-          user_email: 'suoyuan@yahoo.com'
-          commit_msg: ${{ github.event.head_commit.message }}  # (or delete this input setting to use hexo default settings)
-
-      # Use the output from the `deploy` step(use for test action)
-      - name: Get the output
-        run: |
-          echo "${{ steps.deploy.outputs.notify }}"
+        # if: steps.cache.outputs.cache-hit != 'true'
+        run: npm install
 
       - name: Build
         run: npm run build  # 运行你的构建脚本，比如 `npm run build`
