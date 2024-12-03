@@ -249,9 +249,9 @@
             </div>
             <div class="news-body">
               <div class="news-content">
-                <div class="date">2024-01-01</div>
-                <h2><a href="#">东莞还房贷的成本又降了</a></h2>
-                <p class="text">东莞阶段性取消首套房贷利率下限，多家银行已下调至3.8%，业内称“市场稳定后可能会恢复原利率”</p>
+                <div class="date">2024-11-27</div>
+                <h2><a href="https://fountainx.github.io/blog/20241127_Annual-review-notice.html">各州年审通知</a></h2>
+                <p class="text">各州年审通知：包括加利福尼亚州、特拉华州、内达华州、德克萨斯州、华盛顿州、科罗拉多州等</p>
               </div>
             </div>
           </div>
@@ -265,9 +265,9 @@
             </div>
             <div class="news-body">
               <div class="news-content">
-                <div class="date">2024-01-01</div>
-                <h2><a href="#">东莞还房贷的成本又降了</a></h2>
-                <p class="text">东莞阶段性取消首套房贷利率下限，多家银行已下调至3.8%，业内称“市场稳定后可能会恢复原利率”</p>
+                <div class="date">2024-11-26</div>
+                <h2><a href="https://fountainx.github.io/blog/20241126_BOI-Report-Requirements.html">BOI Report的规定</a></h2>
+                <p class="text">BOI report是2024年度新政，自 2024 年 1 月 1 日起，美国许多公司必须向隶属于美国财政部的金融 犯罪执法网络 (FinCEN) 申报其实际所有人的信息，即最终拥有或控制 公司的个人。</p>
               </div>
             </div>
           </div>
@@ -282,8 +282,8 @@
             <div class="news-body">
               <div class="news-content">
                 <div class="date">2024-01-01</div>
-                <h2><a href="#">东莞还房贷的成本又降了</a></h2>
-                <p class="text">东莞阶段性取消首套房贷利率下限，多家银行已下调至3.8%，业内称“市场稳定后可能会恢复原利率”</p>
+                <h2><a href="https://fountainx.github.io/blog/20241125_IRS-Rules-Regarding-Penalties-on-Individual-Tax-Returns.html">IRS关于个人税单罚金的规定</a></h2>
+                <p class="text">IRS关于个人税单罚金的规定，适用于以下几种penalty个人，详情请进...</p>
               </div>
             </div>
           </div>
